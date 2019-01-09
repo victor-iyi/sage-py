@@ -71,7 +71,7 @@ if(NOT CONFIGURED_ONCE)
       FORCE)
 endif()
 
-include_directories("sage/include")
+include_directories(SYSTEM "sage/include")
 add_subdirectory("sage")
 
 file(GLOB_RECURSE SAGE_EXAMPLE "${EXAMPLE_DIR}/src/*cc")
