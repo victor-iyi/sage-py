@@ -1,16 +1,32 @@
 version: 1.0.{build}
-image: Ubuntu
+image:
+  - Visual Studio 2017
+  - Ubuntu
+
 environment:
   matrix:
-    - GENERATOR: '"Unix Makefiles"'
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: '"Visual Studio 15 2017"'
       BUILD_TYPE: Debug
-    - GENERATOR: '"Unix Makefiles"'
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: '"Visual Studio 15 2017"'
       BUILD_TYPE: Release
-    - GENERATOR: '"Ninja"'
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      GENERATOR: '"Unix Makefiles"'
       BUILD_TYPE: Debug
-    - GENERATOR: '"Ninja"'
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      GENERATOR: '"Unix Makefiles"'
       BUILD_TYPE: Release
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      GENERATOR: '"Ninja"'
+      BUILD_TYPE: Debug
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      GENERATOR: '"Ninja"'
+      BUILD_TYPE: Release
+
 build_script:
   - cmd: >-
       chmod +x ./scripts/*
-      ./scripts/build.sh -G=%GENERATOR%
+      ./scripts/build.sh -G=%GENERATOR% -b=%BUILD_TYPE%
