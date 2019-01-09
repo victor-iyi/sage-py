@@ -8,24 +8,24 @@ compiler:
 
 os:
   - osx
-  - linux
+  # - linux
 
 env:
   global:
     - MAKEFLAGS="-j 4"
-    - if [ $TRAVIS_OS_NAME == linux ]; then CMAKE_GENERATOR="Unix Makefiles"; fi
+    # - if [ $TRAVIS_OS_NAME == linux ]; then CMAKE_GENERATOR="Unix Makefiles"; fi
     - if [ $TRAVIS_OS_NAME == osx ]; then CMAKE_GENERATOR="Xcode"; fi
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then apt-get update && apt-get install libspdlog-dev; fi
+  # - if [ $TRAVIS_OS_NAME == linux ]; then apt-get update && apt-get install libspdlog-dev; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install spdlog; fi
 
 script:
-  - if [ $TRAVIS_OS_NAME == linux ]; then ./scripts/build.sh -G=${CMAKE_GENERATOR}; fi
+  # - if [ $TRAVIS_OS_NAME == linux ]; then ./scripts/build.sh -G=${CMAKE_GENERATOR}; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then ./scripts/build.sh -G=${CMAKE_GENERATOR}; fi
 
 after_success:
-  - if [ $TRAVIS_OS_NAME == linux ]; then ./scripts/clean.sh; fi
+  # - if [ $TRAVIS_OS_NAME == linux ]; then ./scripts/clean.sh; fi
   - if [ $TRAVIS_OS_NAME == os ]; then ./scripts/clean.sh; fi
 
 addons:
