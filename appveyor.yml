@@ -1,0 +1,16 @@
+version: 1.0.{build}
+image: Ubuntu
+environment:
+  matrix:
+    - GENERATOR: '"Unix Makefiles"'
+      BUILD_TYPE: Debug
+    - GENERATOR: '"Unix Makefiles"'
+      BUILD_TYPE: Release
+    - GENERATOR: '"Ninja"'
+      BUILD_TYPE: Debug
+    - GENERATOR: '"Ninja"'
+      BUILD_TYPE: Release
+build_script:
+  - cmd: >-
+      chmod +x ./scripts/*
+      ./scripts/build.sh -G=%GENERATOR%

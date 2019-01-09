@@ -22,7 +22,7 @@ bpurple='\033[1;35m' # Purple
 ured='\033[4;31m' # Red
 
 echo -e \
-  "${cyan}
+	"${cyan}
   #############################################################################
   # +-----------------------------------------------------------------------+ #
   # |       Clean Python, CMake and Cython generated and build files.       | #
@@ -57,7 +57,7 @@ echo -e "${bwhite}Removing __pycache__ & *.py[co] files...${reset}"
 
 # Clean all __pycache__ files.
 py_clean() {
-  find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 }
 
 py_clean && echo -e "${cyan}
@@ -73,35 +73,35 @@ py_clean && echo -e "${cyan}
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
-  echo -e "${bwhite}Removing CMake & Cython temp build files...${reset}"
-  # Sleep for half a second.
-  sleep .5s
+	echo -e "${bwhite}Removing CMake & Cython temp build files...${reset}"
+	# Sleep for half a second.
+	sleep .5s
 
-  # Change directory to the build directory.
-  cd ${BUILD_DIR} || exit 1
-  # To remove all files except certain files...
-  #   $ GLOBIGNORE=*.zip:*.iso:*.txt
-  #   $ rm -v *
-  #   $ unset GLOBIGNORE
+	# Change directory to the build directory.
+	cd ${BUILD_DIR} || exit 1
+	# To remove all files except certain files...
+	#   $ GLOBIGNORE=*.zip:*.iso:*.txt
+	#   $ rm -v *
+	#   $ unset GLOBIGNORE
 
-  # DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
-  GLOBIGNORE=compile_commands.json:argparse.sh
+	# DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
+	GLOBIGNORE=compile_commands.json:argparse.sh
 
-  # Remove everything in this directory except GLOBIGNORE
-  rm -rf -v *
+	# Remove everything in this directory except GLOBIGNORE
+	rm -rf -v *
 
-  # Unset the GLOBIGNORE flag.
-  unset GLOBIGNORE
+	# Unset the GLOBIGNORE flag.
+	unset GLOBIGNORE
 
-  echo -e "${cyan}
+	echo -e "${cyan}
   Tasks:${green}
     - [x] Clean __pycache__ & *.py[co] files.
     - [x] Clean CMake & Cython temp build files.${reset}
     - [ ] Clean Cython build & generated C++ files.
   "
 else
-  echo
-  echo -e "${red}No such directory: ${ured}\"${BUILD_DIR}\"${reset}"
+	echo
+	echo -e "${red}No such directory: ${ured}\"${BUILD_DIR}\"${reset}"
 fi
 
 # Sleep for half a second.
@@ -138,4 +138,4 @@ sleep .5s
 # fi
 
 echo
-echo -e "✨ Done."
+echo "✨ Done."
