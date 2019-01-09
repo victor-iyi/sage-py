@@ -2,6 +2,10 @@
 
 Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON-LD](https://json-ld.org) serialization inspired by [Google's Knowledge Graph](https://en.wikipedia.org/wiki/Knowledge_Graph).
 
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/sc059tu6cepei47f?svg=true)](https://ci.appveyor.com/project/victor-iyiola/sage)
+
+[![Travis Build Status](https://travis-ci.org/victor-iyiola/sage.svg?branch=master)](https://travis-ci.org/victor-iyiola/sage)
+
 ## Credits
 
 - [Tomiiide](https://github.com/tomiiide)
