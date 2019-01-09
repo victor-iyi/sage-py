@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 
 # Set Message Colors.
-reset='\033[0m'     # Text Reset
+reset='\033[0m'      # Text Reset
 
 # Regular Colors.
-red='\033[0;31m'    # Red
-green='\033[0;32m'  # Green
-cyan='\033[0;36m'   # Cyan
+red='\033[0;31m'     # Red
+green='\033[0;32m'   # Green
+cyan='\033[0;36m'    # Cyan
+purple='\033[0;35m'  # Purple
+yellow='\033[0;33m'  # Yellow
 #white='\033[0;37m'  # White
 
 # Bold.
 #bred='\033[1;31m'   # Red
 #bgreen='\033[1;32m' # Green
-bwhite='\033[1;37m' # White
+# byellow='\033[1;33m' # Yellow
+bwhite='\033[1;37m'  # White
+bpurple='\033[1;35m' # Purple
 
 # Underline.
 ured='\033[4;31m' # Red
 
 echo -e \
-	"${cyan}
+  "${cyan}
   #############################################################################
   # +-----------------------------------------------------------------------+ #
   # |       Clean Python, CMake and Cython generated and build files.       | #
@@ -53,7 +57,7 @@ echo -e "${bwhite}Removing __pycache__ & *.py[co] files...${reset}"
 
 # Clean all __pycache__ files.
 py_clean() {
-	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+  find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 }
 
 py_clean && echo -e "${cyan}
@@ -81,7 +85,7 @@ if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
   #   $ unset GLOBIGNORE
 
   # DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
-  GLOBIGNORE=compile_commands.json
+  GLOBIGNORE=compile_commands.json:argparse.sh
 
   # Remove everything in this directory except GLOBIGNORE
   rm -rf -v *
@@ -96,8 +100,8 @@ if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
     - [ ] Clean Cython build & generated C++ files.
   "
 else
-	echo
-	echo -e "${red}No such directory: ${ured}\"${BUILD_DIR}\"${reset}"
+  echo
+  echo -e "${red}No such directory: ${ured}\"${BUILD_DIR}\"${reset}"
 fi
 
 # Sleep for half a second.
