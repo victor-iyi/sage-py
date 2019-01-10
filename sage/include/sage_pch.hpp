@@ -6,8 +6,8 @@
 
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <iterator>
 #include <memory>
 #include <utility>
@@ -18,6 +18,9 @@
 #include <unordered_set>
 #include <vector>
 
+#ifdef SAGE_PLATFORM_WINDOWS
+#include <Windows.h>
+#endif  // SAGE_PLATFORM_WINDOWS
 #include "sage/log.hpp"
 
 #endif  // !SAGE_PCH_HPP
