@@ -28,7 +28,8 @@ DateTime::DateTime(const char* _DateTime) : _Data(_DateTime) {}
 
 std::string DateTime::dateTimeToString(const std::tm& t, const char* format) {
   std::stringstream s;
-  this->formatDateTime(s, t, format);
+  s << std::put_time(&t, format);
+  // this->formatDateTime(s, t, format);
   return s.str();
 }
 
@@ -44,7 +45,7 @@ std::ostream& DateTime::formatDateTime(std::ostream& out, const std::tm& t,
 }
 
 std::tm DateTime::now() {
-  std::time_t now = std::time(0);
+  std::time_t now = std::time(nullptr);
   return *std::localtime(&now);
 }
 
