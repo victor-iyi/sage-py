@@ -1,17 +1,19 @@
-if(NOT DEFINED BOOST_ROOT
-   AND NOT DEFINED ENV{BOOST_ROOT}
-   AND NOT DEFINED BOOST_INCLUDEDIR
-   AND NOT DEFINED ENV{BOOST_INCLUDEDIR}
-   AND NOT DEFINED BOOST_LIBRARYDIR
-   AND NOT DEFINED ENV{BOOST_LIBRARYDIR})
-  # if(APPLE)
-  set(BOOST_ROOT "vendor/boost")
-  # elseif(WIN32) set(BOOST_INCLUDEDIR "C:/local/boost_1_55_0")
-  # set(BOOST_LIBRARYDIR "C:/local/boost_1_55_0/lib32-msvc-10.0") endif()
-endif()
-if(APPLE OR WIN32)
-  set(Boost_USE_STATIC_LIBS TRUE)
-endif()
+# if(NOT DEFINED BOOST_ROOT
+#    AND NOT DEFINED ENV{BOOST_ROOT}
+#    AND NOT DEFINED BOOST_INCLUDEDIR
+#    AND NOT DEFINED ENV{BOOST_INCLUDEDIR}
+#    AND NOT DEFINED BOOST_LIBRARYDIR
+#    AND NOT DEFINED ENV{BOOST_LIBRARYDIR})
+#   if(APPLE)
+#     set(BOOST_ROOT "vendor/boost")
+#   elseif(WIN32)
+#     set(BOOST_INCLUDEDIR "C:/local/boost_1_55_0")
+#     set(BOOST_LIBRARYDIR "C:/local/boost_1_55_0/lib32-msvc-10.0")
+#   endif()
+# endif()
+# if(APPLE OR WIN32)
+#   set(Boost_USE_STATIC_LIBS TRUE)
+# endif()
 
 # Third-party libraries. add_subdirectory("vendor/spdlog")
 find_package(spdlog CONFIG REQUIRED)
