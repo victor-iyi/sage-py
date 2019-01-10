@@ -21,8 +21,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install cmake spdlog; fi
 
 script:
-  # - if [ $TRAVIS_OS_NAME == linux ]; then ./scripts/build.sh -G=${CMAKE_GENERATOR}; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then ./scripts/build.sh -G=${CMAKE_GENERATOR}; fi
+  - ./scripts/build.sh -G=${CMAKE_GENERATOR}
 
 after_success: ./scripts/clean.sh
 
