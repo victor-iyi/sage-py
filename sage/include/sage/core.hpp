@@ -1,6 +1,8 @@
 #ifndef SAGE_CORE_HPP
 #define SAGE_CORE_HPP
 
+#include "sage/config.hpp"
+
 // SAGE_API
 #ifdef SAGE_PLATFORM_WINDOWS
   #ifdef SAGE_BUILD_DLL

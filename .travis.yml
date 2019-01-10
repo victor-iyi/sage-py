@@ -18,7 +18,7 @@ env:
 
 before_install:
   # - if [ $TRAVIS_OS_NAME == linux ]; then apt-get update && apt-get install libspdlog-dev; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install spdlog; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install spdlog boost; fi
 
 script:
   - ./scripts/build.sh -G=${CMAKE_GENERATOR}

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "sage.hpp"
+#include "nlohmann/json.hpp"
 
 int main() {
   SAGE_WARN("Hello there!\n");

@@ -10,7 +10,10 @@ set(PROJECT_NAME "sage")
 set(PROJECT_VERSION_MAJOR 1)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_VERSION_PATCH 0)
-set(PROJECT_DESCRIPTION "A lightweight implementation of Knowledge Graph")
+set(
+  PROJECT_DESCRIPTION
+  "An open-source Knowledge Graph which uses <https://schema.org> and JSON-LD serialization inspired by Google's Knowledge Graph."
+  )
 
 # ---------------------------------------------------------------------
 # compiler config
@@ -25,6 +28,37 @@ enable_testing()
 # Project library dir.
 set(SAGE_LIB_DIR "${PROJECT_SOURCE_DIR}/sage")
 set(EXAMPLE_DIR "${PROJECT_SOURCE_DIR}/example")
+
+# !----------------- Definitions, Optinos & Macros.-----------------!#
+# Options: Use Externale JSON library?
+option(SAGE_DEBUG "Build Sage in Debug mode." ON)
+option(SAGE_ENABLE_ASSERTS "Enable SAGE assertions." ON)
+option(SAGE_USE_EXTERNAL_JSON "Use an external JSON library." OFF)
+
+# Set default Build Type.
+if(NOT CMAKE_BUILD_TYPE)
+  if(SAGE_DEBUG)
+    set(CMAKE_BUILD_TYPE "Debug")
+  else()
+    set(CMAKE_BUILD_TYPE "Release")
+  endif(SAGE_DEBUG)
+endif(NOT CMAKE_BUILD_TYPE)
+
+# Based on platform.
+if(APPLE)
+  set(SAGE_PLATFORM_DARWIN ON)
+elseif(WIN32)
+  set(SAGE_PLATFORM_WINDOWS ON)
+endif()
+
+message("BuildType: ${CMAKE_BUILD_TYPE}")
+
+# Based on build-type.
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(SAGE_ENABLE_ASSERTS ON)
+else()
+  set(SAGE_ENABLE_ASSERTS OFF)
+endif()
 
 # !----------------- Set warning & compiler flags.-----------------!#
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "gcc"
