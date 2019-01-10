@@ -21,6 +21,12 @@
 #include <unordered_set>
 #include <vector>
 
+// Boost libraries.
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
+// namespace fs = boost::filesystem;
+
 // Win32 API.
 #ifdef SAGE_PLATFORM_WINDOWS
   #include <Windows.h>
