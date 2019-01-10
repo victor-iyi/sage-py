@@ -85,7 +85,7 @@ if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
 	#   $ unset GLOBIGNORE
 
 	# DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
-	GLOBIGNORE=compile_commands.json:argparse.sh
+	GLOBIGNORE=compile_commands.json:argparse.sh:test.json
 
 	# Remove everything in this directory except GLOBIGNORE
 	rm -rf -v *
