@@ -65,6 +65,7 @@ if [ command -v wget ] >/dev/null 2>&1; then
 	# else
 	# Cannot install wget
 	# exit 1
+	exit 1
 fi
 
 # Downloading Boost.
@@ -77,3 +78,11 @@ echo -e "${bgreen}Download completed!${reset}"
 echo -e "Verifying download..."
 echo "TODO: Verifiy download with checksum tool."
 echo -e "${bgreen}Verification completed!${reset}"
+
+# Unzip & removing downloaded zipped file.
+tar -xvf "${INSTALL_PREFIX}/boost.tar.gz"                        # Unzip downloaded file.
+rm -f "${INSTALL_PREFIX}/boost.tar.gz" "${INSTALL_PREFIX}/boost" # Remove downloaded zipped file.
+cd "${INSTALL_PREFIX}/boost"
+# ./boostrap
+# ./b2
+echo -e "{purple}Installing boost...${reset}"
