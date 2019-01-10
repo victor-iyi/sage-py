@@ -13,6 +13,7 @@ green='\033[0;32m'   # Green
 bred='\033[1;31m'    # Red
 bwhite='\033[1;37m'  # White
 bpurple='\033[1;35m' # Purple
+byellow='\033[1;33m' # Yellow
 # bgreen='\033[1;32m' # Green
 
 # Run directory: "/scripts/build/*"
@@ -90,17 +91,22 @@ for i in "$@"; do
 	esac
 done
 
-# Pre-compiled header.
-if [[ CLEAN_BUILD=="YES" ]]; then
+# Clean built folder before building project.
+if [[ ${CLEAN_BUILD} == "YES" ]]; then
 	sh "${PROJECT_DIR}/scripts/clean.sh"
-  echo
-  echo
+	echo
 fi
 
 # Pre-compiled header.
-if [[ BUILD_PRECOMPILED=="YES" ]]; then
-	echo -e "${yellow}Running pre-compiled header${reset}"
-	g++ -std=c++17 sage/include/sage_pch.hpp
+if [[ ${BUILD_PRECOMPILED} == "YES" ]]; then
+	# Pre-compiled header path.
+	PCH_PATH="${PROJECT_DIR}/sage/include/sage_pch.hpp"
+	if [[ -f "${PCH_PATH}.gch" ]]; then
+		echo -e "${byellow}Pre-compiled header exists...${reset}"
+	else
+		echo -e "${bpurple}Running pre-compiled header...${reset}"
+		g++ -std=c++17 ${PCH_PATH} -I"${PROJECT_DIR}/sage/include"
+	fi
 fi
 
 ################################################################################################
@@ -115,6 +121,6 @@ mkdir -p ${BUILD_DIR}
 cd "${BUILD_DIR}" || exit
 
 # Run CMake configuration & build.
-echo -e "${bpurple} Runing CMake ${reset}"
+echo -e "${bpurple}Runing CMake...${reset}"
 cmake .. -G${GENERATOR} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 cmake --build . --config ${BUILD_TYPE}
