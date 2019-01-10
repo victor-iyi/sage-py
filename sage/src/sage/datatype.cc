@@ -1,6 +1,6 @@
 #include "sage/datatype.hpp"
 
-namespace SAGE {
+namespace sage {
 // Boolean
 DataType::Boolean::Boolean(bool _Boolean) : _Data(_Boolean) {}
 

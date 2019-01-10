@@ -3,36 +3,72 @@
 
 #include "sage_pch.hpp"
 
-namespace SAGE {
+namespace sage {
 // DataTypes supported in "https://schema.org/DataType"
 namespace DataType {
+/*
+ * +----------------------------------------------------------------------+
+ * | +------------------------------------------------------------------+ |
+ * | | Boolean: True or False.
+ * | +------------------------------------------------------------------+ |
+ * +----------------------------------------------------------------------+
+ */
 struct Boolean {
-  // Boolean: True or False.
   Boolean(bool _Boolean);
+  Boolean() = default;
 
  private:
   bool _Data;
 };
 
+/*
+ * +----------------------------------------------------------------------+
+ * | +------------------------------------------------------------------+ |
+ * | | A date value in [ISO 8601 date
+ * | | format](http://en.wikipedia.org/wiki/ISO_8601). |
+ * | +------------------------------------------------------------------+ |
+ * +----------------------------------------------------------------------+
+ */
 struct Date {
-  // A date value in [ISO 8601 date
-  // format](http://en.wikipedia.org/wiki/ISO_8601).
+  Date() = default;
 };
 
+/*
+ * +----------------------------------------------------------------------+
+ * | +------------------------------------------------------------------+ |
+ * | | A combination of date and time of day in the form
+ * | | [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).
+ * | +------------------------------------------------------------------+ |
+ * +----------------------------------------------------------------------+
+ */
 struct DateTime {
-  // A combination of date and time of day in the form
-  // [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).
+  DateTime() = default;
 };
+
+/*
+ * +----------------------------------------------------------------------+
+ * | +------------------------------------------------------------------+ |
+ * | | Data type: Number.
+ * | +------------------------------------------------------------------+ |
+ * +----------------------------------------------------------------------+
+ */
 
 struct Number {
-  // Data type: Number.
+  Number() = default;
   Number(int _Number);
   Number(float _Number);
   Number(double _Number);
 };
 
+/*
+ * +----------------------------------------------------------------------+
+ * | +------------------------------------------------------------------+ |
+ * | | Data type: Text.
+ * | +------------------------------------------------------------------+ |
+ * +----------------------------------------------------------------------+
+ */
 struct Text {
-  // Data type: Text.
+  Text() = default;
   Text(std::string _Text);
   Text(std::string& _Text);
   Text(const char* _Text);
@@ -41,12 +77,19 @@ struct Text {
   std::string _Data;
 };
 
+/*
+ * +----------------------------------------------------------------------+
+ * | +------------------------------------------------------------------+ |
+ * | | A point in time recurring on multiple days in the form
+ * | | hh:mm:ss[Z|(+|-)hh:mm] (see [XML schema for
+ * | | details](http://www.w3.org/TR/xmlschema-2/#time)).
+ * | +------------------------------------------------------------------+ |
+ * +----------------------------------------------------------------------+
+ */
 struct Time {
-  // A point in time recurring on multiple days in the form
-  // hh:mm:ss[Z|(+|-)hh:mm] (see [XML schema for
-  // details](http://www.w3.org/TR/xmlschema-2/#time)).
+  Time() = default;
 };
 
 }  // namespace DataType
-}  // namespace SAGE
+}  // namespace sage
 #endif  // !SAGE_DATATYPE_HPP
