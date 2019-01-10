@@ -23,7 +23,7 @@
 
 // Win32 API.
 #ifdef SAGE_PLATFORM_WINDOWS
-#include <Windows.h>
+  #include <Windows.h>
 #endif  // SAGE_PLATFORM_WINDOWS
 
 // Sage "static" includes.
