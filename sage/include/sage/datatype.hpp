@@ -14,8 +14,8 @@ namespace DataType {
  * +----------------------------------------------------------------------+
  */
 struct Boolean {
-  Boolean(bool _Boolean);
   Boolean() = default;
+  Boolean(bool _Boolean);
 
  private:
   bool _Data;
@@ -42,7 +42,18 @@ struct Date {
  * +----------------------------------------------------------------------+
  */
 struct DateTime {
+  // Constructors.
   DateTime() = default;
+  DateTime(const std::time_t& _DateTime);
+  DateTime(const char* _DateTime);
+
+  std::string dateTimeToString(const std::tm& t, const char* format);
+  std::ostream& formatDateTime(std::ostream& out, const std::tm& t,
+                               const char* fmt);
+  std::tm now();
+
+ private:
+  std::string _Data;
 };
 
 /*

@@ -1,9 +1,13 @@
 #ifndef SAGE_PCH_HPP
 #define SAGE_PCH_HPP
 
+#include <cstdlib>
+#include <ctime>
+
 #include <algorithm>
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <utility>
 
