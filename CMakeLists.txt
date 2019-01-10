@@ -48,7 +48,10 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "gcc"
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
   # Use these warnings for MSVC compiler.
-  set(warnings "/W4 /WX /EHsc")
+  set(warnings "/W4 /wd4512 /WX /EHsc")
+  # Disabled Warnings: 4512 "assignment operator could not be generated" This
+  # warning provides no useful information and will occur in well formed
+  # programs. <http://msdn.microsoft.com/en-us/library/hsyx7kbz.aspx>
 
   # Use these compiler flag for gcc or clang compilers.
   set(compiler_flags "${CMAKE_CXX_FLAGS} /std:c++17 /stdlib:libc++")
