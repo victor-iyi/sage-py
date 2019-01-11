@@ -24,10 +24,10 @@ namespace sage {
     class SAGE_API Type : public _Base<T> {};
 
     // Specializations.
-    typedef _Base<bool> Boolean;      // Boolean.
-    typedef _Base<double> Number;     // Number.
-    typedef _Base<std::string> Text;  // Text.
-    typedef _Base<std::time_t> Time;  // Time.
+    typedef Type<bool> Boolean;      // Boolean.
+    typedef Type<double> Number;     // Number.
+    typedef Type<std::string> Text;  // Text.
+    typedef Type<std::time_t> Time;  // Time.
 
     /*
     Boolean
