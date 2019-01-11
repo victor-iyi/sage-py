@@ -1,9 +1,10 @@
 #ifndef SAGE_LOG_HPP
 #define SAGE_LOG_HPP
 
-#include "core.hpp"
-#include "spdlog/spdlog.h"
+#include "sage/core.hpp"
+
 #include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/spdlog.h"
 
 namespace sage {
 
