@@ -2,9 +2,7 @@
 #define PROJECT_NAME "sage"
 
 // Project description.
-#define PROJECT_DESCRIPTION                                             \
-  "An open-source Knowledge Graph which uses <https://schema.org> and " \
-  "JSON-LD serialization inspired by Google's Knowledge Graph."
+#define PROJECT_DESCRIPTION "An open-source Knowledge Graph which uses <https://schema.org> and JSON-LD serialization inspired by Google's Knowledge Graph."
 
 // Version details.
 #define PROJECT_VERSION_MAJOR 1
