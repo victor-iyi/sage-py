@@ -8,20 +8,20 @@
 
 namespace sage {
 
-class SAGE_API Log {
- private:
-  static std::shared_ptr<spdlog::logger> s_CoreLogger;
-  static std::shared_ptr<spdlog::logger> s_ClientLogger;
+  class SAGE_API Log {
+   private:
+    static std::shared_ptr<spdlog::logger> s_CoreLogger;
+    static std::shared_ptr<spdlog::logger> s_ClientLogger;
 
- public:
-  static void init();
-  inline static std::shared_ptr<spdlog::logger>& getCoreLogger() {
-    return s_CoreLogger;
-  }
-  inline static std::shared_ptr<spdlog::logger>& getClientLogger() {
-    return s_ClientLogger;
-  }
-};
+   public:
+    static void init();
+    inline static std::shared_ptr<spdlog::logger>& getCoreLogger() {
+      return s_CoreLogger;
+    }
+    inline static std::shared_ptr<spdlog::logger>& getClientLogger() {
+      return s_ClientLogger;
+    }
+  };
 
 }  // namespace sage
 

@@ -6,13 +6,17 @@
 #include "sage_pch.hpp"
 
 namespace sage {
-class Entity {
- private:
-  item::Scope m_Scope;
-  item::Type m_Type;
-  item::Prop m_Prop;
 
- public:
-};
+  class SAGE_API Entity {
+   private:
+    item::Scope m_Scope;
+    item::Type m_Type;
+    item::Property m_Prop;
+
+   public:
+    Entity();
+    ~Entity();
+  };
+
 }  // namespace sage
 #endif  // !SAGE_ENTITY_HPP

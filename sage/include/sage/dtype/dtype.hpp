@@ -5,36 +5,39 @@
 
 namespace sage {
 
-// sage::dtype supported in "https://schema.org/DataType"
-namespace dtype {
+  // sage::dtype supported in "https://schema.org/DataType"
+  namespace dtype {
 
-template <typename T>
-class _Base {
- public:
-  _Base() = default;
-  _Base(const T& _T) : _m_T(_T) {}
+    template <typename T>
+    class _Base {
+     public:
+      _Base() = default;
+      _Base(const T& _T) : _m_T(_T) {}
 
-  // virtual ~_Base();
+      // virtual ~_Base();
 
- private:
-  T _m_T;
-};
+     private:
+      T _m_T;
+    };
 
-// Specializations.
-typedef _Base<bool> Boolean;      // Boolean.
-typedef _Base<double> Number;     // Number.
-typedef _Base<std::string> Text;  // Text.
-typedef _Base<std::time_t> Time;  // Time.
+    template <typename T>
+    class SAGE_API Type : public _Base<T> {};
 
-/*
-Boolean
-Date
-DateTime
-`
-Text
-Time
-*/
-}  // namespace dtype
+    // Specializations.
+    typedef _Base<bool> Boolean;      // Boolean.
+    typedef _Base<double> Number;     // Number.
+    typedef _Base<std::string> Text;  // Text.
+    typedef _Base<std::time_t> Time;  // Time.
+
+    /*
+    Boolean
+    Date
+    DateTime
+    `
+    Text
+    Time
+    */
+  }  // namespace dtype
 
 }  // namespace sage
 #endif  // !SAGE_DTYPE_HPP

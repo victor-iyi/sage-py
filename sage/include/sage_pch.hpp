@@ -33,6 +33,7 @@
 #endif  // SAGE_PLATFORM_WINDOWS
 
 // Sage "static" includes.
+#include "sage/core.hpp"
 #include "sage/utils/log.hpp"
 
 #endif  // !SAGE_PCH_HPP

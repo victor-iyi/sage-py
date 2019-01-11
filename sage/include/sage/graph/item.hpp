@@ -2,19 +2,28 @@
 #define SAGE_ITEM_HPP
 
 namespace sage {
-namespace item {
-class Scope {
-  Scope();
-  ~Scope();
-};
 
-class Type {};
+  namespace item {
 
-enum Prop {
+    // Scope: {
+    //    sage::item::Property -> std::optional<sage::item::Type,
+    //    sage::item::Scope>
+    // },
+    // [ sage::item::Scope, ]
+    struct Scope {
+      Scope();
+      ~Scope();
+    };
 
-};
+    enum Type {
 
-}  // namespace item
+    };
+
+    enum Property {
+
+    };
+
+  }  // namespace item
 
 }  // namespace sage
 #endif  // !SAGE_ITEM_HPP

@@ -5,19 +5,19 @@
 
 namespace sage {
 
-namespace error {
+  namespace error {
 
-class UnknownValueError : public std::runtime_error {
- public:
-  UnknownValueError(const std::string& name)
-      : std::runtime_error("Unknown value" + name) {}
+    class SAGE_API UnknownValueError : public std::runtime_error {
+     public:
+      UnknownValueError(const std::string& name)
+          : std::runtime_error("Unknown value" + name) {}
 
-  UnknownValueError(int value)
-      : std::runtime_error("Unknown name for enum value: " +
-                           std::to_string(value)) {}
-};
+      UnknownValueError(int value)
+          : std::runtime_error("Unknown name for enum value: " +
+                               std::to_string(value)) {}
+    };
 
-}  // namespace error
+  }  // namespace error
 
 }  // namespace sage
 #endif  // SAGE_ERROR_HPP

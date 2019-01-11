@@ -1,18 +1,29 @@
 #ifndef SAGE_GRAPH_HPP
 #define SAGE_GRAPH_HPP
 
+#include "sage_pch.hpp"
+
 namespace sage {
-namespace graph {
 
-class Entity {};
+  namespace graph {
 
-class Node : Entity {};
+    class SAGE_API Entity {
+     public:
+      Entity();
+      ~Entity();
 
-enum Property {
+     private:
+      std::string _m_MachineCode;
+    };
 
-};
+    class SAGE_API Node : Entity {};
 
-}  // namespace graph
+    enum Property {
+
+    };
+
+  }  // namespace graph
+
 }  // namespace sage
 
 #endif  // !SAGE_GRAPH_HPP
