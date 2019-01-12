@@ -1,20 +1,21 @@
 #ifndef SAGE_HPP
 #define SAGE_HPP
 
+// Core, config files.
 #include "sage/config.hpp"
 #include "sage/core.hpp"
 
-#include "sage/dtype/dtype.hpp"
-
-#include "sage/error/error.hpp"
-
-#include "sage/graph/graph.hpp"
-#include "sage/graph/entity.hpp"
-
+// Utilities.
 #include "sage/utils/fs.hpp"
 #include "sage/utils/log.hpp"
+#include "sage/utils/mapping.hpp"
 
-// Create alias for sage.
+// Namespaced includes.
+#include "sage/dtype/dtype.hpp"
+#include "sage/error/error.hpp"
+#include "sage/graph/graph.hpp"
+
+// Create namespace alias for sage.
 namespace sg = sage;
 
 #endif  // !SAGE_HPP

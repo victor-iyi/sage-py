@@ -21,6 +21,9 @@
 #include <unordered_set>
 #include <vector>
 
+// C++ 17
+// #include <filesystem>
+
 // Boost libraries.
 // #include <boost/date_time/posix_time/posix_time_types.hpp>
 // #include <boost/filesystem.hpp>
