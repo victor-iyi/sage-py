@@ -76,7 +76,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "gcc"
   # -Werror -Wconversion -pedantic -Wfatal-errors")
 
   # Use these compiler flag for gcc or clang compilers.
-  set(compiler_flags "${CMAKE_CXX_FLAGS} -std=c++17 -stdlib=libc++")
+  # set(compiler_flags "${CMAKE_CXX_FLAGS} -std=c++17 -stdlib=libc++")
+  set(compiler_flags "${CMAKE_CXX_FLAGS} -std=c++17")
 
   # Microsoft Visual Studio Compiler.
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")

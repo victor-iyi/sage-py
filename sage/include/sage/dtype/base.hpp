@@ -13,7 +13,7 @@ namespace sage {
     class _DTypeBase {
      public:
       _DTypeBase(const T& _T) : _m_T(_T) {}
-      virtual ~_DTypeBase();
+      virtual ~_DTypeBase() {}
 
      private:
       T _m_T;
@@ -23,7 +23,8 @@ namespace sage {
     class SAGE_API Type : public _DTypeBase<T> {
      public:
       Type() = default;
-      virtual ~Type() override;
+      Type(const T& t) : _DTypeBase<T>(t) {}
+      virtual ~Type() override {}
     };
 
     // Specializations.

@@ -122,5 +122,5 @@ cd "${BUILD_DIR}" || exit
 
 # Run CMake configuration & build.
 echo -e "${bpurple}Runing CMake...${reset}"
-cmake .. -G${GENERATOR} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+cmake .. -G"${GENERATOR}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 cmake --build . --config ${BUILD_TYPE}
