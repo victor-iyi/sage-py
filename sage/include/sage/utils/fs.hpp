@@ -71,8 +71,18 @@ namespace sage {
     void dump(T obj, const char* const path);
   };
 
-  // sage::fs::mkdir("path/to/directory");
-  void mkdir(const std::string& path);
+  // sage::mkdir("path/to/directory");
+  inline void mkdir(const std::string& __dir) {
+    using namespace std::string_literals;
+
+#ifdef SAGE_PLATFORM_WINDOWS
+    // Windows creation of directory.
+    std::system(("mkdir -p "s + __dir).c_str());
+#else
+    // Unix way of creating directory.
+    std::system(("mkdir -p "s + __dir).c_str());
+#endif
+  }
 
 }  // namespace sage
 
