@@ -20,6 +20,9 @@
 #include <utility>
 #include <vector>
 
+// C++ 17
+// #include <experimental/filesystem>
+
 // Boost libraries.
 // #include <boost/date_time/posix_time/posix_time_types.hpp>
 // #include <boost/filesystem.hpp>
@@ -32,6 +35,7 @@
 #endif  // SAGE_PLATFORM_WINDOWS
 
 // Sage "static" includes.
+#include "sage/config.hpp"
 #include "sage/core.hpp"
 #include "sage/utils/log.hpp"
 

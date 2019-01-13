@@ -4,4 +4,4 @@
 #include "sage/dtype/base.hpp"
 #include "sage/dtype/entity.hpp"
 
-#endif // SAGE_DTYPE_HPP
+#endif  // !SAGE_DTYPE_HPP

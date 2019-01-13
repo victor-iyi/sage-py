@@ -8,6 +8,10 @@ Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON
 [![GitHub Releases](https://img.shields.io/github/release/victor-iyiola/sage.svg)](https://github.com/victor-iyiola/sage/releases)
 [![GitHub Issues](https://img.shields.io/github/issues/victor-iyiola/sage.svg)](http://github.com/victor-iyiola/sage/issues)
 
+## Functionalities
+
+Sage basically reads your `.jsonld` file & builds a Knowledge Graph using <https://schema.org> standards. It can also load in Knowedge triples from [WikiData](https://www.wikidata.org/wiki/Special:EntityPage/Q6108942), or any [FOAF ontology](<https://en.wikipedia.org/wiki/FOAF_(ontology)>).
+
 ## Credits
 
 - [Tomiiide](https://github.com/tomiiide)

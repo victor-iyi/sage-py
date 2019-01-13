@@ -1,31 +1,31 @@
 #ifndef SAGE_DTYPE_ENTITY_HPP
 #define SAGE_DTYPE_ENTITY_HPP
 
-#include "sage_pch.hpp"
 #include "sage/dtype/base.hpp"
+#include "sage_pch.hpp"
 
 namespace sage {
 
   namespace dtype {
-    /*
-      Entity represents the value of a property.
-      Example:
-      {
-        "@context": "https://schema.org"
-        "@type": "Movie",
-        "cause": [
-          {...},
-        ],
-        "director": {
-          "@type": "Person",
-          "name": "James Cameron",
-          ...
-        },
-        ...
-      }
-
-      Entity in these cases are: "Movie", [], { }...
-    */
+    /**
+     * Entity represents the value of property, which can be a Type or a Scope.
+     * Example:
+     * {
+     *  "@context": "https://schema.org",
+     *  "@type": "Movie",
+     *  "cause": [
+     *    {...},
+     *  ],
+     *  "director": {
+     *    "@type": "Person",
+     *    "name": "James Cameron",
+     *    ...
+     *  },
+     * ...
+     * }
+     *
+     * Entity in these cases are "Movie", [], { }
+     * */
     template <typename T>
     class SAGE_API Entity {
      public:
@@ -36,6 +36,20 @@ namespace sage {
       dtype::Type<T> _m_Value;
     };
 
+    /**
+     * Property is a mapping between a string and an Entity.
+     * Example:
+     * ```json
+     * {
+     *  "@type": "Movie",
+     *  "name": "Avatar",
+     *  "cause": [
+     *    {...},
+     *  ]
+     * }
+     * ```
+     *  Each line represent a different property.
+     * */
     template <typename V>
     class SAGE_API Property {
      public:
@@ -44,37 +58,36 @@ namespace sage {
 
      private:
       // `"@type": "Movie"`, `"name": "Avatar"`, etc...
-      std::unordered_map<dtype::Text, Entity<V>> _m_Map;
+      std::unordered_map<dtype::Text, Entity<V>> _m_Property;
     };
 
-    /*
-      A Scope is simply an Entity of type Property i.e Entity<Property<Type>>
-      ```
-      director: {
-        "@type": "Person",                      # 1. Property<Text, Type<Text>>
-        "name": "James Cameron",                # 2. Property<Text, Type<Text>>
-        "trailer": "https://link/trailer.mp4",  # 3. Property<Text, Type<URL>>
-        ...
-      }
-      ```
-    */
+    /**
+     * A Scope is simply an Entity of type Property i.e Entity<Property<Type>>
+     * ```
+     *  director: {
+     *   "@type": "Person",                    # 1. Property<Text, Type<Text>>
+     *   "name": "James Cameron",              # 2. Property<Text, Type<Text>>
+     *   "trailer": "https://link/trailer.mp4" # 3. Property<Text, Type<URL>>
+     *   ...
+     * }
+     * ```
+     * */
     template <typename V>
     class SAGE_API Scope : public Entity<V> {
      public:
       Scope() {
-        // generates a unique machine code.
-        // a map or a list of properties which can be constructed emplace.
+        // Generates a unique machine code.
+        // A map or a list of properties which can be constructed emplace.
       }
       virtual ~Scope() override {}
 
      private:
       const std::string _m_MachineID;
-      // Should have a property of `"@type": "..."`.
+      // Should have a property of `"@type": "dtype::Text"`.
       std::vector<Property<V>> _m_Value;
-      // Entity<std::vector<Property<dtype::Type<V>>>> _m_Scope;
     };
 
-  }  // namespace entity
+  }  // namespace dtype
 
 }  // namespace sage
 
