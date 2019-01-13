@@ -21,7 +21,7 @@ PROJECT_DIR="$(cd -P "$(dirname ${BASH_SOURCE[0]})/.." && pwd)"
 BUILD_DIR="${PROJECT_DIR}/build"
 
 # Build scripts options.
-GENERATOR="Xcode"       # -G --generator "Xcode" | "Unix Makefiles" | "Ninja"
+GENERATOR="Unix Makefiles"       # -G --generator "Xcode" | "Unix Makefiles" | "Ninja"
 BUILD_TYPE="Debug"      # -B --build-type
 BUILD_PRECOMPILED="YES" # -pch --pre-compiled
 JOBS=4                  # -j --jobs
@@ -122,5 +122,5 @@ cd "${BUILD_DIR}" || exit
 
 # Run CMake configuration & build.
 echo -e "${bpurple}Runing CMake...${reset}"
-cmake .. -G${GENERATOR} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+cmake .. -G"${GENERATOR}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 cmake --build . --config ${BUILD_TYPE}

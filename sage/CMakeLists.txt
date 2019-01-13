@@ -18,7 +18,7 @@
 
 # Third-party libraries. add_subdirectory("vendor/spdlog")
 find_package(spdlog CONFIG REQUIRED)
-find_package(Threads REQUIRED)
+# find_package(Threads REQUIRED)
 find_package(Boost 1.32 REQUIRED COMPONENTS program_options)
 
 if(SAGE_USE_EXTERNAL_JSON)
@@ -40,6 +40,6 @@ file(GLOB_RECURSE SAGE_SRC "src/*.cc")
 add_library(sage ${SAGE_SRC})
 target_link_libraries(sage
                       spdlog::spdlog
-                      Threads::Threads
+                      # Threads::Threads
                       nlohmann_json::nlohmann_json
                       ${Boost_LIBRARIES})
