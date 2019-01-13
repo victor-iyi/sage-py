@@ -15,9 +15,62 @@ namespace sage {
       T _m_Data;
 
      public:
+      Type(const T& data) : _m_Data() {}
       virtual ~Type() {}
+
+      const T& data() const { return _m_Data; }
     };
 
+    /*
+     * +----------------------------------------------------------------------+
+     * | +------------------------------------------------------------------+ |
+     * | | Specializations.
+     * | +------------------------------------------------------------------+ |
+     * +----------------------------------------------------------------------+
+     */
+    template <>
+    class SAGE_API Type<bool> {
+     private:
+      bool _m_Data;
+
+     public:
+      Type(bool data) : _m_Data(data) {}
+      bool data() const { return this->_m_Data; }
+    };
+
+    template <>
+    class SAGE_API Type<double> {};
+
+    template <>
+    class SAGE_API Type<std::string> {
+     private:
+      std::string _m_Data;
+
+     public:
+      Type(const std::string& data) : _m_Data(data) {}
+
+      const std::string& data() const { return this->_m_Data; }
+      const char* const c_str() const { return this->_m_Data.c_str(); }
+    };
+
+    template <>
+    class SAGE_API Type<std::time_t> {
+     private:
+      std::time_t _m_Data;
+      std::string _m_TimeStr;
+
+     public:
+      const std::string& toString() const { return this->_m_TimeStr; }
+      const std::time_t& data() const { return this->_m_Data; }
+    };
+
+    /*
+     * +----------------------------------------------------------------------+
+     * | +------------------------------------------------------------------+ |
+     * | | Type defs.
+     * | +------------------------------------------------------------------+ |
+     * +----------------------------------------------------------------------+
+     */
     typedef Type<bool> Boolean;      // Boolean.
     typedef Type<double> Number;     // Number.
     typedef Type<std::string> Text;  // Text.
