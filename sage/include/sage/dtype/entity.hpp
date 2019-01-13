@@ -1,12 +1,12 @@
-#ifndef SAGE_ENTITY_HPP
-#define SAGE_ENTITY_HPP
+#ifndef SAGE_DTYPE_ENTITY_HPP
+#define SAGE_DTYPE_ENTITY_HPP
 
-#include "sage/dtype/dtype.hpp"
 #include "sage_pch.hpp"
+#include "sage/dtype/base.hpp"
 
 namespace sage {
 
-  namespace entity {
+  namespace dtype {
     /*
       Entity represents the value of a property.
       Example:

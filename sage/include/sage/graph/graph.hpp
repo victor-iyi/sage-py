@@ -1,7 +1,6 @@
 #ifndef SAGE_GRAPH_HPP
 #define SAGE_GRAPH_HPP
 
-#include "sage/dtype/dtype.hpp"
 #include "sage_pch.hpp"
 
 namespace sage {

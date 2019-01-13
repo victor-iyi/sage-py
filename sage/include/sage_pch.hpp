@@ -7,18 +7,17 @@
 
 // C++ standard library.
 #include <algorithm>
+#include <fstream>
 #include <functional>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <memory>
-#include <utility>
-
-// Streams & containers.
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 // Boost libraries.
@@ -29,7 +28,7 @@
 
 // Win32 API.
 #ifdef SAGE_PLATFORM_WINDOWS
-  #include <Windows.h>
+#include <Windows.h>
 #endif  // SAGE_PLATFORM_WINDOWS
 
 // Sage "static" includes.
