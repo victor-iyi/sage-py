@@ -51,8 +51,6 @@ elseif(WIN32)
   set(SAGE_PLATFORM_WINDOWS ON)
 endif()
 
-message("BuildType: ${CMAKE_BUILD_TYPE}")
-
 # Based on build-type.
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   set(SAGE_ENABLE_ASSERTS ON)

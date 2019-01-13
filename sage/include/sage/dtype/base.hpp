@@ -15,6 +15,7 @@ namespace sage {
       T _m_Data;
 
      public:
+      Type() = default;
       Type(const T& data) : _m_Data() {}
       virtual ~Type() {}
 
@@ -34,12 +35,21 @@ namespace sage {
       bool _m_Data;
 
      public:
+      Type() = default;
       Type(bool data) : _m_Data(data) {}
       bool data() const { return this->_m_Data; }
     };
 
     template <>
-    class SAGE_API Type<double> {};
+    class SAGE_API Type<double> {
+     private:
+      double _m_Data;
+
+     public:
+      Type() = default;
+      Type(double data) : _m_Data(data) {}
+      double data() const { return this->_m_Data; }
+    };
 
     template <>
     class SAGE_API Type<std::string> {
@@ -47,6 +57,7 @@ namespace sage {
       std::string _m_Data;
 
      public:
+      Type() = default;
       Type(const std::string& data) : _m_Data(data) {}
 
       const std::string& data() const { return this->_m_Data; }
@@ -60,6 +71,7 @@ namespace sage {
       std::string _m_TimeStr;
 
      public:
+      Type() = default;
       const std::string& toString() const { return this->_m_TimeStr; }
       const std::time_t& data() const { return this->_m_Data; }
     };
