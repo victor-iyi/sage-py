@@ -2,6 +2,8 @@
 
 namespace sage {
 
-namespace dtype {}  // namespace dtype
+namespace dtype {
+
+}  // namespace dtype
 
 }  // namespace sage

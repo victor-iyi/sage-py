@@ -54,7 +54,7 @@ namespace sage {
     class SAGE_API Property {
      public:
       Property() = default;
-      ~Property();
+      ~Property() {}
 
      private:
       // `"@type": "Movie"`, `"name": "Avatar"`, etc...
