@@ -13,5 +13,6 @@
 #define SAGE_PLATFORM_DARWIN
 /* #undef SAGE_PLATFORM_WINDOWS */
 
-// Assertions.
+// Utilities.
+#define SAGE_USE_SYSTEM_INCLUDES
 #define SAGE_ENABLE_ASSERTS

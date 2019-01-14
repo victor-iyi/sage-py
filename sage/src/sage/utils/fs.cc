@@ -110,10 +110,16 @@ namespace sage {
     outStream.close();
   }
 
-  bool File::exists(const std::string& path) { return false; }
+  bool File::exists(const std::string& path) {
+    std::ifstream __stream(path);
+    return __stream.good();
+  }
 
   bool File::isDir(const std::string& path) { return false; }
 
-  bool File::isFile(const std::string& path) { return false; }
+  bool File::isFile(const std::string& path) {
+    std::ifstream __stream(path);
+    return __stream.good();
+  }
 
 }  // namespace sage

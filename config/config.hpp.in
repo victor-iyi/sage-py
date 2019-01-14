@@ -13,5 +13,6 @@
 #cmakedefine SAGE_PLATFORM_DARWIN
 #cmakedefine SAGE_PLATFORM_WINDOWS
 
-// Assertions.
+// Utilities.
+#cmakedefine SAGE_USE_SYSTEM_INCLUDES
 #cmakedefine SAGE_ENABLE_ASSERTS
