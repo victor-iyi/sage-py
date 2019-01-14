@@ -11,7 +11,7 @@ namespace sage {
     if (this->_m_FStream.is_open()) this->_m_FStream.close();
   }
 
-  // TODO: Returned obj allocated on the stack. Lifecycle has eneded.
+  // TODO: Returned obj allocated on the stack. Lifecycle has ended.
   template <typename T>
   T File::load() {
     if (!this->_m_FStream.is_open())
@@ -81,7 +81,7 @@ namespace sage {
     return ss.str();
   }
 
-  // TODO:: Return life time.
+  // TODO: Return life time.
   template <typename T>
   T load(const std::string& path) {
     if (!File::exists(path)) {

@@ -7,12 +7,12 @@ namespace sage {
 
   namespace error {
 
-    class SAGE_API UnknownValueError : public std::runtime_error {
+    class SAGE_API MappingError : public std::runtime_error {
      public:
-      UnknownValueError(const std::string& name)
+      MappingError(const std::string& name)
           : std::runtime_error("Unknown value " + name) {}
 
-      UnknownValueError(int value)
+      MappingError(int value)
           : std::runtime_error("Unknown name for enum value: " +
                                std::to_string(value)) {}
     };

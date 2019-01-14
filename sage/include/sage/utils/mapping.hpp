@@ -25,7 +25,7 @@ namespace sage {
 
     if (pos != std::end(m)) return pos->name;
 
-    throw error::UnknownValueError(static_cast<int>(value));
+    throw error::MappingError(static_cast<int>(value));
     // Or return some default value here.
     // return M::value_type::value_type();
   }
@@ -39,7 +39,7 @@ namespace sage {
 
     if (pos != std::end(m)) return pos->value;
 
-    throw error::UnknownValueError(name);
+    throw error::MappingError(name);
     // Or return an empty string (or default name).
   }
 
