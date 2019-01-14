@@ -20,6 +20,7 @@
 #include <utility>
 #include <vector>
 
+#include "nlohmann/json.hpp"
 // C++ 17
 // #include <experimental/filesystem>
 

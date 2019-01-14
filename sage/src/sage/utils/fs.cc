@@ -1,4 +1,5 @@
 #include "sage/utils/fs.hpp"
+#include "sage/error/error.hpp"
 
 namespace sage {
 
@@ -6,13 +7,61 @@ namespace sage {
   File::~File() { this->close(); }
 
   // Instance methods.
-  void File::close() { this->_m_FStream.close(); }
-  auto File::load() { return NULL; }
+  void File::close() {
+    if (this->_m_FStream.is_open()) this->_m_FStream.close();
+  }
+  // TODO: Returned obj allocated on the stack. Lifecycle has eneded.
+  template <typename T>
+  T File::load() {
+    if (!this->_m_FStream) throw error::IOError("Could not open file stream.");
+
+    T t;
+    this->_m_FStream.read(reinterpret_cast<char*>(&t), sizeof(t));
+    return t;
+  }
+
+  std::string File::load() {
+    if (!this->_m_FStream) throw error::IOError("Could open file stream.");
+
+    std::string line;
+    std::stringstream ss;
+    while (getline(this->_m_FStream, line)) ss << line;
+    return ss.str();
+  }
+
+  nlohmann::json File::loadJSON() {
+    const std::string text = this->load();
+    return nlohmann::json::parse(text);
+  }
+
   template <typename T>
   void File::dump(const T& obj) {}
 
   // Static methods.
-  auto File::load(const std::string& path) { return NULL; }
+  std::string File::load(const std::string& path) {
+    std::ifstream inStream(path);
+    if (!inStream.is_open())
+      throw error::IOError("Could not open file stream.");
+
+    std::string line;
+    std::stringstream ss;
+    while (getline(inStream, line)) ss << line;
+    inStream.close();
+
+    return ss.str();
+  }
+
+  // TODO:: Return life time.
+  template <typename T>
+  T load(const std::string& path) {
+    std::ifstream inStream(path);
+    if (!inStream.is_open())
+      throw error::IOError("Could not open file stream.");
+    T t;
+    inStream.read(reinterpret_cast<char*>(&t), sizeof(t));
+    inStream.close();
+    return t;
+  }
 
   template <typename T>
   void File::dump(const T& obj, const std::string& path) {}
