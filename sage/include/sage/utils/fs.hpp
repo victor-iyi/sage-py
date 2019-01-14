@@ -24,6 +24,10 @@ namespace sage {
     // Instance methods.
     void close();
 
+    const std::string& getPath() const { return this->_m_Path; }
+    const std::fstream& getStream() const { return this->_m_FStream; }
+    bool isBinary() const { return _m_Binary; }
+
     template <typename T>
     T load();
     std::string load();
@@ -31,8 +35,7 @@ namespace sage {
 
     template <typename T>
     void dump(const T& obj);
-
-    // void dumpJSON(const );
+    void dumpJSON(const nlohmann::json& j);
 
     // Static (Class) methods.
     static std::string load(const std::string& path);

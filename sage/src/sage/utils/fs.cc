@@ -10,10 +10,12 @@ namespace sage {
   void File::close() {
     if (this->_m_FStream.is_open()) this->_m_FStream.close();
   }
+
   // TODO: Returned obj allocated on the stack. Lifecycle has eneded.
   template <typename T>
   T File::load() {
-    if (!this->_m_FStream) throw error::IOError("Could not open file stream.");
+    if (!this->_m_FStream.is_open())
+      throw error::IOError("Could not open file stream.");
 
     T t;
     this->_m_FStream.read(reinterpret_cast<char*>(&t), sizeof(t));
@@ -21,7 +23,8 @@ namespace sage {
   }
 
   std::string File::load() {
-    if (!this->_m_FStream) throw error::IOError("Could open file stream.");
+    if (!this->_m_FStream.is_open())
+      throw error::IOError("Could open file stream.");
 
     std::string line;
     std::stringstream ss;
@@ -35,10 +38,37 @@ namespace sage {
   }
 
   template <typename T>
-  void File::dump(const T& obj) {}
+  void File::dump(const T& obj) {
+    if (!this->_m_FStream.is_open())
+      throw error::IOError("Could not open file stream.");
 
-  // Static methods.
+    this->_m_FStream.write(reinterpret_cast<char*>(&obj), sizeof(obj));
+  }
+
+  void File::dumpJSON(const nlohmann::json& j) {
+    if (!this->_m_FStream.is_open())
+      throw error::IOError("Could not open file stream.");
+
+    try {
+      this->_m_FStream << j.dump();
+    } catch (const nlohmann::json::type_error& e) {
+      SAGE_CORE_ERROR(e.what());
+    }
+  }
+
+  /*
+   * +----------------------------------------------------------------------+
+   * | +------------------------------------------------------------------+ |
+   * | | Static methods.
+   * | +------------------------------------------------------------------+ |
+   * +----------------------------------------------------------------------+
+   */
   std::string File::load(const std::string& path) {
+    if (!File::exists(path)) {
+      SAGE_CORE_ERROR("{} does not exist!", path);
+      return NULL;
+    }
+
     std::ifstream inStream(path);
     if (!inStream.is_open())
       throw error::IOError("Could not open file stream.");
@@ -54,17 +84,31 @@ namespace sage {
   // TODO:: Return life time.
   template <typename T>
   T load(const std::string& path) {
+    if (!File::exists(path)) {
+      SAGE_CORE_ERROR("{} does not exist!", path);
+      return;
+    }
+
     std::ifstream inStream(path);
     if (!inStream.is_open())
       throw error::IOError("Could not open file stream.");
+
     T t;
     inStream.read(reinterpret_cast<char*>(&t), sizeof(t));
     inStream.close();
+
     return t;
   }
 
   template <typename T>
-  void File::dump(const T& obj, const std::string& path) {}
+  void File::dump(const T& obj, const std::string& path) {
+    std::ofstream outStream(path);
+    if (!outStream.is_open())
+      throw error::IOError("Could not open file stream.");
+
+    outStream.write(reinterpret_cast<char*>(&obj), sizeof(obj));
+    outStream.close();
+  }
 
   bool File::exists(const std::string& path) { return false; }
 
