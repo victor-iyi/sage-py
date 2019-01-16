@@ -26,39 +26,20 @@ namespace sage {
      *
      * Entity in these cases are "Movie", [], { }
      * */
-    template <typename T>
     class SAGE_API Entity {
      public:
-      Entity(const T& value);
+      Entity() = default;
+
+      explicit Entity(const Text& value) : _m_Value(value) {}
+      explicit Entity(const std::string& value) : _m_Value(value) {}
+      explicit Entity(const char* const value) : _m_Value(value) {}
+
       virtual ~Entity() {}
 
-     private:
-      dtype::Type<T> _m_Value;
-    };
-
-    /**
-     * Property is a mapping between a string and an Entity.
-     * Example:
-     * ```json
-     * {
-     *  "@type": "Movie",
-     *  "name": "Avatar",
-     *  "cause": [
-     *    {...},
-     *  ]
-     * }
-     * ```
-     *  Each line represent a different property.
-     * */
-    template <typename V>
-    class SAGE_API Property {
-     public:
-      Property() = default;
-      ~Property() {}
+      const Text& value() const { return _m_Value; }
 
      private:
-      // `"@type": "Movie"`, `"name": "Avatar"`, etc...
-      std::unordered_map<dtype::Text, Entity<V>> _m_Property;
+      Text _m_Value;
     };
 
     /**
@@ -72,19 +53,36 @@ namespace sage {
      * }
      * ```
      * */
-    template <typename V>
-    class SAGE_API Scope : public Entity<V> {
+    class SAGE_API Scope : public Entity {
      public:
-      Scope() {
-        // Generates a unique machine code.
-        // A map or a list of properties which can be constructed emplace.
-      }
+      Scope(const std::map<Text, Entity>& properties)
+          : _m_Property(properties) {}
+
       virtual ~Scope() override {}
 
+      const std::map<Text, Entity>& getProperty() const { return _m_Property; }
+      const Text& getID() const { return _m_MachineID; }
+      const Text& getType() const { return _m_Type; }
+
+      const std::map<Text, Entity>::const_iterator& begin() const {
+        return _m_Property.begin();
+      }
+      const std::map<Text, Entity>::const_iterator& end() const {
+        return _m_Property.end();
+      }
+
+      bool has(const Text& key) const {
+        auto _found = _m_Property.find(key);
+        return (_found != _m_Property.end());
+      }
+
      private:
-      const std::string _m_MachineID;
-      // Should have a property of `"@type": "dtype::Text"`.
-      std::vector<Property<V>> _m_Value;
+      // Unique identification of this scope in the graph.
+      const Text _m_MachineID;
+      // Should have a property of `"@type": "Text"`.
+      const Text _m_Type;
+      // Should have a property of dtype::Text: dtype::Entity`.
+      std::map<Text, Entity> _m_Property;
     };
 
   }  // namespace dtype

@@ -20,6 +20,15 @@ namespace sage {
       virtual ~Type() {}
 
       const T& data() const { return _m_Data; }
+
+      // bool operator<(const Type& lhs, const Type& rhs);
+      // bool operator>(const Type& lhs, const Type& rhs);
+      // bool operator<=(const Type& lhs, const Type& rhs);
+      // bool operator>=(const Type& lhs, const Type& rhs);
+      // bool operator==(const Type& lhs, const Type& rhs);
+      // bool operator!=(const Type& lhs, const Type& rhs);
+      // std::ostream& operator<<(std::ostream& out, const Type& t);
+      // std::istream& operator>>(std::istream& in, const Type& t);
     };
 
     /*
@@ -52,6 +61,17 @@ namespace sage {
     };
 
     template <>
+    class SAGE_API Type<int> {
+     private:
+      int _m_Data;
+
+     public:
+      Type() = default;
+      Type(int data) : _m_Data(data) {}
+      int data() const { return this->_m_Data; }
+    };
+
+    template <>
     class SAGE_API Type<std::string> {
      private:
       std::string _m_Data;
@@ -78,19 +98,22 @@ namespace sage {
 
     /*
      * +----------------------------------------------------------------------+
-     * | +------------------------------------------------------------------+ |
-     * | | Type defs.
-     * | +------------------------------------------------------------------+ |
+     * | +------------------------------------------------------------------+
+     * | | | Type defs. |
+     * +------------------------------------------------------------------+ |
      * +----------------------------------------------------------------------+
      */
-    typedef Type<bool> Boolean;      // Boolean.
-    typedef Type<double> Number;     // Number.
-    typedef Type<std::string> Text;  // Text.
-    typedef Type<std::time_t> Time;  // Time.
-    // typedef Type <?> Time;         // Date
-    // typedef Type <?> Time;         // DateTime.
+    typedef Type<bool> Boolean;        // Boolean.
+    typedef Type<double> NumberFloat;  // NumberFloat.
+    typedef Type<int> NumberInteger;   // NumberInteger.
+    typedef Type<std::string> Text;    // Text.
+    typedef Type<std::string> URL;     // URL.
+    typedef Type<std::time_t> Time;    // Time.
+    // typedef Type <?> Time;           // Date
+    // typedef Type <?> Time;           // DateTime.
 
   }  // namespace dtype
 
 }  // namespace sage
+
 #endif  // !SAGE_DTYPE_HPP
