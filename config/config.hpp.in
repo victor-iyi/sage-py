@@ -16,3 +16,5 @@
 // Utilities.
 #cmakedefine SAGE_USE_SYSTEM_INCLUDES
 #cmakedefine SAGE_ENABLE_ASSERTS
+#cmakedefine SAGE_DEBUG
+#cmakedefine SAGE_DIST

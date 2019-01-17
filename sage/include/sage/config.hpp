@@ -16,3 +16,5 @@
 // Utilities.
 #define SAGE_USE_SYSTEM_INCLUDES
 #define SAGE_ENABLE_ASSERTS
+#define SAGE_DEBUG
+/* #undef SAGE_DIST */

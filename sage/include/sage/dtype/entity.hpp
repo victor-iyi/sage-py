@@ -26,21 +26,21 @@ namespace sage {
      *
      * Entity in these cases are "Movie", [], { }
      * */
-    class SAGE_API Entity {
-     public:
-      Entity() = default;
+    // class SAGE_API Entity {
+    //  public:
+    //   Entity() = default;
 
-      explicit Entity(const Text& value) : _m_Value(value) {}
-      explicit Entity(const std::string& value) : _m_Value(value) {}
-      explicit Entity(const char* const value) : _m_Value(value) {}
+    //   explicit Entity(const Text& value) : _m_Value(value) {}
+    //   explicit Entity(const std::string& value) : _m_Value(value) {}
+    //   explicit Entity(const char* const value) : _m_Value(value) {}
 
-      virtual ~Entity() {}
+    //   virtual ~Entity() {}
 
-      const Text& value() const { return _m_Value; }
+    //   const Text& value() const { return _m_Value; }
 
-     private:
-      Text _m_Value;
-    };
+    //  private:
+    //   Text _m_Value;
+    // };
 
     /**
      * A Scope is simply an Entity of type Property i.e Entity<Property<Type>>
@@ -53,37 +53,37 @@ namespace sage {
      * }
      * ```
      * */
-    class SAGE_API Scope : public Entity {
-     public:
-      Scope(const std::map<Text, Entity>& properties)
-          : _m_Property(properties) {}
+    // class SAGE_API Scope : public Entity {
+    //  public:
+    //   Scope(const std::map<Text, Entity>& properties)
+    //       : _m_Property(properties) {}
 
-      virtual ~Scope() override {}
+    //   virtual ~Scope() override {}
 
-      const std::map<Text, Entity>& getProperty() const { return _m_Property; }
-      const Text& getID() const { return _m_MachineID; }
-      const Text& getType() const { return _m_Type; }
+    //   const std::map<Text, Entity>& getProperty() const { return _m_Property; }
+    //   const Text& getID() const { return _m_MachineID; }
+    //   const Text& getType() const { return _m_Type; }
 
-      const std::map<Text, Entity>::const_iterator& begin() const {
-        return _m_Property.begin();
-      }
-      const std::map<Text, Entity>::const_iterator& end() const {
-        return _m_Property.end();
-      }
+    //   const std::map<Text, Entity>::const_iterator& begin() const {
+    //     return _m_Property.begin();
+    //   }
+    //   const std::map<Text, Entity>::const_iterator& end() const {
+    //     return _m_Property.end();
+    //   }
 
-      bool has(const Text& key) const {
-        auto _found = _m_Property.find(key);
-        return (_found != _m_Property.end());
-      }
+    //   bool has(const Text& key) const {
+    //     auto _found = _m_Property.find(key);
+    //     return (_found != _m_Property.end());
+    //   }
 
-     private:
-      // Unique identification of this scope in the graph.
-      const Text _m_MachineID;
-      // Should have a property of `"@type": "Text"`.
-      const Text _m_Type;
-      // Should have a property of dtype::Text: dtype::Entity`.
-      std::map<Text, Entity> _m_Property;
-    };
+    //  private:
+    //   // Unique identification of this scope in the graph.
+    //   const Text _m_MachineID;
+    //   // Should have a property of `"@type": "Text"`.
+    //   const Text _m_Type;
+    //   // Should have a property of dtype::Text: dtype::Entity`.
+    //   std::map<Text, Entity> _m_Property;
+    // };
 
   }  // namespace dtype
 

@@ -18,4 +18,6 @@
 // Create namespace alias for sage.
 namespace sg = sage;
 
+#include "sage/utils/init.hpp"
+
 #endif  // !SAGE_HPP

@@ -32,6 +32,7 @@ set(EXAMPLE_DIR "${PROJECT_SOURCE_DIR}/example")
 # !----------------- Definitions, Optinos & Macros.-----------------!#
 # Options: Use Externale JSON library?
 option(SAGE_DEBUG "Build Sage in Debug mode." ON)
+option(SAGE_DIST "Turn on sage distribution build." OFF)
 option(SAGE_ENABLE_ASSERTS "Enable SAGE assertions." ON)
 option(SAGE_USE_SYSTEM_INCLUDES "Use C++ includes in pre-compiled headers (Recommended)." ON)
 option(SAGE_USE_EXTERNAL_JSON "Use an external JSON library." OFF)

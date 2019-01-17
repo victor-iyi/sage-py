@@ -16,7 +16,9 @@ namespace sage {
 
      public:
       Type() = default;
-      Type(const T& data) : _m_Data() {}
+      Type(const T& data) : _m_Data(data) {
+        SAGE_CORE_WARN("Initialzied datatype.");
+      }
       virtual ~Type() {}
 
       const T& data() const { return _m_Data; }
@@ -45,7 +47,7 @@ namespace sage {
 
      public:
       Type() = default;
-      Type(bool data) : _m_Data(data) {}
+      Type(bool data) : _m_Data(data) { SAGE_CORE_WARN("Initialzied datatype."); }
       bool data() const { return this->_m_Data; }
     };
 

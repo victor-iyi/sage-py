@@ -2,5 +2,12 @@
 #include "sage.hpp"
 
 int main() {
-  sage::Log::init();
+
+  if(sage::init() != SAGE_INIT_SUCCESS) {
+    // Could not initialize sage.
+    exit(1);
+  }
+
+  // So sage stuff here.
+
 }
