@@ -17,7 +17,7 @@ namespace sage {
      public:
       Type() = default;
       Type(const T& data) : _m_Data(data) {
-        SAGE_CORE_WARN("Initialzied datatype.");
+        SAGE_CORE_WARN("Initialized datatype.");
       }
       virtual ~Type() {}
 
