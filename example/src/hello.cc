@@ -1,4 +1,3 @@
-#include <iostream>
 #include "sage.hpp"
 
 int main() {
@@ -9,6 +8,14 @@ int main() {
     exit(1);
   }
 
+  using json = nlohmann::json;
+
+  const char* const filepath = "/Users/victor/Documents/Work/NioCraft/sage/build/test.jsonld";
+
+  sage::File f(filepath);
+  json content = f.loadJSON();
+  std::cout << content.dump() << '\n';
+
   // So sage stuff here.
-  SAGE_INFO("This is fun!");
+  // SAGE_WARN("This is fun!");
 }
