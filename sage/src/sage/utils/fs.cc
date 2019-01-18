@@ -91,10 +91,9 @@ namespace sage {
   template <typename T>
   T load(const std::string& path) {
     if (!File::exists(path)) {
-      SAGE_CORE_ERROR("{} does not exist!", path);
+      SAGE_CORE_ERROR("{0} does not exist!", path);
       return;
     }
-
     std::ifstream inStream(path);
     if (!inStream.is_open())
       throw error::IOError("Could not open file stream.");
@@ -116,16 +115,16 @@ namespace sage {
     outStream.close();
   }
 
+  // TODO: Properly implement `exists`, `isFile` & `isDir`.
   bool File::exists(const std::string& path) {
     std::ifstream __stream(path);
-    return __stream.good();
+    bool __exists = __stream.good();
+    __stream.close();
+    return __exists;
   }
 
-  bool File::isDir(const std::string& path) { return false; }
+  bool File::isDir(const std::string& path) { return File::exists(path); }
 
-  bool File::isFile(const std::string& path) {
-    std::ifstream __stream(path);
-    return __stream.good();
-  }
+  bool File::isFile(const std::string& path) { return File::exists(path); }
 
 }  // namespace sage

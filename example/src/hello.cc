@@ -3,8 +3,8 @@
 int main() {
 
   if(sage::init() != SAGE_INIT_SUCCESS) {
-    std::cout << "Could not initialize sage\n";
     // Could not initialize sage.
+    std::cout << "Could not initialize sage\n";
     exit(1);
   }
 
