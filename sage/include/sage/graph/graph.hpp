@@ -5,7 +5,14 @@
 
 namespace sage {
 
-  namespace graph {}  // namespace graph
+  namespace graph {
+
+    class Triples {
+     public:
+     private:
+    };
+
+  }  // namespace graph
 
 }  // namespace sage
 

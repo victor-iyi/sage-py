@@ -16,21 +16,34 @@ namespace sage {
 
      public:
       Type() = default;
-      Type(const T& data) : _m_Data(data) {
-        SAGE_CORE_WARN("Initialized datatype.");
-      }
+      Type(const T& data) : _m_Data(data) {}
       virtual ~Type() {}
 
       const T& data() const { return _m_Data; }
 
-      // bool operator<(const Type& lhs, const Type& rhs);
-      // bool operator>(const Type& lhs, const Type& rhs);
-      // bool operator<=(const Type& lhs, const Type& rhs);
-      // bool operator>=(const Type& lhs, const Type& rhs);
-      // bool operator==(const Type& lhs, const Type& rhs);
-      // bool operator!=(const Type& lhs, const Type& rhs);
-      // std::ostream& operator<<(std::ostream& out, const Type& t);
-      // std::istream& operator>>(std::istream& in, const Type& t);
+      friend bool operator<(const Type<T>& lhs, const Type<T>& rhs) {
+        return lhs._m_Data < rhs._m_Data;
+      }
+      friend bool operator>(const Type<T>& lhs, const Type<T>& rhs) {
+        return rhs < lhs;
+      }
+      friend bool operator<=(const Type<T>& lhs, const Type<T>& rhs) {
+        return !(lhs > rhs);
+      }
+      friend bool operator>=(const Type<T>& lhs, const Type<T>& rhs) {
+        return !(lhs < rhs);
+      }
+      friend bool operator==(const Type<T>& lhs, const Type<T>& rhs) {
+        return lhs._m_Data == rhs._m_Data;
+      }
+      friend bool operator!=(const Type<T>& lhs, const Type<T>& rhs) {
+        return !(lhs == rhs);
+      }
+
+      friend std::ostream& operator<<(std::ostream& out, const Type<T>& t) {
+        out << t._m_Data;
+        return out;
+      }
     };
 
     /*
@@ -47,8 +60,32 @@ namespace sage {
 
      public:
       Type() = default;
-      Type(bool data) : _m_Data(data) { SAGE_CORE_WARN("Initialzied datatype."); }
+      Type(bool data) : _m_Data(data) {}
       bool data() const { return this->_m_Data; }
+
+      friend bool operator<(const Type<bool>& lhs, const Type<bool>& rhs) {
+        return lhs._m_Data < rhs._m_Data;
+      }
+      friend bool operator>(const Type<bool>& lhs, const Type<bool>& rhs) {
+        return rhs < lhs;
+      }
+      friend bool operator<=(const Type<bool>& lhs, const Type<bool>& rhs) {
+        return !(lhs > rhs);
+      }
+      friend bool operator>=(const Type<bool>& lhs, const Type<bool>& rhs) {
+        return !(lhs < rhs);
+      }
+      friend bool operator==(const Type<bool>& lhs, const Type<bool>& rhs) {
+        return lhs._m_Data == rhs._m_Data;
+      }
+      friend bool operator!=(const Type<bool>& lhs, const Type<bool>& rhs) {
+        return !(lhs == rhs);
+      }
+
+      friend std::ostream& operator<<(std::ostream& out, const Type<bool>& t) {
+        out << t._m_Data;
+        return out;
+      }
     };
 
     template <>
@@ -60,6 +97,30 @@ namespace sage {
       Type() = default;
       Type(double data) : _m_Data(data) {}
       double data() const { return this->_m_Data; }
+
+      friend bool operator<(const Type<double>& lhs, const Type<double>& rhs) {
+        return lhs._m_Data < rhs._m_Data;
+      }
+      friend bool operator>(const Type<double>& lhs, const Type<double>& rhs) {
+        return rhs < lhs;
+      }
+      friend bool operator<=(const Type<double>& lhs, const Type<double>& rhs) {
+        return !(lhs > rhs);
+      }
+      friend bool operator>=(const Type<double>& lhs, const Type<double>& rhs) {
+        return !(lhs < rhs);
+      }
+      friend bool operator==(const Type<double>& lhs, const Type<double>& rhs) {
+        return lhs._m_Data == rhs._m_Data;
+      }
+      friend bool operator!=(const Type<double>& lhs, const Type<double>& rhs) {
+        return !(lhs == rhs);
+      }
+
+      friend std::ostream& operator<<(std::ostream& out, const Type<double>& t) {
+        out << t._m_Data;
+        return out;
+      }
     };
 
     template <>
@@ -71,6 +132,30 @@ namespace sage {
       Type() = default;
       Type(int data) : _m_Data(data) {}
       int data() const { return this->_m_Data; }
+
+      friend bool operator<(const Type<int>& lhs, const Type<int>& rhs) {
+        return lhs._m_Data < rhs._m_Data;
+      }
+      friend bool operator>(const Type<int>& lhs, const Type<int>& rhs) {
+        return rhs < lhs;
+      }
+      friend bool operator<=(const Type<int>& lhs, const Type<int>& rhs) {
+        return !(lhs > rhs);
+      }
+      friend bool operator>=(const Type<int>& lhs, const Type<int>& rhs) {
+        return !(lhs < rhs);
+      }
+      friend bool operator==(const Type<int>& lhs, const Type<int>& rhs) {
+        return lhs._m_Data == rhs._m_Data;
+      }
+      friend bool operator!=(const Type<int>& lhs, const Type<int>& rhs) {
+        return !(lhs == rhs);
+      }
+
+      friend std::ostream& operator<<(std::ostream& out, const Type<int>& t) {
+        out << t._m_Data;
+        return out;
+      }
     };
 
     template <>
@@ -84,6 +169,30 @@ namespace sage {
 
       const std::string& data() const { return this->_m_Data; }
       const char* const c_str() const { return this->_m_Data.c_str(); }
+
+      friend bool operator<(const Type<std::string>& lhs, const Type<std::string>& rhs) {
+        return lhs._m_Data < rhs._m_Data;
+      }
+      friend bool operator>(const Type<std::string>& lhs, const Type<std::string>& rhs) {
+        return rhs < lhs;
+      }
+      friend bool operator<=(const Type<std::string>& lhs, const Type<std::string>& rhs) {
+        return !(lhs > rhs);
+      }
+      friend bool operator>=(const Type<std::string>& lhs, const Type<std::string>& rhs) {
+        return !(lhs < rhs);
+      }
+      friend bool operator==(const Type<std::string>& lhs, const Type<std::string>& rhs) {
+        return lhs._m_Data == rhs._m_Data;
+      }
+      friend bool operator!=(const Type<std::string>& lhs, const Type<std::string>& rhs) {
+        return !(lhs == rhs);
+      }
+
+      friend std::ostream& operator<<(std::ostream& out, const Type<std::string>& t) {
+        out << t._m_Data;
+        return out;
+      }
     };
 
     template <>

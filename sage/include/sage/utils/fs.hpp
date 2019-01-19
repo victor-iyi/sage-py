@@ -14,7 +14,9 @@ namespace sage {
    public:
     // Constructors.
     File(const std::string& path)
-        : _m_Path(path), _m_FStream(path), _m_Binary(false) {}
+        : _m_Path(path),
+          _m_FStream(path, std::ios::in | std::ios::out),
+          _m_Binary(false) {}
     File(const std::string& path, bool binary)
         : _m_Path(path),
           _m_FStream(path, std::ios::in | std::ios::out | std::ios::binary),
