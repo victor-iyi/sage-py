@@ -2,12 +2,13 @@
 #define PROJECT_NAME "sage"
 
 // Project description.
-#define PROJECT_DESCRIPTION ""
+#define PROJECT_DESCRIPTION "An open-source Knowledge Graph which uses <https://schema.org> and JSON-LD serialization inspired by Google's Knowledge Graph."
+#define PROJECT_HOMEPAGE_URL "https://github.com/victor-iyiola/sage"
 
 // Version details.
-#define PROJECT_VERSION_MAJOR
-#define PROJECT_VERSION_MINOR
-#define PROJECT_VERSION_PATCH
+#define PROJECT_VERSION_MAJOR 1
+#define PROJECT_VERSION_MINOR 0
+#define PROJECT_VERSION_PATCH 0
 
 // Platforms.
 #define SAGE_PLATFORM_UNIX

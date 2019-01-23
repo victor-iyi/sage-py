@@ -12,8 +12,13 @@ set(
   PROJECT_DESCRIPTION
   "An open-source Knowledge Graph which uses <https://schema.org> and JSON-LD serialization inspired by Google's Knowledge Graph."
   )
+set(PROJECT_HOMEPAGE_URL "https://github.com/victor-iyiola/sage")
 
-project(${PROJECT_NAME} CXX)
+project(${PROJECT_NAME}
+        VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+        DESCRIPTION "${PROJECT_DESCRIPTION}"
+        HOMEPAGE_URL "${PROJECT_HOMEPAGE_URL}"
+        LANGUAGES CXX)
 
 # --------------------------------------------------------------------
 # compiler config

@@ -19,7 +19,8 @@
 # Third-party libraries. add_subdirectory("vendor/spdlog")
 find_package(spdlog CONFIG REQUIRED)
 # find_package(Threads REQUIRED)
-find_package(Boost 1.32 REQUIRED COMPONENTS program_options)
+# find_package(Boost 1.32 REQUIRED COMPONENTS program_options)
+find_package(Boost 1.32 REQUIRED)
 
 if(SAGE_USE_EXTERNAL_JSON)
   # Use external JSON
