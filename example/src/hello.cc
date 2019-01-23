@@ -7,21 +7,21 @@ int main() {
     exit(1);
   }
 
-  using json = nlohmann::json;
+  // using json = nlohmann::json;
 
-  const char* const filepath =
-      "/Users/victor/Documents/Work/"
-      "NioCraft/sage/build/test.jsonld";
+  // const char* const filepath =
+  //     "/Users/victor/Documents/Work/"
+  //     "NioCraft/sage/build/test.jsonld";
 
-  sage::File f(filepath);
-  json content = f.loadJSON();
-  std::cout << content.dump() << '\n';
+  // sage::File f(filepath);
+  // json content = f.loadJSON();
+  // std::cout << content.dump() << '\n';
 
   // TODO: Not working. Assignment lifetype.
   // Create a copy constructor.
   sage::dtype::Text text;
   text = "Victor I. Afolabi";
-  std::cout << "Name: " << text << '\n';
+  SAGE_DEBUG("Name: {0}", text);
 
   // So sage stuff here.
   // SAGE_WARN("This is fun!");
