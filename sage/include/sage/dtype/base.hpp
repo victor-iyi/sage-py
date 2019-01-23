@@ -27,7 +27,6 @@ namespace sage {
         Type<T> temp(rhs);
         return temp;
       }
-
       Type<T> operator+=(const T& rhs) {
         this->_m_Data += rhs;
         return *this;

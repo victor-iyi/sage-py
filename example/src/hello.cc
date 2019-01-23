@@ -10,7 +10,8 @@ int main() {
   using json = nlohmann::json;
 
   const char* const filepath =
-      "/Users/victor/Documents/Work/NioCraft/sage/build/test.jsonld";
+      "/Users/victor/Documents/Work/"
+      "NioCraft/sage/build/test.jsonld";
 
   sage::File f(filepath);
   json content = f.loadJSON();

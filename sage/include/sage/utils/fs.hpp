@@ -5,6 +5,7 @@
 
 namespace sage {
 
+  // TODO: listdir, mkdir, join, relpath, abspath
   class SAGE_API File {
    private:
     std::string _m_Path;      // Path string.
