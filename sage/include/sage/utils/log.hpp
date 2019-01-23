@@ -3,6 +3,7 @@
 
 #include "sage/core.hpp"
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h" // For logging user-defined classes & structs.
 
 namespace sage {
 
@@ -20,23 +21,6 @@ namespace sage {
       return s_ClientLogger;
     }
 
-    /*
-        // static struct _Init {
-        //   _Init() {
-        //     #include "spdlog/sinks/stdout_color_sinks.h"
-        //     // Log pattern.
-        //     spdlog::set_pattern("%^[%T] %n: %v%$");
-
-        //     // Core logger.
-        //     s_CoreLogger = spdlog::stdout_color_mt("SAGE_CORE");
-        //     s_CoreLogger->set_level(spdlog::level::trace);
-
-        //     // Client logger.
-        //     s_ClientLogger = spdlog::stdout_color_mt("SAGE");
-        //     s_ClientLogger->set_level(spdlog::level::trace);
-        //   }
-        // } _init;
-    */
   };
 
 }  // namespace sage

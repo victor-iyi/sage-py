@@ -33,29 +33,22 @@ namespace sage {
       explicit Entity(const Text& value) : _m_Value(value) {}
       explicit Entity(const std::string& value) : _m_Value(value) {}
       explicit Entity(const char* const value) : _m_Value(value) {}
+      Entity(const Entity& other) : _m_Value(other._m_Value) {}
 
       virtual ~Entity() {}
 
       const Text& value() const { return _m_Value; }
 
-      friend bool operator<(const Entity& lhs, const Entity& rhs) {
-        return lhs._m_Value < rhs._m_Value;
+      bool operator<(const Entity& rhs) const {
+        return this->_m_Value < rhs._m_Value;
       }
-      friend bool operator>(const Entity& lhs, const Entity& rhs) {
-        return rhs < lhs;
+      bool operator>(const Entity& rhs) const { return rhs < *this; }
+      bool operator<=(const Entity& rhs) const { return !(*this > rhs); }
+      bool operator>=(const Entity& rhs) const { return !(*this < rhs); }
+      bool operator==(const Entity& rhs) const {
+        return this->_m_Value == rhs._m_Value;
       }
-      friend bool operator<=(const Entity& lhs, const Entity& rhs) {
-        return !(lhs > rhs);
-      }
-      friend bool operator>=(const Entity& lhs, const Entity& rhs) {
-        return !(lhs < rhs);
-      }
-      friend bool operator==(const Entity& lhs, const Entity& rhs) {
-        return lhs._m_Value == rhs._m_Value;
-      }
-      friend bool operator!=(const Entity& lhs, const Entity& rhs) {
-        return !(lhs == rhs);
-      }
+      bool operator!=(const Entity& rhs) const { return !(*this == rhs); }
 
       friend std::ostream& operator<<(std::ostream& out, const Entity& t) {
         out << t._m_Value;
