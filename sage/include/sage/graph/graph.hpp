@@ -7,7 +7,7 @@ namespace sage {
 
   namespace graph {
 
-    class Triples {
+    class SAGE_API Triples {
      public:
      private:
     };

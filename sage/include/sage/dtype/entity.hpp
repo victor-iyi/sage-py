@@ -2,7 +2,6 @@
 #define SAGE_DTYPE_ENTITY_HPP
 
 #include "sage/dtype/base.hpp"
-#include "sage_pch.hpp"
 
 namespace sage {
 

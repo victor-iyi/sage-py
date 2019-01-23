@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 # Get rid of Cygwin warning. Has no effect if not using Cygwin.
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
-project(sage CXX)
-
 # Set project name, version & description.
 set(PROJECT_NAME "sage")
 set(PROJECT_VERSION_MAJOR 1)
@@ -15,9 +13,11 @@ set(
   "An open-source Knowledge Graph which uses <https://schema.org> and JSON-LD serialization inspired by Google's Knowledge Graph."
   )
 
-# ---------------------------------------------------------------------
+project(${PROJECT_NAME} CXX)
+
+# --------------------------------------------------------------------
 # compiler config
-# ---------------------------------------------------------------------
+# --------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -30,12 +30,16 @@ set(SAGE_LIB_DIR "${PROJECT_SOURCE_DIR}/sage")
 set(EXAMPLE_DIR "${PROJECT_SOURCE_DIR}/example")
 
 # !----------------- Definitions, Optinos & Macros.-----------------!#
-# Options: Use Externale JSON library?
 option(SAGE_DEBUG "Build Sage in Debug mode." ON)
-option(SAGE_DIST "Turn on sage distribution build." OFF)
+option(SAGE_BUILD_STATIC "Build as a static library." ON)
+option(SAGE_BUILD_DLL "Build as Dynamic Linked Library." OFF)
+option(SAGE_BUILD_DIST "Turn on sage distribution build." OFF)
+
 option(SAGE_ENABLE_ASSERTS "Enable SAGE assertions." ON)
-option(SAGE_USE_SYSTEM_INCLUDES "Use C++ includes in pre-compiled headers (Recommended)." ON)
 option(SAGE_USE_EXTERNAL_JSON "Use an external JSON library." OFF)
+option(SAGE_USE_PCH "Use sage's pre-compiled header." OFF)
+option(SAGE_USE_SYSTEM_INCLUDES
+       "Use C++ includes in pre-compiled headers (Recommended)." ON)
 
 # Set default Build Type.
 if(NOT CMAKE_BUILD_TYPE)
@@ -48,9 +52,12 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 # Based on platform.
 if(APPLE)
-  set(SAGE_PLATFORM_DARWIN ON)
+  set(SAGE_PLATFORM_UNIX ON) # Unix-like.
+  set(SAGE_PLATFORM_DARWIN ON) # MacOS.
+elseif(UNIX)
+  set(SAGE_PLATFORM_UNIX ON) # Linux.
 elseif(WIN32)
-  set(SAGE_PLATFORM_WINDOWS ON)
+  set(SAGE_PLATFORM_WINDOWS ON) # Windows.
 endif()
 
 # Based on build-type.
@@ -75,8 +82,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "gcc"
   # # Use these warnings for gcc or clang compilers. set(warnings "-Wall -Wextra
   # -Werror -Wconversion -pedantic -Wfatal-errors")
 
-  # Use these compiler flag for gcc or clang compilers.
-  # set(compiler_flags "${CMAKE_CXX_FLAGS} -std=c++17 -stdlib=libc++")
+  # Use these compiler flag for gcc or clang compilers. set(compiler_flags
+  # "${CMAKE_CXX_FLAGS} -std=c++17 -stdlib=libc++")
   set(compiler_flags "${CMAKE_CXX_FLAGS} -std=c++17")
 
   # Microsoft Visual Studio Compiler.
@@ -92,7 +99,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   set(compiler_flags "${CMAKE_CXX_FLAGS} /std:c++17 /stdlib:libc++")
 endif()
 
-# !----------------------- Set language flags -----------------------!#
+# !----------------------- Configuration file. -----------------------!#
 if(NOT CONFIGURED_ONCE)
   # Make CMake Configurations to be available in source files.
   configure_file(# Where configurations are defined.
@@ -109,11 +116,14 @@ if(NOT CONFIGURED_ONCE)
       FORCE)
 endif()
 
+# !---------------------------- Target: sage. ----------------------------!
 include_directories(SYSTEM "sage/include")
 add_subdirectory("sage")
 
+# !-------------------------- Target: example. --------------------------!
 file(GLOB_RECURSE SAGE_EXAMPLE "${EXAMPLE_DIR}/src/*cc")
 add_executable(example ${SAGE_EXAMPLE})
 target_link_libraries(example sage)
 
+# Add test. -> Target: example.
 add_test(NAME example COMMAND example)

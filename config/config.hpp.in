@@ -10,11 +10,16 @@
 #define PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH@
 
 // Platforms.
+#cmakedefine SAGE_PLATFORM_UNIX
 #cmakedefine SAGE_PLATFORM_DARWIN
 #cmakedefine SAGE_PLATFORM_WINDOWS
 
-// Utilities.
-#cmakedefine SAGE_USE_SYSTEM_INCLUDES
-#cmakedefine SAGE_ENABLE_ASSERTS
+// Build Configurations.
 #cmakedefine SAGE_DEBUG
-#cmakedefine SAGE_DIST
+#cmakedefine SAGE_BUILD_DLL
+#cmakedefine SAGE_BUILD_DIST
+#cmakedefine SAGE_BUILD_STATIC
+
+// Utilities.
+#cmakedefine SAGE_ENABLE_ASSERTS
+#cmakedefine SAGE_USE_SYSTEM_INCLUDES

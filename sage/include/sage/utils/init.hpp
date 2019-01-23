@@ -1,9 +1,11 @@
 #ifndef SAGE_INIT_HPP
 #define SAGE_INIT_HPP
 
+#include "sage/core.hpp"
+
 namespace sage {
   // Initialization code for sage.
-  int init();
+  int SAGE_API init();
 
 }  // namespace sage
 

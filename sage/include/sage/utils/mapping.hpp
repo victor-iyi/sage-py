@@ -2,12 +2,11 @@
 #define SAGE_MAPPING_HPP
 
 #include "sage/error/error.hpp"
-#include "sage_pch.hpp"
 
 namespace sage {
 
   template <typename T>
-  struct NamedPair {
+  struct SAGE_API NamedPair {
     using value_type = T;
     const T value;
     const char* const name;
@@ -16,7 +15,7 @@ namespace sage {
   // typename M: is some type of standard container that supports `find_if()`.
   // typename V: is the type of the enum whose value we wish to look up.
   template <typename M, typename V>
-  std::string getNameForValue(M m, V value) {
+  std::string SAGE_API getNameForValue(M m, V value) {
     // pos is an iterator of M.
     auto pos = std::find_if(std::begin(m), std::end(m),
                             [&value](const typename M::value_type& t) {
