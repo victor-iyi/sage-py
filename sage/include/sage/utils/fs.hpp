@@ -52,10 +52,11 @@ namespace sage {
     static bool isDir(const std::string& path);
     static bool isFile(const std::string& path);
 
-    inline static void mkdir(std::string& path) {
+    inline static void mkdir(const std::string& path) {
       using namespace std::string_literals;
 #ifdef SAGE_PLATFORM_WINDOWS
-// Create directory the windows way...
+      // Create directory the windows way...
+      CreateDirectory(path.c_str(), NULL);
 #else
       // Create directory the UNIX way...
       std::system(("mkdir -p "s + path).c_str());

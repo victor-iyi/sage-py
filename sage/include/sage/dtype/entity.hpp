@@ -69,38 +69,50 @@ namespace sage {
      * }
      * ```
      * */
+    // class SAGE_API Scope : public Entity {
+    //  public:
+    //   Scope(const std::map<Text, Entity>& properties)
+    //       : _m_Property(properties) {}
+
+    //   virtual ~Scope() override {}
+
+    //   const std::map<Text, Entity>& getProperty() const { return _m_Property;
+    //   } const Text& getID() const { return _m_MachineID; } const Text&
+    //   getType() const { return _m_Type; }
+
+    //   const std::map<Text, Entity>::const_iterator begin() const {
+    //     return _m_Property.begin();
+    //   }
+    //   const std::map<Text, Entity>::const_iterator end() const {
+    //     return _m_Property.end();
+    //   }
+
+    //   bool has(const Text& key) const {
+    //     auto _found = _m_Property.find(key);
+    //     return (_found != _m_Property.end());
+    //   }
+
+    //  private:
+    //   // Unique identification of this scope in the graph.
+    //   const Text _m_MachineID;
+    //   // Should have a property of `"@type": "Text"`.
+    //   const Text _m_Type;
+    //   // Should have a property of dtype::Text: dtype::Entity`.
+    //   std::map<Text, Entity> _m_Property;
+    // };
+
     class SAGE_API Scope : public Entity {
      public:
-      Scope(const std::map<Text, Entity>& properties)
-          : _m_Property(properties) {}
-
+      Scope(const char* const key) : _m_Key(key) {}
       virtual ~Scope() override {}
 
-      const std::map<Text, Entity>& getProperty() const { return _m_Property; }
-      const Text& getID() const { return _m_MachineID; }
-      const Text& getType() const { return _m_Type; }
-
-      const std::map<Text, Entity>::const_iterator begin() const {
-        return _m_Property.begin();
-      }
-      const std::map<Text, Entity>::const_iterator end() const {
-        return _m_Property.end();
-      }
-
-      bool has(const Text& key) const {
-        auto _found = _m_Property.find(key);
-        return (_found != _m_Property.end());
-      }
+      const Text& key() const { return this->_m_Key; }
 
      private:
-      // Unique identification of this scope in the graph.
-      const Text _m_MachineID;
-      // Should have a property of `"@type": "Text"`.
-      const Text _m_Type;
-      // Should have a property of dtype::Text: dtype::Entity`.
-      std::map<Text, Entity> _m_Property;
+      Text _m_Key;
+      // std::vector<graph::Node> _m_Value;
+      Text _m_MachineID;
     };
-
   }  // namespace dtype
 
 }  // namespace sage

@@ -14,7 +14,12 @@ int main() {
       "NioCraft/sage/build/test.jsonld";
 
   sage::File f(filepath);
-  json content = f.loadJSON();
-  std::cout << content.dump() << '\n';
+  json contents = f.loadJSON();
+  std::cout << contents.dump() << '\n';
+
+  for (const auto& content : contents.items()) {
+    std::cout << "Key: " << content.key();
+    std::cout << "\tValue: " << content.value() << '\n';
+  }
 
 }
