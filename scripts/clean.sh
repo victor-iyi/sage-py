@@ -60,7 +60,7 @@ py_clean() {
 	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 }
 
-py_clean && echo -e "${cyan}
+py_clean && echo -e "${yellow}
   Tasks:${green}
     - [x] Clean __pycache__ & *.py[co] files.${reset}
     - [ ] Clean CMake & Cython temp build files.
@@ -85,7 +85,7 @@ if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
 	#   $ unset GLOBIGNORE
 
 	# DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
-	GLOBIGNORE=compile_commands.json:argparse.sh
+	GLOBIGNORE=compile_commands.json:argparse.sh:test.jsonld
 
 	# Remove everything in this directory except GLOBIGNORE
 	rm -rf -v *
@@ -93,7 +93,7 @@ if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
 	# Unset the GLOBIGNORE flag.
 	unset GLOBIGNORE
 
-	echo -e "${cyan}
+	echo -e "${yellow}
   Tasks:${green}
     - [x] Clean __pycache__ & *.py[co] files.
     - [x] Clean CMake & Cython temp build files.${reset}
@@ -122,7 +122,7 @@ sleep .5s
 # 	# Remove everything in this directory except GLOBIGNORE
 #   rm **.so
 
-# 	echo -e "${cyan}
+# 	echo -e "${yellow}
 #   Tasks:${green}
 #     - [x] Clean __pycache__ & *.py[co] files.
 #     - [x] Clean CMake & Cython temp build files.

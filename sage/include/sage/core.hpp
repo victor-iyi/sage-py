@@ -1,9 +1,13 @@
 #ifndef SAGE_CORE_HPP
 #define SAGE_CORE_HPP
 
+#include "sage/config.hpp"
+
 // SAGE_API
 #ifdef SAGE_PLATFORM_WINDOWS
   #ifdef SAGE_BUILD_DLL
+    #define SAGE_API __declspec(dllexport)
+  #elif SAGE_BUILD_STATIC
     #define SAGE_API __declspec(dllexport)
   #else
     #define SAGE_API __declspec(dllimport)
