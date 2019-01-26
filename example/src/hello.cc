@@ -12,14 +12,16 @@ int main() {
   const char* const filepath =
       "/Users/victor/Documents/Work/"
       "NioCraft/sage/build/test.jsonld";
+  sage::graph::KnowledgeGraph g;
+  g.load(filepath);
 
-  sage::File f(filepath);
-  json contents = f.loadJSON();
-  std::cout << contents.dump() << '\n';
+  // sage::File f(filepath);
+  // json contents = f.loadJSON();
+  // std::cout << contents.dump() << '\n';
 
-  for (const auto& content : contents.items()) {
-    std::cout << "Key: " << content.key();
-    std::cout << "\tValue: " << content.value() << '\n';
-  }
+  // for (const auto& content : contents.items()) {
+  //   std::cout << "Key: " << content.key();
+  //   std::cout << "\tValue: " << content.value() << '\n';
+  // }
 
 }

@@ -4,6 +4,14 @@
 namespace sage {
 
   namespace graph {
+    // template<typename Args&&...>
+    void Scope::emplace(const char* const key, const char*const value, bool is_scope) {
+      this->_m_Connections.emplace_back(key, value, is_scope);
+    }
+    void Scope::addNode(const char* key, const char* value) {
+      this->_m_Connections.emplace_back(key, value, false);
+    }
+    void Scope::addScope(const char * key) {this->_m_Connections.emplace_back(key);}
 
     void KnowledgeGraph::load(const char* const path) {
       // TODO: Validate `path` is a JSON-LD file.
@@ -18,14 +26,14 @@ namespace sage {
     void KnowledgeGraph::load(const nlohmann::json& data) {
       for (const auto& content : data.items()) {
         if (content.value().is_structured()) {
-          // It's either an array or object (Another Scope).
-          this->load(content.value()); // Recurse.
+          // At this point, we're a scope.
+          Scope scope(content.key().c_str());
         } else {
-          // It's part of current scope.
+          // Just a node, no biggie.
+          this->_m_Root.addNode(content.key().c_str(), content.key().c_str());
         }
       }
-
     }
-  }
+  }  // namespace graph
 
 }  // namespace sage

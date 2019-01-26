@@ -58,6 +58,19 @@ namespace sage {
       Text _m_Value;
     };
 
+    class SAGE_API Scope : public Entity {
+     public:
+      Scope(const char* const key) : _m_Key(key) {}
+      virtual ~Scope() override {}
+
+      const Text& key() const { return this->_m_Key; }
+
+     private:
+      Text _m_Key;
+      // std::vector<graph::Node> _m_Value;
+      Text _m_MachineID;
+    };
+
     /**
      * A Scope is simply an Entity of type Property i.e Entity<Property<Type>>
      * ```
@@ -101,18 +114,6 @@ namespace sage {
     //   std::map<Text, Entity> _m_Property;
     // };
 
-    class SAGE_API Scope : public Entity {
-     public:
-      Scope(const char* const key) : _m_Key(key) {}
-      virtual ~Scope() override {}
-
-      const Text& key() const { return this->_m_Key; }
-
-     private:
-      Text _m_Key;
-      // std::vector<graph::Node> _m_Value;
-      Text _m_MachineID;
-    };
   }  // namespace dtype
 
 }  // namespace sage
