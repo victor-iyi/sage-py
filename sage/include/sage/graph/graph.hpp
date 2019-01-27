@@ -13,15 +13,24 @@ namespace sage {
     class SAGE_API Node {
      public:
       Node(const char* const key, bool isScope = false)
-          : _m_IsScope(isScope), _m_Key(key), _m_Value(nullptr) {}
+          : _m_IsScope(isScope), _m_Key(key), _m_Value("") {}
       Node(const char* const key, const char* const value, bool isScope = false)
           : _m_IsScope(isScope), _m_Key(key), _m_Value(value) {}
 
-      Node(const Node& other) : _m_IsScope(other._m_IsScope), _m_Key(other._m_Key), _m_Value(other._m_Value) {}
+      Node(const Node& other)
+          : _m_IsScope(other._m_IsScope),
+            _m_Key(other._m_Key),
+            _m_Value(other._m_Value) {}
 
-      bool isScope() const { return this->_m_IsScope; }
+      inline bool isScope() const { return this->_m_IsScope; }
       const dtype::Text& key() const { return this->_m_Key; }
       const dtype::Text& value() const { return this->_m_Value; }
+
+      friend std::ostream& operator<<(std::ostream& stream, const Node& node) {
+        // key : value
+        stream << '"' << node._m_Key << "\" : " << node._m_Value;
+        return stream;
+      }
 
      private:
       bool _m_IsScope;  // If this node is a Scope, it has children.
@@ -36,18 +45,30 @@ namespace sage {
      public:
       Scope(const char* const key) : Node(key, true) {}
 
-      void emplace(const char* const key, const char* const value, bool is_scope);
       void addNode(const char* const key, const char* const value);
       void addScope(const char* const key);
 
-      const std::vector<Node*>& getConnections() const {
+      const std::vector<Node>& getConnections() const {
         return this->_m_Connections;
       }
       const dtype::Text& id() const { return this->_m_MachineID; }
 
+      friend std::ostream& operator<<(std::ostream& stream,
+                                      const Scope& scope) {
+        // key<ID> : {
+        //  key:value
+        // }
+        stream << scope.key() << '(' << scope._m_MachineID << ") : {\n";
+        for (const Node& node : scope._m_Connections) {
+          stream << std::setw(4) << node << '\n';
+        }
+        stream << '}';
+        return stream;
+      }
+
      private:
       dtype::Text _m_MachineID;
-      std::vector<Node*> _m_Connections;
+      std::vector<Node> _m_Connections;
     };
 
     /**
@@ -55,9 +76,11 @@ namespace sage {
      * */
     class SAGE_API KnowledgeGraph {
      public:
-      KnowledgeGraph() = default;
+      KnowledgeGraph() : _m_Root("ns") {}
       void load(const char* const path);
-      void load(const nlohmann::json& data);
+      void load(Scope& base, const nlohmann::json& data);
+
+      const Scope& scope() const { return this->_m_Root; }
 
      private:
       Scope _m_Root;

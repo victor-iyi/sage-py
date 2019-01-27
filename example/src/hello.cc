@@ -7,14 +7,14 @@ int main() {
     exit(1);
   }
 
-  using json = nlohmann::json;
 
   const char* const filepath =
       "/Users/victor/Documents/Work/"
       "NioCraft/sage/build/test.jsonld";
   sage::graph::KnowledgeGraph g;
   g.load(filepath);
-
+  std::cout << g.scope() << '\n';
+  // using json = nlohmann::json;
   // sage::File f(filepath);
   // json contents = f.loadJSON();
   // std::cout << contents.dump() << '\n';

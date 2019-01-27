@@ -72,7 +72,7 @@ namespace sage {
       Type(bool data) : _m_Data(data) {}
       Type(const Type<bool>& other) { this->_m_Data = other._m_Data; }
 
-      bool data() const { return this->_m_Data; }
+      inline bool data() const { return this->_m_Data; }
 
       Type<bool> operator=(bool rhs) {
         this->_m_Data = rhs;
@@ -112,7 +112,7 @@ namespace sage {
       Type(double data) : _m_Data(data) {}
       Type(const Type<double>& other) { this->_m_Data = other._m_Data; }
 
-      double data() const { return this->_m_Data; }
+      inline double data() const { return this->_m_Data; }
 
       Type<double> operator=(double rhs) {
         this->_m_Data = rhs;
@@ -185,7 +185,7 @@ namespace sage {
       Type(int data) : _m_Data(data) {}
       Type(const Type<int>& other) { this->_m_Data = other._m_Data; }
 
-      int data() const { return this->_m_Data; }
+      inline int data() const { return this->_m_Data; }
 
       Type<int> operator=(int rhs) {
         this->_m_Data = rhs;
