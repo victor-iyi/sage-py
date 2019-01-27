@@ -6,6 +6,10 @@
 namespace sage {
 
   namespace graph {
+
+    class SAGE_API Scope;
+    std::ostream& operator<<(std::ostream& stream, const Scope& scope);
+
     /**
      * Node class
      *
@@ -28,7 +32,12 @@ namespace sage {
 
       friend std::ostream& operator<<(std::ostream& stream, const Node& node) {
         // key : value
-        stream << '"' << node._m_Key << "\" : " << node._m_Value;
+        // TODO: If node is a Scope: Call the scope operator<<.
+        // if (node._m_IsScope) {
+        //   graph::Scope* s = (graph::Scope*)&node;
+        //   stream << *s;
+        // } else
+          stream << '"' << node._m_Key << "\" : " << node._m_Value;
         return stream;
       }
 
@@ -60,6 +69,7 @@ namespace sage {
         // }
         stream << scope.key() << '(' << scope._m_MachineID << ") : {\n";
         for (const Node& node : scope._m_Connections) {
+          // Print as a node.
           stream << std::setw(4) << node << '\n';
         }
         stream << '}';
@@ -73,7 +83,7 @@ namespace sage {
 
     /**
      * Knowledge Graph.
-     * */
+     */
     class SAGE_API KnowledgeGraph {
      public:
       KnowledgeGraph() : _m_Root("ns") {}
