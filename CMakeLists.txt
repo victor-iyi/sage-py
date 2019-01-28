@@ -108,7 +108,7 @@ endif()
 if(NOT CONFIGURED_ONCE)
   # Make CMake Configurations to be available in source files.
   configure_file(# Where configurations are defined.
-                 "${CMAKE_SOURCE_DIR}/config/config.hpp.in"
+                 "${CMAKE_SOURCE_DIR}/config/cpp/config.hpp.in"
                  # Where CMake writes auto configuration @build time.
                  "${SAGE_LIB_DIR}/include/sage/config.hpp")
 
