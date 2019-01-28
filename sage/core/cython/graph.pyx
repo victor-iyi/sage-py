@@ -1,4 +1,4 @@
-"""
+"""Knowledge Graph.
 
    @author
      Victor I. Afolabi
@@ -7,15 +7,18 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: node.pyx
-     Created on 28 January, 2019 @ 12:52 PM.
+     File: graph.pyx.py
+     Created on 28 January, 2019 @ 14:18.
 
    @license
-     Apache License 2.0
+     MIT License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
-
+# Built-in libraries.
+import json
 import uuid
+
+from typing import AnyStr, Dict, List, Union
 
 
 class Node:
@@ -94,3 +97,44 @@ class Scope(Node):
     @property
     def id(self):
         return self._id
+
+
+class Graph:
+    def __init__(self, path, **kwargs):
+        self._root = Scope("ns")
+        with open(path) as f:
+            data = json.loads(f.read())
+        self.load(self._root, data)
+
+    def __repr__(self):
+        return 'Graph(root={:!r})'.format(self._root)
+
+    def __str__(self):
+        return self._root.__str__()
+
+    def __format__(self, format_spec):
+        if '!r' in format_spec:
+            return self.__repr__()
+        else:
+            return self.__str__()
+
+    def load(self, base: Scope, data: Union[Dict, List, AnyStr]):
+        if isinstance(data, (dict, list)):
+            data_it = data.items() if isinstance(data, dict) else enumerate(data)
+            for key, value in data_it:
+                # print(key, value)
+                if isinstance(value, str):
+                    base.add_node(Node(key, value))
+                elif isinstance(value, (dict, list)):
+                    scope = Scope(key)
+                    self.load(scope, value)
+                    base.add_scope(scope)
+        # elif isinstance(value, str):
+        #     base.add_node(Node(key, value))
+        else:
+            raise TypeError('Expected one of List, Dict, Str. Got {}'
+                            .format(type(data)))
+
+    @property
+    def root(self):
+        return self._root

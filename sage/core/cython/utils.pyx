@@ -15,25 +15,25 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
+import logging
 # Built-in libraries.
 import os
-import sys
 import pickle
-import logging
+import sys
 import tarfile
-import zipfile
 import urllib.request
-
+import zipfile
 from abc import ABCMeta
 from logging.config import fileConfig
-from typing import Iterable, Callable
+from typing import Callable, Iterable
 
 # Third-party library.
 import numpy as np
-# from nltk import word_tokenize
 
 # Custom libraries.
 from config import consts
+
+# from nltk import word_tokenize
 
 # Exported classes and functions.
 __all__ = [

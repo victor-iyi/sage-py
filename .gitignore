@@ -202,4 +202,3 @@ instance/
 
 ### Project specific
 vendor/**
-*.gch
