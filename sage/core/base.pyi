@@ -11,22 +11,16 @@
      Created on 28 January, 2019 @ 12:42.
 
    @license
-     MIT License
+     Apache License 2.0
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
 # Built-in libraries.
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 from typing import (
-    Union, Tuple, List, Iterable,
-    Dict, Optional, Any, TypeVar
+    Union, List, Iterable,
+    Dict, Optional, Any
 )
-
-# Third-party libraries.
-import numpy as np
-
-# Type alias.
-_Tensor = TypeVar('_Tensor')
 
 
 class Mode(metaclass=ABCMeta):
@@ -67,20 +61,3 @@ class Base(object, metaclass=ABCMeta):
     def _get_args(self) -> List[Any]: ...
 
     def _get_kwargs(self) -> Dict[str, Any]: ...
-
-
-class ModelBase(Base, metaclass=ABCMeta):
-    name = ...  # type: str
-    mode = ...  # type: str
-    cache = ...  # type: bool
-    cache_dir = ...  # type: str
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
-
-    def __call__(self, *args: Any, **kwargs: Any) -> Any: ...
-
-    @abstractmethod
-    def call(self, *args: Any, **kwargs: Any) -> Any: ...
-
-    @staticmethod
-    def int_shape(x: _Tensor) -> Tuple[int]: ...

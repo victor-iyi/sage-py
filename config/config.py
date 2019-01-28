@@ -11,7 +11,7 @@
      Created on 27 January, 2018 @ 01:00 PM.
 
    @license
-     MIT License
+     Apache License 2.0
      Copyright (c) 2018. Victor I. Afolabi. All rights reserved.
 """
 # Built-in libraries.

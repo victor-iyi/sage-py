@@ -11,16 +11,16 @@
      Created on 28 January, 2019 @ 12:43.
 
    @license
-     MIT License
+     Apache License 2.0
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from sage.core.base import Base, Mode, ModelBase
+from sage.core.base import Base, Mode
 from sage.core.utils import Log, File, Cache, Downloader
 
 __all__ = [
     # Base class.
-    'Base', 'ModelBase', 'Mode',
+    'Base', 'Mode',
 
     # Utils class.
     'Downloader', 'Cache', 'File', 'Log',

@@ -11,7 +11,7 @@
      Created on 28 January, 2019 @ 12:49 PM.
 
    @license
-     MIT License
+     Apache License 2.0
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
@@ -356,7 +356,6 @@ class Log(metaclass=ABCMeta):
         cdef str msg = "\r- Progress: {0:.02%}".format(pct_complete)
 
         # Print it.
-        # Log.log(msg)
         sys.stdout.write(msg)
         sys.stdout.flush()
 

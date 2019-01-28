@@ -11,6 +11,6 @@
      Created on 28 January, 2019 @ 12:53 PM.
 
    @license
-     MIT License
+     Apache License 2.0
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
