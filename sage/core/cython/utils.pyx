@@ -312,6 +312,10 @@ class Log(metaclass=ABCMeta):
         Log._logger.critical(*args, **kwargs)
 
     @staticmethod
+    def exception(*args, **kwargs):
+        Log._logger.exception(*args, **kwargs)
+
+    @staticmethod
     def fatal(*args, **kwargs):
         cdef int code = kwargs.pop('code', 1)
         Log._logger.fatal(*args, **kwargs)

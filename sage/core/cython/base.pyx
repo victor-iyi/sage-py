@@ -37,7 +37,7 @@ class Mode:
     TRAIN = 'train'
     PREDICT = 'predict'
     VALIDATE = 'validation'
-    VAL = VALIDATE
+    INFERENCE = 'inference'
 
 
 ################################################################################################
@@ -87,7 +87,8 @@ class Base(object, metaclass=ABCMeta):
             return
 
         # Validate log levels.
-        cdef tuple _levels = ('log', 'debug', 'info', 'warn', 'error', 'critical')
+        cdef tuple _levels = ('log', 'debug', 'info', 'warn',
+                              'error', 'critical', 'exception')
         if level.lower() not in _levels:
             raise ValueError("`level` must be one of {}".format(_levels))
 
