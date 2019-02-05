@@ -11,6 +11,9 @@ namespace sage {
     void Scope::addScope(const char* const key) {
       this->_m_Connections.push_back(std::move(Scope(key)));
     }
+    void Scope::addScope(const Scope& scope) {
+      this->_m_Connections.push_back(scope);
+    }
 
     void KnowledgeGraph::load(const char* const path) {
       // TODO: Validate `path` is a JSON-LD file.
@@ -26,8 +29,9 @@ namespace sage {
       for (const auto& content : data.items()) {
         if (content.value().is_structured()) {
           // At this point, we're a scope.
+          Scope scope(content.key().c_str());
+          this->load(scope, content.value());
           base.addScope(content.key().c_str());
-          // this->load(base, content.value());
         } else {
           // Just a node, no biggie.
           // Remove quotes (") from begining & end of the string.

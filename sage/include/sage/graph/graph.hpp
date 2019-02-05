@@ -35,9 +35,9 @@ namespace sage {
         // TODO: If node is a Scope: Call the scope operator<<.
         // if (node._m_IsScope) {
         //   graph::Scope* s = (graph::Scope*)&node;
-        //   stream << *s;
+        //   stream << s;
         // } else
-          stream << '"' << node._m_Key << "\" : " << node._m_Value;
+        stream << '"' << node._m_Key << "\" : " << node._m_Value;
         return stream;
       }
 
@@ -56,6 +56,7 @@ namespace sage {
 
       void addNode(const char* const key, const char* const value);
       void addScope(const char* const key);
+      void addScope(const Scope& scope);
 
       const std::vector<Node>& getConnections() const {
         return this->_m_Connections;
@@ -67,10 +68,14 @@ namespace sage {
         // key<ID> : {
         //  key:value
         // }
-        stream << scope.key() << '(' << scope._m_MachineID << ") : {\n";
+        stream << scope.key() << '<' << scope._m_MachineID << "> : {\n";
         for (const Node& node : scope._m_Connections) {
-          // Print as a node.
-          stream << std::setw(4) << node << '\n';
+          // if (node.isScope()) {
+          //   // print as a scope.
+          //   stream << std::setw(4) << node.key() << '\n';
+          // } else
+            // Print as a node.
+            stream << std::setw(4) << node << '\n';
         }
         stream << '}';
         return stream;

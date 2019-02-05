@@ -20,36 +20,50 @@ import uuid
 
 from typing import AnyStr, Dict, List, Union
 
+ctypedef fused Entity:
+    str
+    Node
+    list
 
-class Node:
-    def __init__(self, key: str, value=None, **kwargs):
-        self._key = key
-        self._value = value
-        self._is_scope = kwargs.get('is_scope', False)
+cdef class Node:
+    cdef:
+        str key
+        Entity*value
+        bool is_scope
+
+    def __cinit__(self, key, value=None, bool is_scope=False):
+        self.key = key
+        self.value = value
+        self.is_scope = is_scope
+
+    property key:
+        def __get__(self):
+            return self.key
+        def __set__(self, str key):
+            self.key = key
+
+    property value:
+        def __get__(self):
+            return self.value
+        def __set__(self, Entity value):
+            self.value = value
+
+    property is_scope:
+        def __get__(self):
+            return self.is_scope
+        def __set__(self, bool is_scope):
+            self.is_scope = is_scope
 
     def __repr__(self):
-        return 'Node({}, value={})'.format(self._key, self._value)
+        return 'Node({}, value={})'.format(self.key, self.value)
 
     def __str__(self):
-        return '"{}" : "{}"'.format(self._key, self._value)
+        return '"{}" : "{}"'.format(self.key, self.value)
 
     def __format__(self, format_spec):
         if format_spec == "!r":
             return self.__repr__()
-        else:
-            return self.__str__()
-
-    @property
-    def key(self):
-        return self._key
-
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def is_scope(self):
-        return self._is_scope
+        return self.__str__()
 
 
 class Scope(Node):
@@ -67,14 +81,13 @@ class Scope(Node):
         return 'Scope({}, value={})'.format(self._key, self._value)
 
     def __str__(self):
-        msg = self.__print(self)
-        return msg
+        return self.__print(self)
 
     def __iter__(self):
         for v in self._value:
             yield v
 
-    def __print(self, base, so_far=""):
+    def __print(self, base: Node, so_far=""):
         if isinstance(base, Scope):
             so_far = "{}<{}>: {{\n".format(base.key, base.id)
             for child in base:
@@ -91,12 +104,24 @@ class Scope(Node):
     def add_scope(self, scope):
         self._value.append(scope)
 
-    def add_node(self, node):
+    def add_node(self, node: Node):
         self._value.append(node)
 
     @property
     def id(self):
         return self._id
+
+    @property
+    def key(self):
+        return self._key
+
+    @property
+    def value(self):
+        return self._value
+
+    @property
+    def namespace(self):
+        return self._namespace
 
 
 class Graph:
@@ -115,8 +140,7 @@ class Graph:
     def __format__(self, format_spec):
         if '!r' in format_spec:
             return self.__repr__()
-        else:
-            return self.__str__()
+        return self.__str__()
 
     def load(self, base: Scope, data: Union[Dict, List, AnyStr]):
         if isinstance(data, (dict, list)):

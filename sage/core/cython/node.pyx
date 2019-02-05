@@ -16,10 +16,14 @@
 """
 
 import uuid
+from typing import List
+
+from sage.core.base import Base
 
 
-class Node:
+class Node(Base):
     def __init__(self, key: str, value=None, **kwargs):
+        super(Node, self).__init__(**kwargs)
         self._key = key
         self._value = value
         self._is_scope = kwargs.get('is_scope', False)
@@ -30,11 +34,10 @@ class Node:
     def __str__(self):
         return '"{}" : "{}"'.format(self._key, self._value)
 
-    def __format__(self, format_spec):
+    def __format__(self, format_spec: str):
         if format_spec == "!r":
             return self.__repr__()
-        else:
-            return self.__str__()
+        return self.__str__()
 
     @property
     def key(self):
@@ -50,26 +53,37 @@ class Node:
 
 
 class Scope(Node):
-    def __init__(self, key: str, **kwargs):
+    def __init__(self, key: str, value: List[Node] = None, **kwargs):
         super(Scope, self).__init__(key, is_scope=True, **kwargs)
 
-        self._value = kwargs.get('value', [])
+        self._value = value or []
         self._namespace = kwargs.get('namespace', uuid.NAMESPACE_OID)
 
         self._generator = uuid.uuid5(namespace=self._namespace,
                                      name=str(key))
         self._id = self._generator.hex
+        self.__i = 0  # iterator counter.
 
     def __repr__(self):
         return 'Scope({}, value={})'.format(self._key, self._value)
 
     def __str__(self):
-        msg = self.__print(self)
-        return msg
+        return self.__print(self)
 
     def __iter__(self):
-        for v in self._value:
-            yield v
+        return self
+
+    def __len__(self):
+        return len(self._value)
+
+    def __next__(self):
+        if self.__i >= len(self._value):
+            raise StopIteration()
+
+        ret = self._value[self.__i]
+        self.__i += 1
+
+        return ret
 
     def __print(self, base, so_far=""):
         if isinstance(base, Scope):

@@ -6,8 +6,8 @@ reset='\033[0m'      # Text Reset
 # Regular Colors.
 red='\033[0;31m'     # Red
 purple='\033[0;35m'  # Purple
-yellow='\033[0;33m'  # Yellow
 green='\033[0;32m'   # Green
+#yellow='\033[0;33m'  # Yellow
 
 # Bold.
 bred='\033[1;31m'    # Red
@@ -35,7 +35,7 @@ CLEAN_BUILD="NO"        # -c --clean-build
 function usage() {
 	echo -e "${bpurple}Description:${purple} Build script for sage.${reset}"
 	echo
-	echo -e "${bwhite}Usage: ${green}${BASH_SOURCE}${reset}
+	echo -e "${bwhite}Usage: ${green}${BASH_SOURCE[0]}${reset}
     -h   | --help            = Show this help message.
     -G   | --generator-name  = Specify a build system generator: <${GENERATOR}> \"Xcode\" | \"Unix Makefiles\"
     -b   | --build-type      = Build type: <${BUILD_TYPE}> \"Debug\" | \"Release\".
@@ -53,7 +53,7 @@ function usage() {
 ################################################################################################
 # Parser loop.
 for i in "$@"; do
-	case $i in
+	case ${i} in
 	-h | -H | --help)
 		usage
 		exit
@@ -78,10 +78,10 @@ for i in "$@"; do
 		JOBS="${i#*=}"
 		shift # past argument=value
 		;;
-	--default)
-		DEFAULT=YES
-		shift # past argument with no value
-		;;
+#	--default)
+#		DEFAULT=YES
+#		shift # past argument with no value
+#		;;
 	*)
 		# unknown option
 		echo -e "${bred}ERROR: ${red}Unknown parameter \"$i\"${reset}"
