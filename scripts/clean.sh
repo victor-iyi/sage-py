@@ -112,10 +112,10 @@ sleep .5s
 # | Cython lib & src files.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-# AVATAR_CORE_DIR="${AVATAR_DIR}/core"
-# if [[ -d ${AVATAR_CORE_DIR} ]]; then
+# SAGE_CORE_DIR="${SAGE_DIR}/core"
+# if [[ -d ${SAGE_CORE_DIR} ]]; then
 # 	# Change directory to Cython dir.
-# 	cd ${AVATAR_CORE_DIR} || exit
+# 	cd ${SAGE_CORE_DIR} || exit
 
 # 	echo -e "${bwhite}Removing Cython shared objects & DLLs...${reset}"
 
@@ -134,7 +134,7 @@ sleep .5s
 
 # else
 # 	echo
-# 	echo -e "${red}No such file or directory: ${ured}\"${AVATAR_CORE_DIR}\"${reset}"
+# 	echo -e "${red}No such file or directory: ${ured}\"${SAGE_CORE_DIR}\"${reset}"
 # fi
 
 echo
