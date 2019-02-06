@@ -11,7 +11,7 @@ purple='\033[0;35m'  # Purple
 #white='\033[0;37m'  # White
 
 # Bold.
-#bred='\033[1;31m'   # Red
+bred='\033[1;31m'   # Red
 bpurple='\033[1;35m' # Purple
 bgreen='\033[1;32m'  # Green
 bwhite='\033[1;37m'  # White
@@ -62,7 +62,7 @@ JOBS="4"                          # -j --jobs
 function usage() {
   echo -e "${bpurple}Description:${purple} Build script for sage.${reset}"
   echo
-  echo -e "${bwhite}Usage: ${green}${BASH_SOURCE}${reset}
+  echo -e "${bwhite}Usage: ${green}${BASH_SOURCE[0]}${reset}
     -h   | --help            = Show this help message.
     -v   | --py-version      = Which python version to use: <${PY_VERSION}>.
     -e   | --py-executable   = Path to python executable: <${PY_EXE}>.
@@ -82,7 +82,7 @@ function usage() {
 ################################################################################################
 # Parser loop.
 for i in "$@"; do
-  case $i in
+  case ${i} in
   -h | -H | --help)
     usage
     exit
@@ -111,10 +111,10 @@ for i in "$@"; do
     JOBS="${i#*=}"
     shift # past argument=value
     ;;
-  --default)
-    DEFAULT=YES
-    shift # past argument with no value
-    ;;
+#  --default)
+#    DEFAULT=YES
+#    shift # past argument with no value
+#    ;;
   *)
     # unknown option
     echo -e "${bred}ERROR: ${red}Unknown parameter \"$i\"${reset}"

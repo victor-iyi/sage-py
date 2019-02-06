@@ -17,6 +17,8 @@
 
 from sage.core.base import Base, Mode
 from sage.core.utils import Log, File, Cache, Downloader
+from sage.core.graph import Graph
+
 
 __all__ = [
     # Base class.
@@ -24,4 +26,7 @@ __all__ = [
 
     # Utils class.
     'Downloader', 'Cache', 'File', 'Log',
+
+    # Knowledge Graph.
+    'Graph',
 ]
