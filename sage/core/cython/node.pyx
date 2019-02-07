@@ -17,7 +17,6 @@
 
 import uuid
 from typing import List
-
 from sage.core.base import Base
 
 

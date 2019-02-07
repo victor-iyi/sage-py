@@ -65,19 +65,18 @@ class Scope(Node):
         return 'Scope({}, value={})'.format(self._key, self._value)
 
     def __str__(self):
-        msg = self.__print(self)
-        return msg
+        return self.__print(self)
 
     def __iter__(self):
         for v in self._value:
             yield v
 
-    def __print(self, base, so_far=""):
+    def __print(self, base, so_far=''):
         if isinstance(base, Scope):
             so_far = "{}<{}>: {{\n".format(base.key, base.id)
             for child in base:
                 so_far += self.__print(child, so_far)
-            so_far += "}"
+            so_far += '}'
         elif isinstance(base, Node):
             so_far = "\t{:!s},".format(base)
         else:

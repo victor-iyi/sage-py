@@ -120,7 +120,7 @@ class Downloader(metaclass=ABCMeta):
             os.makedirs(extract_dir)
 
         # Read mode.
-        mode = "r"
+        cdef str mode = "r"
 
         if zipfile.is_zipfile(file):
             Extractor = zipfile.ZipFile
