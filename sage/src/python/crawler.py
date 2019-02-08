@@ -18,7 +18,7 @@
 import urllib3
 from bs4 import BeautifulSoup
 
-url = 'https://health-science/schema.org'
+url = 'https://health-lifesci.schema.org/'
 
 # Requesting web page source code.
 http = urllib3.PoolManager()
