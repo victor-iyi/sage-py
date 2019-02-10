@@ -35,7 +35,7 @@ branches:
   only:
     - master
     - develop
-    - /^r-.*$/
+    - /^v-.*$/
 
 notifications:
   email: false
