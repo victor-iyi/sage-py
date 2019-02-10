@@ -33,8 +33,6 @@ import numpy as np
 # Custom libraries.
 from config import consts
 
-# from nltk import word_tokenize
-
 # Exported classes and functions.
 __all__ = [
     'Downloader', 'Cache', 'File', 'Log',
@@ -392,7 +390,6 @@ class Log(metaclass=ABCMeta):
         cdef float pct_complete = float(block_no * read_size) / float(file_size)
 
         cdef str msg = "\r\t -Download progress {:.02%}".format(pct_complete)
-        # Log.log(msg)
         sys.stdout.stdwrite(msg)
         sys.stdout.flush()
 

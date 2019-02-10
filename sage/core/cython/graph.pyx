@@ -28,7 +28,7 @@ ctypedef fused Vertex_t:
 cdef class Node(object):
     cdef:
         # Vertex_t _value
-        str _key
+        readonly str _key
         readonly bint _is_scope
 
     def __init__(self, key: str, value=None, **kwargs):
@@ -50,21 +50,19 @@ cdef class Node(object):
     property key:
         def __get__(self):
             return self._key
-        def __set__(self, key):
-            self._key = key
+    property is_scope:
+        def __get__(self):
+            return self._is_scope
 
     property value:
         def __get__(self):
             return self._value
         def __set__(self, value):
             self._value = value
-    property is_scope:
-        def __get__(self):
-            return self._is_scope
 
 cdef class Scope(Node):
     cdef:
-        str _id
+        readonly str _id
 
     def __init__(self, key: str, value: Any = None, **kwargs):
         super(Scope, self).__init__(key, value=value, is_scope=True, **kwargs)
@@ -112,9 +110,10 @@ cdef class Scope(Node):
         def __get__(self):
             return self._value
 
-
 cdef class Graph:
-    def __init__(self, path, **kwargs):
+    cdef readonly Scope _root
+
+    def __init__(self, str path, **kwargs):
         self._root = Scope("ns")
         with open(path) as f:
             data = json.loads(f.read())
@@ -126,12 +125,15 @@ cdef class Graph:
     def __str__(self):
         return self._root.__str__()
 
-    def __format__(self, format_spec):
+    def __format__(self, str format_spec):
         if '!r' in format_spec:
             return self.__repr__()
         return self.__str__()
 
-    cpdef void load(self, base: Scope, data: Union[Dict, List, AnyStr]):
+    cpdef void load(self, Scope base, data: Union[Dict, List, AnyStr]):
+        cdef:
+            str key
+            Scope scope
         if isinstance(data, (dict, list)):
             data_it = data.items() if isinstance(data, dict) else enumerate(data)
             for key, value in data_it:
@@ -146,6 +148,6 @@ cdef class Graph:
             raise TypeError('Expected one of List, Dict, Str. Got {}'
                             .format(type(data)))
 
-    @property
-    def root(self):
-        return self._root
+    property root:
+        def __get__(self):
+            return self._root

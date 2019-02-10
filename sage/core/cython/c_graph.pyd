@@ -1,4 +1,5 @@
-"""
+"""Graph definition file.
+
    @author
      Victor I. Afolabi
      Artificial Intelligence & Software Engineer.
@@ -6,7 +7,7 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: c_node.pyd
+     File: c_graph.pyd
      Created on 28 January, 2019 @ 13:21.
 
    @license
