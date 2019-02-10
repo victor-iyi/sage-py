@@ -17,10 +17,20 @@
 import json
 import uuid
 
-from typing import Union, List, Dict, AnyStr
+from typing import Union, List, Dict, AnyStr, Any
 
+# Combined type def for a Node & Scope.
+ctypedef fused Vertex_t:
+    str
+    Node
+    Scope
 
-class Node:
+cdef class Node(object):
+    cdef:
+        # Vertex_t _value
+        str _key
+        readonly bint _is_scope
+
     def __init__(self, key: str, value=None, **kwargs):
         self._key = key
         self._value = value
@@ -32,31 +42,35 @@ class Node:
     def __str__(self):
         return '"{}" : "{}"'.format(self._key, self._value)
 
-    def __format__(self, format_spec):
+    def __format__(self, str format_spec):
         if format_spec == "!r":
             return self.__repr__()
         return self.__str__()
 
-    @property
-    def key(self):
-        return self._key
+    property key:
+        def __get__(self):
+            return self._key
+        def __set__(self, key):
+            self._key = key
 
-    @property
-    def value(self):
-        return self._value
+    property value:
+        def __get__(self):
+            return self._value
+        def __set__(self, value):
+            self._value = value
+    property is_scope:
+        def __get__(self):
+            return self._is_scope
 
-    @property
-    def is_scope(self):
-        return self._is_scope
+cdef class Scope(Node):
+    cdef:
+        str _id
 
+    def __init__(self, key: str, value: Any = None, **kwargs):
+        super(Scope, self).__init__(key, value=value, is_scope=True, **kwargs)
+        self._value = value or []
 
-class Scope(Node):
-    def __init__(self, key: str, **kwargs):
-        super(Scope, self).__init__(key, is_scope=True, **kwargs)
-
-        self._value = kwargs.get('value', [])
         self._namespace = kwargs.get('namespace', uuid.NAMESPACE_OID)
-
         self._generator = uuid.uuid5(namespace=self._namespace,
                                      name=str(key))
         self._id = self._generator.hex
@@ -71,7 +85,7 @@ class Scope(Node):
         for v in self._value:
             yield v
 
-    def __print(self, base, so_far=''):
+    cdef str __print(self, Vertex_t base, str so_far=''):
         if isinstance(base, Scope):
             so_far = "{}<{}>: {{\n".format(base.key, base.id)
             for child in base:
@@ -85,18 +99,21 @@ class Scope(Node):
         so_far += '\n'
         return so_far
 
-    def add_scope(self, scope):
+    cdef void add_scope(self, Scope scope):
         self._value.append(scope)
 
-    def add_node(self, node):
+    cdef void add_node(self, Node node):
         self._value.append(node)
 
-    @property
-    def id(self):
-        return self._id
+    property id:
+        def __get__(self):
+            return self._id
+    property value:
+        def __get__(self):
+            return self._value
 
 
-class Graph:
+cdef class Graph:
     def __init__(self, path, **kwargs):
         self._root = Scope("ns")
         with open(path) as f:
@@ -112,10 +129,9 @@ class Graph:
     def __format__(self, format_spec):
         if '!r' in format_spec:
             return self.__repr__()
-        else:
-            return self.__str__()
+        return self.__str__()
 
-    def load(self, base: Scope, data: Union[Dict, List, AnyStr]):
+    cpdef void load(self, base: Scope, data: Union[Dict, List, AnyStr]):
         if isinstance(data, (dict, list)):
             data_it = data.items() if isinstance(data, dict) else enumerate(data)
             for key, value in data_it:

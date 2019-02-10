@@ -30,7 +30,7 @@ __all__ = [
 # | Run mode: Tran, test, validation.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-class Mode:
+class Mode(metaclass=ABCMeta):
     TEST = 'test'
     TRAIN = 'train'
     PREDICT = 'predict'
@@ -44,11 +44,14 @@ class Mode:
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 # noinspection PyUnusedLocal
-class Base(object, metaclass=ABCMeta):
-    def __init__(self, *args, **kwargs):
+cdef class Base:
+    cdef:
+        readonly str _name
+        readonly int _verbose
+    def __init__(self, verbose=1, name=None):
         # Verbosity level: 0 or 1.
-        self._verbose = kwargs.setdefault('verbose', 1)
-        self._name = kwargs.setdefault('name', self.__class__.__name__)
+        self._verbose = verbose
+        self._name = name or self.__class__.__name__
 
     def __repr__(self):
         """Object representation of Sub-classes."""
@@ -73,7 +76,7 @@ class Base(object, metaclass=ABCMeta):
         return "{}()".format(self.__class__.__name__,
                              ", ".join(map(str, self._get_args())))
 
-    def __format__(self, format_spec):
+    def __format__(self, str format_spec):
         if format_spec == "!r":
             return self.__repr__()
         return self.__str__()
@@ -93,22 +96,22 @@ class Base(object, metaclass=ABCMeta):
         # Call the appropriate log level, eg: Log.info(*args, **kwargs)
         eval(f'Log.{level.lower()}(*args, **kwargs)')
 
-    def _get_args(self):
+    cpdef list _get_args(self):
         # names = ('data_dir', 'sub_dirs', 'results_dir')
         # return [getattr(self, f'_{name}') for name in names]
         return []
 
-    def _get_kwargs(self):
+    cpdef dict _get_kwargs(self):
         # names = ('verbose', 'version')
         # return [(name, getattr(self, f'_{name}')) for name in names]
         cdef str k
         return sorted([(k.lstrip('_'), getattr(self, f'{k}'))
                        for k in self.__dict__.keys()])
 
-    @property
-    def name(self):
-        return self._name
+    property name:
+        def __get__(self):
+            return self._name
 
-    @property
-    def verbose(self):
-        return self._verbose
+    property verbose:
+        def __get__(self):
+            return self._verbose

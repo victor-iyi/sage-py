@@ -40,15 +40,14 @@ __all__ = [
     'Downloader', 'Cache', 'File', 'Log',
 ]
 
-
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
 # | Downloader: For fetching resources from the internet & extracting compressed files.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-class Downloader(metaclass=ABCMeta):
+cdef class Downloader:
     @staticmethod
-    def maybe_download(str url, str download_dir=None, extract: bool = False, overwrite: bool = False):
+    def maybe_download(str url, str download_dir=None, bint extract=False, bint overwrite=False):
         """Download and extract the data if it doesn't already exist.
 
         Notes:
@@ -74,7 +73,7 @@ class Downloader(metaclass=ABCMeta):
         # Filename for saving the file downloaded from the internet.
         # Use the filename from the URL and add it to the download_dir.
         download_dir = download_dir or "downloads/"
-        filename = os.path.join(download_dir, os.path.basename(url))
+        cdef str filename = os.path.join(download_dir, os.path.basename(url))
 
         # Check if the file already exists.
         # If it exists then we assume it has also been extracted,
@@ -101,7 +100,7 @@ class Downloader(metaclass=ABCMeta):
         return filename
 
     @staticmethod
-    def maybe_extract(str file, str extract_dir=None, overwrite: bool = False):
+    def maybe_extract(str file, str extract_dir=None, bint overwrite=False):
         # Ensure the file exists.
         if not os.path.isfile(file):
             raise FileNotFoundError('"{}" not found!'.format(file))
@@ -176,7 +175,7 @@ class File(metaclass=ABCMeta):
                 Log.info('"{}" has been created.'.format(path))
 
     @staticmethod
-    def get_dirs(str path, exclude: Iterable[str] = None, optimize: bool = False):
+    def get_dirs(str path, exclude: Iterable[str] = None, bint optimize = False):
         """Retrieve all directories in a given path.
 
         Args:
@@ -198,7 +197,7 @@ class File(metaclass=ABCMeta):
         return File.listdir(path, exclude=exclude, dirs_only=True, optimize=optimize)
 
     @staticmethod
-    def get_files(path: str, exclude: Iterable[str] = None, optimize: bool = False):
+    def get_files(str path, exclude: Iterable[str] = None, bint optimize = False):
         """Retrieve all files in a given path.
 
         Args:
@@ -220,9 +219,9 @@ class File(metaclass=ABCMeta):
         return File.listdir(path, exclude=exclude, files_only=True, optimize=optimize)
 
     @staticmethod
-    def listdir(path: str, exclude: Iterable[str] = None,
-                dirs_only: bool = False, files_only: bool = False,
-                optimize: bool = False):
+    def listdir(str path, exclude: Iterable[str] = None,
+                bint dirs_only=False, bint files_only=False,
+                bint optimize=False):
         """Retrieve files/directories in a given path.
 
         Args:
@@ -377,7 +376,7 @@ class Log(metaclass=ABCMeta):
         sys.stdout.flush()
 
     @staticmethod
-    def report_hook(block_no: int, read_size: bytes, file_size: bytes):
+    def report_hook(int block_no, bytes read_size, bytes file_size):
         """Calculates download progress of downloaded files.
 
         Args:
@@ -390,9 +389,9 @@ class Log(metaclass=ABCMeta):
         """
         # Calculates download progress given the block number, a read size,
         #  and the total file size of the URL target.
-        pct_complete = float(block_no * read_size) / float(file_size)
+        cdef float pct_complete = float(block_no * read_size) / float(file_size)
 
-        msg = "\r\t -Download progress {:.02%}".format(pct_complete)
+        cdef str msg = "\r\t -Download progress {:.02%}".format(pct_complete)
         # Log.log(msg)
         sys.stdout.stdwrite(msg)
         sys.stdout.flush()
@@ -405,7 +404,7 @@ class Log(metaclass=ABCMeta):
 ################################################################################################
 class Cache(metaclass=ABCMeta):
     @staticmethod
-    def cache(cache_path: str, fn: Callable, use_numpy: bool = False, *args, **kwargs):
+    def cache(str cache_path, fn: Callable, bint use_numpy=False, *args, **kwargs):
         """Cache-wrapper for a function or class.
 
         Notes:
@@ -434,7 +433,7 @@ class Cache(metaclass=ABCMeta):
             Any: The result of calling the function or creating the object-instance.
         """
         # Extract keyword arguments.
-        verbose = kwargs.pop('verbose', 1)
+        cdef int verbose = kwargs.pop('verbose', 1)
 
         # If the cache-file exists.
         if os.path.exists(cache_path):
@@ -473,13 +472,13 @@ class Cache(metaclass=ABCMeta):
         return obj
 
     @staticmethod
-    def cache_numpy(cache_path: str, fn: Callable, *args, **kwargs):
+    def cache_numpy(str cache_path, fn: Callable, *args, **kwargs):
         return Cache.cache_numpy(cache_path=cache_path,
                                  fn=fn, use_numpy=True,
                                  *args, **kwargs)
 
     @staticmethod
-    def convert_numpy2pickle(in_path: str, out_path: str):
+    def convert_numpy2pickle(str in_path, str out_path):
         """Convert a numpy-file to pickle-file.
 
         Notes:
