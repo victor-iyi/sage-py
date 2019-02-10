@@ -17,14 +17,12 @@
 
 # Built-in libraries.
 from abc import ABCMeta
-from typing import TypeVar
+from typing import Any
 
 # Classes in this file.
 __all__ = [
     'Base', 'Mode'
 ]
-
-_NumPy = TypeVar('_NumPy')
 
 
 ################################################################################################
@@ -54,16 +52,16 @@ class Base(object, metaclass=ABCMeta):
 
     def __repr__(self):
         """Object representation of Sub-classes."""
-        # args = self._get_args()
+        # cdef list args = self._get_args()
         cdef dict kwargs = self._get_kwargs()
 
         # Format arguments.
         # fmt = ", ".join(map(repr, args))
-        cdef str fmt = ""
+        cdef str k, fmt = ""
 
         # Format keyword arguments.
         for k, v in kwargs:
-            if k in ('captions', 'filename', 'ids'):  # Don't include these in print-out.
+            if k in ('filename', 'ids'):  # Don't include these in print-out.
                 continue
             fmt += ", {}={!r}".format(k, v)
 
@@ -80,7 +78,7 @@ class Base(object, metaclass=ABCMeta):
             return self.__repr__()
         return self.__str__()
 
-    def _log(self, *args, str level='log', **kwargs):
+    def _log(self, *args: Any, str level='log', **kwargs: Any):
         """Logging method helper based on verbosity."""
         # No logging if verbose is not 'on'.
         if not kwargs.pop('verbose', self._verbose):
@@ -101,7 +99,7 @@ class Base(object, metaclass=ABCMeta):
         return []
 
     def _get_kwargs(self):
-        # names = ('overwrite', 'sub_dirs', 'verbose', 'version')
+        # names = ('verbose', 'version')
         # return [(name, getattr(self, f'_{name}')) for name in names]
         cdef str k
         return sorted([(k.lstrip('_'), getattr(self, f'{k}'))

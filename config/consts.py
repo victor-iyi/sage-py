@@ -38,21 +38,14 @@ class FS(metaclass=ABCMeta):
     PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
     APP_NAME = os.path.basename(PROJECT_DIR)
 
-    # Static and template folders.
-    STATIC_DIR = os.path.join(PROJECT_DIR, 'static')
-    TEMPLATE_DIR = os.path.join(PROJECT_DIR, 'templates')
+    # Directory to save stuffs.
+    CACHE_DIR = os.path.join(PROJECT_DIR, 'cache')
+    CONFIG_DIR = os.path.join(PROJECT_DIR, 'config')
 
     # Libraries & Include folders.
     LIB_DIR = os.path.join(PROJECT_DIR, 'avatar')
     VENDOR_DIR = os.path.join(LIB_DIR, 'vendor')
     INCLUDE_DIR = os.path.join(PROJECT_DIR, 'include')
-
-    # Public and resource folders.
-    PUBLIC_DIR = os.path.join(STATIC_DIR, 'public')
-    RESOURCE_DIR = os.path.join(PUBLIC_DIR, 'resources')
-
-    # Directory to save stuffs.
-    CACHE_DIR = os.path.join(RESOURCE_DIR, 'cache')
 
 
 ################################################################################################

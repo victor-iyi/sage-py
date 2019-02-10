@@ -79,8 +79,7 @@ class File(metaclass=ABCMeta):
 
         Example:
             ```python
-            >>> import os.path
-            >>> path = os.path.join("path/to", "be/created/")
+            >>> path = File.join("path/to", "be/created/")
             >>> File.make_dirs(path, verbose=1)
             INFO  |  "path/to/be/created/" has been created.
             ```
@@ -150,6 +149,18 @@ class File(metaclass=ABCMeta):
         Returns:
             Union[Generator[str], List[str]]: Generator expression if optimization is turned on,
                 otherwise list of directories in given path.
+        """
+
+    @staticmethod
+    def join(path: Union[str, bytes], *paths: Iterable[Union[str, bytes]]) -> Union[str, bytes]:
+        """Join two or more paths together.
+
+        Args:
+            path (Union[str, bytes]): Base path. Starting point.
+            *paths (Iterable[Union[str, bytes]]): List of paths to be joined to `path`.
+
+        Returns:
+            Union[bytes, str]: Joined path.
         """
 
 
@@ -273,7 +284,32 @@ class Cache(metaclass=ABCMeta):
         """
 
     @staticmethod
-    def cache_numpy(cache_path: str, fn: Callable, *args: Any, **kwargs: Any) -> Any: ...
+    def cache_numpy(cache_path: str, fn: Callable, *args: Any, **kwargs: Any) -> Any:
+        """Cache-wrapper for numpy arrays or objects.
+
+        Notes:
+            If the cache-file exists then the data is reloaded and
+            returned, otherwise the function is called and the result
+            is saved to cache. The fn-argument can also be a class
+            instead, in which case an object-instance is created and
+            saved to the cache-file.
+
+        Args:
+            cache_path (str): File-path for the cache-file.
+            fn (Callable): Function or class to be called.
+            args (Any): Arguments to the function or class-init.
+            kwargs(Dict[str, Any]): Keyword arguments to the function
+                    or class-init.
+
+        Raises:
+            TypeError: Expected a NumPy object, got `type(obj)`.
+
+        See Also:
+            `Cache.cache(...)`
+
+        Returns:
+            Any: The result of calling the function or creating the object-instance.
+        """
 
     @staticmethod
     def convert_numpy2pickle(in_path: str, out_path: str) -> None:

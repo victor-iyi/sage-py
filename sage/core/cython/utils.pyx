@@ -160,7 +160,7 @@ class File(metaclass=ABCMeta):
 
         Example:
             ```python
-            >>> path = os.path.join("path/to", "be/created/")
+            >>> path = File.join("path/to", "be/created/")
             >>> File.make_dirs(path, verbose=1)
             INFO  |  "path/to/be/created/" has been created.
             ```
@@ -268,6 +268,19 @@ class File(metaclass=ABCMeta):
             paths = list(paths)
 
         return paths
+
+    @staticmethod
+    def join(str path, *paths: Iterable[str]):
+        """Join two or more paths together.
+
+        Args:
+            path (Union[str, bytes]): Base path. Starting point.
+            *paths (Iterable[Union[str, bytes]]): List of paths to be joined to `path`.
+
+        Returns:
+            Union[bytes, str]: Joined path.
+        """
+        return os.path.join(path, *paths)
 
 
 ################################################################################################

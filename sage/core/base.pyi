@@ -17,10 +17,7 @@
 
 # Built-in libraries.
 from abc import ABCMeta
-from typing import (
-    Union, List, Iterable,
-    Dict, Optional, Any
-)
+from typing import Union, List, Iterable, Dict, Optional, Any
 
 
 class Mode(metaclass=ABCMeta):
@@ -38,6 +35,34 @@ class Mode(metaclass=ABCMeta):
 
 
 class Base(object, metaclass=ABCMeta):
+    """Base class for objects.
+
+    Methods:
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            # Object initialization.
+
+        def __repr__(self) -> str:
+            # Object representation of class.
+
+        def __str__(self) -> str:
+            # String representation of class.
+
+        def __format__(self, format_spec: Optional[str]) -> str:
+            # For string formatting.
+
+        def _log(self, *args: Any, level: Optional[str] = 'debug', **kwargs: Any) -> None:
+            # Handy logger method for logging & debugging.
+
+        def _get_args(self) -> List[Any]:
+            # Get class arguments.
+
+        def _get_kwargs(self) -> Dict[str, Any]:
+            # Get class keyword arguments.
+
+    Attributes:
+        verbose (int, optional): Defaults to 1.
+        name (str, optional): Class alias (for saving & collecting metadata).
+    """
     __class__ = ...  # type: type
     __module__ = ...  # type: str
     __doc__ = ...  # type: Optional[str]

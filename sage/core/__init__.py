@@ -8,6 +8,7 @@
 
    @project
      File: __init__.py
+     Package: avatar.core
      Created on 28 January, 2019 @ 12:43.
 
    @license
