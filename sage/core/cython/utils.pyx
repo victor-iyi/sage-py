@@ -18,11 +18,12 @@
 import logging
 # Built-in libraries.
 import os
-import pickle
 import sys
+import pickle
 import tarfile
-import urllib.request
 import zipfile
+import urllib.request
+
 from abc import ABCMeta
 from logging.config import fileConfig
 from typing import Callable, Iterable

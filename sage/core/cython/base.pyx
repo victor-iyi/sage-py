@@ -56,7 +56,7 @@ cdef class Base:
     def __repr__(self):
         """Object representation of Sub-classes."""
         # cdef list args = self._get_args()
-        cdef dict kwargs = self._get_kwargs()
+        cdef list kwargs = self._get_kwargs()
 
         # Format arguments.
         # fmt = ", ".join(map(repr, args))
@@ -101,7 +101,7 @@ cdef class Base:
         # return [getattr(self, f'_{name}') for name in names]
         return []
 
-    cpdef dict _get_kwargs(self):
+    cpdef list _get_kwargs(self):
         # names = ('verbose', 'version')
         # return [(name, getattr(self, f'_{name}')) for name in names]
         cdef str k
@@ -111,7 +111,6 @@ cdef class Base:
     property name:
         def __get__(self):
             return self._name
-
     property verbose:
         def __get__(self):
             return self._verbose
