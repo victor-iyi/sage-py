@@ -22,7 +22,7 @@ bpurple='\033[1;35m' # Purple
 ured='\033[4;31m' # Red
 
 echo -e \
-	"${cyan}
+  "${cyan}
   #############################################################################
   # +-----------------------------------------------------------------------+ #
   # |       Clean Python, CMake and Cython generated and build files.       | #
@@ -53,11 +53,11 @@ cd ${PROJECT_DIR} || exit 1
 # Clean .DS_Store files.
 find . -type f -name '.DS_Store' -delete
 
-echo -e "${bwhite}Removing __pycache__ & *.py[co] files...${reset}"
+echo -e "${bpurple}Removing __pycache__ & *.py[co] files...${reset}"
 
 # Clean all __pycache__ files.
 py_clean() {
-	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+  find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 }
 
 py_clean && echo -e "${yellow}
@@ -73,35 +73,35 @@ py_clean && echo -e "${yellow}
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
-	echo -e "${bwhite}Removing CMake & Cython temp build files...${reset}"
-	# Sleep for half a second.
-	sleep .5s
+  echo -e "${bpurple}Removing CMake & Cython temp build files...${reset}"
+  # Sleep for half a second.
+  sleep .5s
 
-	# Change directory to the build directory.
-	cd ${BUILD_DIR} || exit 1
-	# To remove all files except certain files...
-	#   $ GLOBIGNORE=*.zip:*.iso:*.txt
-	#   $ rm -v *
-	#   $ unset GLOBIGNORE
+  # Change directory to the build directory.
+  cd ${BUILD_DIR} || exit 1
+  # To remove all files except certain files...
+  #   $ GLOBIGNORE=*.zip:*.iso:*.txt
+  #   $ rm -v *
+  #   $ unset GLOBIGNORE
 
-	# DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
-	GLOBIGNORE=compile_commands.json:argparse.sh:test.jsonld:tree.jsonld
+  # DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
+  GLOBIGNORE=compile_commands.json:argparse.sh:test.jsonld:tree.jsonld
 
-	# Remove everything in this directory except GLOBIGNORE
-	rm -rf -v *
+  # Remove everything in this directory except GLOBIGNORE
+  rm -rf -v *
 
-	# Unset the GLOBIGNORE flag.
-	unset GLOBIGNORE
+  # Unset the GLOBIGNORE flag.
+  unset GLOBIGNORE
 
-	echo -e "${yellow}
+  echo -e "${yellow}
   Tasks:${green}
     - [x] Clean __pycache__ & *.py[co] files.
     - [x] Clean CMake & Cython temp build files.${reset}
     - [ ] Clean Cython build & generated C++ files.
   "
 else
-	echo
-	echo -e "${red}No such directory: ${ured}\"${BUILD_DIR}\"${reset}"
+  echo
+  echo -e "${red}No such directory: ${ured}\"${BUILD_DIR}\"${reset}"
 fi
 
 # Sleep for half a second.
@@ -112,30 +112,30 @@ sleep .5s
 # | Cython lib & src files.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-# SAGE_CORE_DIR="${SAGE_DIR}/core"
-# if [[ -d ${SAGE_CORE_DIR} ]]; then
-# 	# Change directory to Cython dir.
-# 	cd ${SAGE_CORE_DIR} || exit
+SAGE_CORE_DIR="${SAGE_DIR}/core"
+if [[ -d ${SAGE_CORE_DIR} ]]; then
+  # Change directory to Cython dir.
+  cd ${SAGE_CORE_DIR} || exit
 
-# 	echo -e "${bwhite}Removing Cython shared objects & DLLs...${reset}"
+  echo -e "${bpurple}Removing Cython shared objects & DLLs...${reset}"
 
-# 	# Remove everything in this directory except GLOBIGNORE
-#   rm **.so
+  # Remove everything in this directory except GLOBIGNORE
+  rm **.so
 
-# 	echo -e "${yellow}
-#   Tasks:${green}
-#     - [x] Clean __pycache__ & *.py[co] files.
-#     - [x] Clean CMake & Cython temp build files.
-#     - [x] Clean Cython build & generated C++ files.${reset}
-# "
+  echo -e "${yellow}
+  Tasks:${green}
+    - [x] Clean __pycache__ & *.py[co] files.
+    - [x] Clean CMake & Cython temp build files.
+    - [x] Clean Cython build & generated C++ files.${reset}
+"
 
-# 	# Go back to the project directory.
-# 	cd ${PROJECT_DIR} || exit
+  # Go back to the project directory.
+  cd ${PROJECT_DIR} || exit
 
-# else
-# 	echo
-# 	echo -e "${red}No such file or directory: ${ured}\"${SAGE_CORE_DIR}\"${reset}"
-# fi
+else
+  echo
+  echo -e "${red}No such file or directory: ${ured}\"${SAGE_CORE_DIR}\"${reset}"
+fi
 
 echo
 echo "✨ Done."
