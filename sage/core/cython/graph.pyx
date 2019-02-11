@@ -22,12 +22,6 @@ from typing import Union, List, Dict, AnyStr, Any
 
 # from sage.core.utils import Log
 
-# Combined type def for a Node & Scope.
-ctypedef fused Vertex_t:
-    str
-    Node
-    Scope
-
 cdef class Node(object):
     cdef:
         _value
@@ -110,9 +104,6 @@ cdef class Scope(Node):
     property id:
         def __get__(self):
             return self._id
-    property value:
-        def __get__(self):
-            return self._value
 
 cdef class Graph:
     cdef readonly Scope _root
