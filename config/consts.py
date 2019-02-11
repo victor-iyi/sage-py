@@ -43,9 +43,9 @@ class FS(metaclass=ABCMeta):
     CONFIG_DIR = os.path.join(PROJECT_DIR, 'config')
 
     # Libraries & Include folders.
-    LIB_DIR = os.path.join(PROJECT_DIR, 'avatar')
+    LIB_DIR = os.path.join(PROJECT_DIR, 'sage')
     VENDOR_DIR = os.path.join(LIB_DIR, 'vendor')
-    INCLUDE_DIR = os.path.join(PROJECT_DIR, 'include')
+    INCLUDE_DIR = os.path.join(LIB_DIR, 'include')
 
 
 ################################################################################################
@@ -55,8 +55,8 @@ class FS(metaclass=ABCMeta):
 ################################################################################################
 class SETUP(metaclass=ABCMeta):
     # Global setup configuration.
-    __global = Config.from_cfg(os.path.join(FS.PROJECT_DIR,
-                                            "config/setup/global.cfg"))
+    __global = Config.from_cfg(os.path.join(FS.CONFIG_DIR,
+                                            "setup/global.cfg"))
     # Build mode/type.
     MODE = __global['config']['MODE']
 
@@ -68,6 +68,6 @@ class SETUP(metaclass=ABCMeta):
 ################################################################################################
 class LOGGER(metaclass=ABCMeta):
     # Root Logger:
-    ROOT = os.path.join(FS.PROJECT_DIR, 'config/logger', f'{SETUP.MODE}.cfg')
+    ROOT = os.path.join(FS.CONFIG_DIR, f'logger/{SETUP.MODE}.cfg')
 
     # Another logger goes here: (and updated in helpers/utils.py)

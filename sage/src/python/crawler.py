@@ -18,5 +18,5 @@
 from sage.core import Log, get_properties
 
 if __name__ == '__main__':
-    properties = get_properties('Book', with_base=True)
-    Log.debug(properties)
+    properties = get_properties('Book')
+    Log.pretty(properties)

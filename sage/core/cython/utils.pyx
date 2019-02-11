@@ -27,7 +27,7 @@ import urllib.request
 from abc import ABCMeta
 from logging.config import fileConfig
 from typing import Callable, Iterable
-
+from pprint import pprint
 # Third-party library.
 import numpy as np
 
@@ -353,6 +353,27 @@ class Log(metaclass=ABCMeta):
             return
 
         Log._logger.log(Log.level, *args, **kwargs)
+
+    @staticmethod
+    def pretty(obj, int indent=1, int width=80, depth=None, *, bint compact=False):
+        """Pretty-print a Python object to a stream [default is sys.stdout]
+
+        Args:
+            obj (Any): Any python object.
+            indent (int, optional): Defaults to 1. Number of spaces to indent
+                for each level of nesting.
+            width (int, optional): Defaults to 80. Attempted maximum number
+                of columns in the output.
+            depth (int, optional): Defaults to None. The maximum depth to print
+                out nested structures.
+            compact (bool, optional): Defaults to False. If true, several items
+                will be combined in one line.
+
+        Returns:
+            None
+        """
+        if Log._logger.isEnabledFor(Log.level):
+            pprint(obj, stream=None, indent=indent, width=width, depth=depth, compact=False)
 
     @staticmethod
     def progress(int count, int max_count):

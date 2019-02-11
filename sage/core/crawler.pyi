@@ -31,15 +31,12 @@ def get_source(url: str, query_dict: Dict[str, str] = None) -> str:
     """
 
 
-def get_properties(schema_type: str, baseURL: Optional[str] = 'https://schema.org/',
-                   with_base: Optional[bool] = False) -> Dict[str, Any]:
+def get_properties(schema_type: str, baseURL: Optional[str] = 'https://schema.org/') -> Dict[str, Any]:
     """Get properties for a schema Type.
 
     Args:
         schema_type (str): A valid schema:Type.
         baseURL (str, optional): Defaults to "https://schema.org/". Base URL to schema.
-        with_base (bool, optional): Defaults to False. Whether or not to include
-            super-class properties.
 
     Notes:
         # rangeIncludes is similar to ExpectedTypes.
@@ -47,30 +44,23 @@ def get_properties(schema_type: str, baseURL: Optional[str] = 'https://schema.or
 
     Examples:
         ```python
-        >>> from pprint import pprint
+        >>> from sage.core.utils import Log
         >>> properties = get_properties('Book')
-        >>> pprint(properties)
-        {
-            '@id': 'schema:Book',
-            'name': 'Book',
-            'properties': [
-                {
-                    'rdfs:label': 'abridged',
-                    'rdfs:Property': 'http://schema.org/abridged',
-                    'rdfs:comment': 'Indicates whether the book is an abridged edition.',
-                    'rangeIncludes': ['http://schema.org/Boolean'],
-                    'domainIncludes': ['http://schema.org/Book']
-                },
-                ...,
-                {
-                    'rdfs:label': 'numberOfPages',
-                    'rdfs:Property': 'http://schema.org/numberOfPages',
-                    'rdfs:comment': 'The number of pages in the book.',
-                    'rangeIncludes': ['http://schema.org/Integer'],
-                    'domainIncludes': ['http://schema.org/Book']
-                }
-            ]
-        }
+        >>> Log.pretty(properties)
+        {'@id': 'schema:Book',
+         'name': 'Book',
+         'properties': [{'domainIncludes': ['http://schema.org/Book'],
+                         'rangeIncludes': ['http://schema.org/Boolean'],
+                         'rdfs:Property': 'http://schema.org/abridged',
+                         'rdfs:comment': 'Indicates whether the book is an abridged '
+                                         'edition.',
+                         'rdfs:label': 'abridged'},
+                        ...,
+                        {'domainIncludes': ['http://schema.org/Book'],
+                         'rangeIncludes': ['http://schema.org/Integer'],
+                         'rdfs:Property': 'http://schema.org/numberOfPages',
+                         'rdfs:comment': 'The number of pages in the book.',
+                         'rdfs:label': 'numberOfPages'}]}
         ```
 
     Returns:

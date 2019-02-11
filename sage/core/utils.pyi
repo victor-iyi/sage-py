@@ -220,6 +220,28 @@ class Log(metaclass=ABCMeta):
         """
 
     @staticmethod
+    def pretty(obj: Any, indent: Optional[int] = 1,
+               width: Optional[int] = 80,
+               depth: Optional[int] = None, *,
+               compact: Optional[bool] = False):
+        """Pretty-print a Python object to a stream [default is sys.stdout]
+
+        Args:
+            obj (Any): Any python object.
+            indent (int, optional): Defaults to 1. Number of spaces to indent
+                for each level of nesting.
+            width (int, optional): Defaults to 80. Attempted maximum number
+                of columns in the output.
+            depth (int, optional): Defaults to None. The maximum depth to print
+                out nested structures.
+            compact (bool, optional): Defaults to False. If true, several items
+                will be combined in one line.
+
+        Returns:
+            None
+        """
+
+    @staticmethod
     def progress(count: int, max_count: int) -> None:
         """Prints task progress *(in %)*.
 

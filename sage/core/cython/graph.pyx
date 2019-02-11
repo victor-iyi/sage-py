@@ -11,7 +11,7 @@
      Created on 28 January, 2019 @ 02:18 PM.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 import json
