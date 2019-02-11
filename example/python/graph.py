@@ -18,6 +18,6 @@ from config import FS
 from sage.core import File, Log, Graph
 
 if __name__ == '__main__':
-    path = File.join(FS.CACHE_DIR, 'graph/jsonld', 'tree.jsonld')
+    path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
     g = Graph(path=path)
-    Log.debug('{:!r}'.format(g))
+    Log.debug('\n{:!s}'.format(g))

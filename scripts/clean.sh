@@ -7,7 +7,7 @@ reset='\033[0m'      # Text Reset
 red='\033[0;31m'     # Red
 green='\033[0;32m'   # Green
 cyan='\033[0;36m'    # Cyan
-purple='\033[0;35m'  # Purple
+#purple='\033[0;35m'  # Purple
 yellow='\033[0;33m'  # Yellow
 #white='\033[0;37m'  # White
 
@@ -15,7 +15,7 @@ yellow='\033[0;33m'  # Yellow
 #bred='\033[1;31m'   # Red
 #bgreen='\033[1;32m' # Green
 # byellow='\033[1;33m' # Yellow
-bwhite='\033[1;37m'  # White
+#bwhite='\033[1;37m'  # White
 bpurple='\033[1;35m' # Purple
 
 # Underline.
@@ -85,7 +85,7 @@ if [[ -d "${BUILD_DIR}" ]] >/dev/null 2>&1; then
   #   $ unset GLOBIGNORE
 
   # DO NOT remove these files (separated by colons) => "e.g: *.json:*.gz:*.txt".
-  GLOBIGNORE=compile_commands.json:argparse.sh:test.jsonld:tree.jsonld
+  GLOBIGNORE=compile_commands.json:argparse.sh
 
   # Remove everything in this directory except GLOBIGNORE
   rm -rf -v *

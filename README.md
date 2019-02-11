@@ -40,8 +40,7 @@ from sage.core import File, Log, Graph
 
 # Path to a JSON-LD file.
 path = File.join(FS.CACHE_DIR,
-                 'graph/examples/',
-                 'creative-work.jsonld')
+                 'graph/examples/avatar.jsonld')
 
 # Create a Graph object from a JSON-LD file.
 g = Graph(path=path)

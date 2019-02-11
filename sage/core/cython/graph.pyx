@@ -14,10 +14,13 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+
 import json
 import uuid
 
 from typing import Union, List, Dict, AnyStr, Any
+
+# from sage.core.utils import Log
 
 # Combined type def for a Node & Scope.
 ctypedef fused Vertex_t:
@@ -27,13 +30,13 @@ ctypedef fused Vertex_t:
 
 cdef class Node(object):
     cdef:
-        # Vertex_t _value
+        _value
         readonly str _key
         readonly bint _is_scope
 
     def __init__(self, key: str, value=None, **kwargs):
         self._key = key
-        self._value = value
+        self._value = value or ''
         self._is_scope = kwargs.get('is_scope', False)
 
     def __repr__(self):
@@ -62,10 +65,11 @@ cdef class Node(object):
 
 cdef class Scope(Node):
     cdef:
+        readonly _namespace, _generator
         readonly str _id
 
     def __init__(self, key: str, value: Any = None, **kwargs):
-        super(Scope, self).__init__(key, value=value, is_scope=True, **kwargs)
+        super(Scope, self).__init__(key, is_scope=True, **kwargs)
         self._value = value or []
 
         self._namespace = kwargs.get('namespace', uuid.NAMESPACE_OID)
@@ -83,7 +87,7 @@ cdef class Scope(Node):
         for v in self._value:
             yield v
 
-    cdef str __print(self, Vertex_t base, str so_far=''):
+    cdef str __print(self, base, str so_far=''):
         if isinstance(base, Scope):
             so_far = "{}<{}>: {{\n".format(base.key, base.id)
             for child in base:

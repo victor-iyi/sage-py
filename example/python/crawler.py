@@ -1,4 +1,5 @@
-"""
+"""Crawler utility for parsing https://schema.org.
+
    @author
      Victor I. Afolabi
      Artificial Intelligence & Software Engineer.
@@ -6,10 +7,16 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: __init__.py.py
-     Created on 07 February, 2019 @ 12:56.
+     File: crawler.py
+     Created on 07 February, 2019 @ 12:56 PM.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+
+from sage.core import Log, get_properties
+
+if __name__ == '__main__':
+    properties = get_properties('Book')
+    Log.pretty(properties)
