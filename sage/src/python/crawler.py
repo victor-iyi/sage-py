@@ -113,6 +113,10 @@ def get_properties(schema_type, baseURL='https://schema.org/', with_base=False):
             ]
         }
         ```
+
+    Returns:
+        Union[Dict[str, Any], List[Dict[str, Any]]] - Returns a dict if with_base=False,
+            otherwise it returns a list of dicts.
     """
     url = urllib.parse.urljoin(baseURL, schema_type)
     source = get(url)
