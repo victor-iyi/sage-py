@@ -59,7 +59,7 @@ if [ command -v wget ] >/dev/null 2>&1; then
 	# if the platform is macos
 	# brew update && brew install wget
 	# else if it is linux [Ubuntu or Debian]
-	# sudo apt-get update && sudo apt-get install wget
+	# sudo apt-get_source update && sudo apt-get_source install wget
 	# else if it is linux [CentOS or RHEL]
 	# sudo yum install wget
 	# else

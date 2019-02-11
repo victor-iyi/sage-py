@@ -16,10 +16,10 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from sage.core.base import Base, Mode
-from sage.core.utils import Log, File, Cache, Downloader
 from sage.core.graph import Graph
-
+from sage.core.base import Base, Mode
+from sage.core.crawler import get_properties, get_source
+from sage.core.utils import Log, File, Cache, Downloader
 
 __all__ = [
     # Base class.
@@ -30,4 +30,7 @@ __all__ = [
 
     # Knowledge Graph.
     'Graph',
+
+    # Crawler.
+    'get_properties', 'get_source',
 ]
