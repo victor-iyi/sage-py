@@ -22,12 +22,6 @@ from typing import Union, List, Dict, AnyStr, Any
 
 # from sage.core.utils import Log
 
-# Combined type def for a Node & Scope.
-ctypedef fused Vertex_t:
-    str
-    Node
-    Scope
-
 cdef class Node(object):
     cdef:
         _value
@@ -36,7 +30,7 @@ cdef class Node(object):
 
     def __init__(self, key: str, value=None, **kwargs):
         self._key = key
-        self._value = value or ''
+        self._value = value
         self._is_scope = kwargs.get('is_scope', False)
 
     def __repr__(self):
@@ -66,16 +60,15 @@ cdef class Node(object):
 cdef class Scope(Node):
     cdef:
         readonly _namespace, _generator
-        readonly str _id
+        readonly str _id, _type
 
     def __init__(self, key: str, value: Any = None, **kwargs):
         super(Scope, self).__init__(key, is_scope=True, **kwargs)
         self._value = value or []
 
-        self._namespace = kwargs.get('namespace', uuid.NAMESPACE_OID)
-        self._generator = uuid.uuid5(namespace=self._namespace,
-                                     name=str(key))
-        self._id = self._generator.hex
+        _generator = uuid.uuid5(namespace=uuid.NAMESPACE_OID,
+                                name=str(key))
+        self._id = _generator.hex
 
     def __repr__(self):
         return 'Scope({}, value={})'.format(self._key, self._value)
@@ -110,9 +103,9 @@ cdef class Scope(Node):
     property id:
         def __get__(self):
             return self._id
-    property value:
+    property type:
         def __get__(self):
-            return self._value
+            return self._type
 
 cdef class Graph:
     cdef readonly Scope _root

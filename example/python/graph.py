@@ -11,7 +11,7 @@
      Created on 10 February, 2019 @ 17:03.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 from config import FS

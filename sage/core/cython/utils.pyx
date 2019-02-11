@@ -25,9 +25,10 @@ import zipfile
 import urllib.request
 
 from abc import ABCMeta
+from pprint import pprint
 from logging.config import fileConfig
 from typing import Callable, Iterable
-from pprint import pprint
+
 # Third-party library.
 import numpy as np
 
