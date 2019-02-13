@@ -17,13 +17,13 @@
 """
 
 from sage.core.graph import Graph
-from sage.core.base import Base, Mode
+from sage.core.base import Base, Mode, Attr
 from sage.core.crawler import get_properties, get_source
 from sage.core.utils import Log, File, Cache, Downloader
 
 __all__ = [
     # Base class.
-    'Base', 'Mode',
+    'Base', 'Mode', 'Attr',
 
     # Utils class.
     'Downloader', 'Cache', 'File', 'Log',

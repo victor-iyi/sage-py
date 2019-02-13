@@ -81,8 +81,115 @@ class Base(object, metaclass=ABCMeta):
 
     def __format__(self, format_spec: Optional[str]) -> str: ...
 
-    def _log(self, *args: Any, level: Optional[str] = 'debug', **kwargs: Any) -> None: ...
+    def _log(self, *args: Any,
+             level: Optional[str] = 'debug', **kwargs: Any) -> None: ...
 
     def _get_args(self) -> List[Any]: ...
 
     def _get_kwargs(self) -> Dict[str, Any]: ...
+
+
+##################################################################################################
+# +----------------------------------------------------------------------------------------------+
+# | Attributes getter.
+# +----------------------------------------------------------------------------------------------+
+##################################################################################################
+class Attr(dict):
+    """Get attributes.
+
+    Examples:
+        ```python
+        >>> d = Attr({'foo':3})
+        >>> d['foo']
+        3
+        >>> d.foo
+        3
+        >>> d.bar
+        Traceback (most recent call last):
+        ...
+        AttributeError: 'Attr' object has no attribute 'bar'
+
+        Works recursively
+
+        >>> d = Attr({'foo':3, 'bar':{'x':1, 'y':2}})
+        >>> isinstance(d.bar, dict)
+        True
+        >>> d.bar.x
+        1
+
+        Bullet-proof
+
+        >>> Attr({})
+        {}
+        >>> Attr(d={})
+        {}
+        >>> Attr(None)
+        {}
+        >>> d = {'a': 1}
+        >>> Attr(**d)
+        {'a': 1}
+
+        Set attributes
+
+        >>> d = Attr()
+        >>> d.foo = 3
+        >>> d.foo
+        3
+        >>> d.bar = {'prop': 'value'}
+        >>> d.bar.prop
+        'value'
+        >>> d
+        {'foo': 3, 'bar': {'prop': 'value'}}
+        >>> d.bar.prop = 'newer'
+        >>> d.bar.prop
+        'newer'
+
+
+        Values extraction
+
+        >>> d = Attr({'foo':0, 'bar':[{'x':1, 'y':2}, {'x':3, 'y':4}]})
+        >>> isinstance(d.bar, list)
+        True
+        >>> from operator import attrgetter
+        >>> map(attrgetter('x'), d.bar)
+        [1, 3]
+        >>> map(attrgetter('y'), d.bar)
+        [2, 4]
+        >>> d = Attr()
+        >>> d.keys()
+        []
+        >>> d = Attr(foo=3, bar=dict(x=1, y=2))
+        >>> d.foo
+        3
+        >>> d.bar.x
+        1
+
+        Still like a dict though
+
+        >>> o = Attr({'clean':True})
+        >>> o.items()
+        [('clean', True)]
+
+        And like a class
+
+        >>> class Flower(Attr):
+        ...     power = 1
+        ...
+        >>> f = Flower()
+        >>> f.power
+        1
+        >>> f = Flower({'height': 12})
+        >>> f.height
+        12
+        >>> f['power']
+        1
+        >>> sorted(f.keys())
+        ['height', 'power']
+        ```
+    """
+
+    def __init__(self, d: dict=None, **kwargs: Any) -> None: ...
+
+    def __setattr__(self, name: str, value: Any) -> None: ...
+
+    __setitem__ = __setattr__
