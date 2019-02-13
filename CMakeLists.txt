@@ -14,11 +14,15 @@ set(
   )
 set(PROJECT_HOMEPAGE_URL "https://github.com/victor-iyiola/sage")
 
-project(${PROJECT_NAME}
-        VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
-        DESCRIPTION "${PROJECT_DESCRIPTION}"
-        HOMEPAGE_URL "${PROJECT_HOMEPAGE_URL}"
-        LANGUAGES CXX)
+project(
+  ${PROJECT_NAME}
+  VERSION
+    "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+    DESCRIPTION
+    "${PROJECT_DESCRIPTION}"
+    HOMEPAGE_URL
+    "${PROJECT_HOMEPAGE_URL}"
+  LANGUAGES CXX)
 
 # --------------------------------------------------------------------
 # compiler config
@@ -126,7 +130,7 @@ include_directories(SYSTEM "sage/include")
 add_subdirectory("sage")
 
 # !-------------------------- Target: example. --------------------------!
-file(GLOB_RECURSE SAGE_EXAMPLE "${EXAMPLE_DIR}/src/*cc")
+file(GLOB_RECURSE SAGE_EXAMPLE "${EXAMPLE_DIR}/cpp/*cc")
 add_executable(example ${SAGE_EXAMPLE})
 target_link_libraries(example sage)
 
