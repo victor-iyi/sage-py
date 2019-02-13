@@ -25,7 +25,6 @@ from typing import Callable, Any
 
 # Third party libraries.
 import yaml
-from easydict import EasyDict
 
 # In order to use LibYAML bindings, which is much faster than pure Python.
 # Download and install [LibYAML](https://pyyaml.org/wiki/LibYAML).
@@ -40,11 +39,130 @@ __all__ = [
 ]
 
 
+class Attr(dict):
+    """Get attributes.
+
+    Examples:
+        ```python
+        >>> d = Attr({'foo':3})
+        >>> d['foo']
+        3
+        >>> d.foo
+        3
+        >>> d.bar
+        Traceback (most recent call last):
+        ...
+        AttributeError: 'Attr' object has no attribute 'bar'
+
+        Works recursively
+
+        >>> d = Attr({'foo':3, 'bar':{'x':1, 'y':2}})
+        >>> isinstance(d.bar, dict)
+        True
+        >>> d.bar.x
+        1
+
+        Bullet-proof
+
+        >>> Attr({})
+        {}
+        >>> Attr(d={})
+        {}
+        >>> Attr(None)
+        {}
+        >>> d = {'a': 1}
+        >>> Attr(**d)
+        {'a': 1}
+
+        Set attributes
+
+        >>> d = Attr()
+        >>> d.foo = 3
+        >>> d.foo
+        3
+        >>> d.bar = {'prop': 'value'}
+        >>> d.bar.prop
+        'value'
+        >>> d
+        {'foo': 3, 'bar': {'prop': 'value'}}
+        >>> d.bar.prop = 'newer'
+        >>> d.bar.prop
+        'newer'
+
+
+        Values extraction
+
+        >>> d = Attr({'foo':0, 'bar':[{'x':1, 'y':2}, {'x':3, 'y':4}]})
+        >>> isinstance(d.bar, list)
+        True
+        >>> from operator import attrgetter
+        >>> map(attrgetter('x'), d.bar)
+        [1, 3]
+        >>> map(attrgetter('y'), d.bar)
+        [2, 4]
+        >>> d = Attr()
+        >>> d.keys()
+        []
+        >>> d = Attr(foo=3, bar=dict(x=1, y=2))
+        >>> d.foo
+        3
+        >>> d.bar.x
+        1
+
+        Still like a dict though
+
+        >>> o = Attr({'clean':True})
+        >>> o.items()
+        [('clean', True)]
+
+        And like a class
+
+        >>> class Flower(Attr):
+        ...     power = 1
+        ...
+        >>> f = Flower()
+        >>> f.power
+        1
+        >>> f = Flower({'height': 12})
+        >>> f.height
+        12
+        >>> f['power']
+        1
+        >>> sorted(f.keys())
+        ['height', 'power']
+        ```
+    """
+
+    def __init__(self, d=None, **kwargs):
+        if d is None:
+            d = {}
+        if kwargs:
+            d.update(**kwargs)
+        for k, v in d.items():
+            setattr(self, k, v)
+        # Class attributes
+        for k in self.__class__.__dict__.keys():
+            if not (k.startswith('__') and k.endswith('__')):
+                setattr(self, k, getattr(self, k))
+
+    def __setattr__(self, name, value):
+        if isinstance(value, (list, tuple)):
+            value = [self.__class__(x)
+                     if isinstance(x, dict) else x for x in value]
+        elif isinstance(value, dict) and not isinstance(value, self.__class__):
+            value = self.__class__(value)
+        super(Attr, self).__setattr__(name, value)
+        super(Attr, self).__setitem__(name, value)
+
+    __setitem__ = __setattr__
+
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
 # | Config: Configuration avatar class to convert save & load config files.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
+
+
 class Config(metaclass=ABCMeta):
     @staticmethod
     def from_yaml(file: str):
@@ -58,7 +176,7 @@ class Config(metaclass=ABCMeta):
             FileNotFoundError: `file` was not found.
 
         Returns:
-            easydict.EasyDict: config dictionary object.
+            Attr: config dictionary object.
         """
 
         assert (file.endswith('yaml') or
@@ -68,7 +186,7 @@ class Config(metaclass=ABCMeta):
             raise FileNotFoundError('{} was not found'.format(file))
 
         with open(file, mode="r") as f:
-            cfg = EasyDict(yaml.load(f, Loader=Loader))
+            cfg = Attr(yaml.load(f, Loader=Loader))
 
         return cfg
 
@@ -85,7 +203,7 @@ class Config(metaclass=ABCMeta):
             FileNotFoundError: `file` was not found.
 
         Returns:
-            easydict.EasyDict: config dictionary object.
+            Attr: config dictionary object.
         """
 
         assert file.endswith(ext), f'File is not a/an `{ext}` file.'
@@ -93,7 +211,7 @@ class Config(metaclass=ABCMeta):
         if not os.path.isfile(file):
             raise FileNotFoundError('{} was not found'.format(file))
 
-        cfg = configparser.ConfigParser(dict_type=EasyDict)
+        cfg = configparser.ConfigParser(dict_type=Attr)
         cfg.read(file)
 
         return cfg
@@ -110,7 +228,7 @@ class Config(metaclass=ABCMeta):
             FileNotFoundError: `file` was not found.
 
         Returns:
-            easydict.EasyDict: config dictionary object.
+            Attr: config dictionary object.
         """
 
         assert file.endswith('json'), 'File is not a `JSON` file.'
@@ -119,16 +237,16 @@ class Config(metaclass=ABCMeta):
             raise FileNotFoundError('{} was not found'.format(file))
 
         with open(file, mode='r') as f:
-            cfg = EasyDict(json.load(f))
+            cfg = Attr(json.load(f))
 
         return cfg
 
     @staticmethod
-    def to_yaml(cfg: EasyDict, file: str, **kwargs):
+    def to_yaml(cfg: Attr, file: str, **kwargs):
         """Save configuration object into a YAML file.
 
         Args:
-            cfg (EasyDict): Configuration: as a dictionary instance.
+            cfg (Attr): Configuration: as a dictionary instance.
             file (str): Path to write the configuration to.
 
         Keyword Args:
@@ -144,11 +262,11 @@ class Config(metaclass=ABCMeta):
         Config._to_file(cfg=cfg, file=file, dumper=yaml.dump, **kwargs)
 
     @staticmethod
-    def to_json(cfg: EasyDict, file: str, **kwargs):
+    def to_json(cfg: Attr, file: str, **kwargs):
         """Save configuration object into a JSON file.
 
         Args:
-            cfg (EasyDict): Configuration: as dictionary instance.
+            cfg (Attr): Configuration: as dictionary instance.
             file (str): Path to write the configuration to.
 
         Keyword Args:
@@ -162,7 +280,7 @@ class Config(metaclass=ABCMeta):
         Config._to_file(cfg=cfg, file=file, dumper=json.dump, **kwargs)
 
     @staticmethod
-    def to_cfg(cfg: EasyDict, file: str, **kwargs):
+    def to_cfg(cfg: Attr, file: str, **kwargs):
         """Save configuration object into a cfg or ini file.
 
         Args:
