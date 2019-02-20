@@ -32,6 +32,21 @@ ext_modules = [
               # libraries=[],
               # library_dirs=[FS.VENDOR_DIR, ],
               include_dirs=[FS.INCLUDE_DIR, ]),
+    # Cython.
+    Extension(name="graph",
+              language="c++",
+              sources=['sage/core/cython/graph/*.pyx'],
+              # libraries=[],
+              # library_dirs=[FS.VENDOR_DIR, ],
+              include_dirs=[FS.INCLUDE_DIR, ]),
+    # Cython.
+    Extension(name="crawler",
+              language="c++",
+              sources=['sage/core/cython/crawler/*.pyx'],
+              # libraries=[],
+              # library_dirs=[FS.VENDOR_DIR, ],
+              include_dirs=[FS.INCLUDE_DIR, ]),
+
 ]
 
 # Compiler directives

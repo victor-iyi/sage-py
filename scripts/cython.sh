@@ -103,6 +103,10 @@ for i in "$@"; do
     BUILD_BASE="${i#*=}"
     shift # past argument=value
     ;;
+  -c=* | --clean-build=*)
+    CLEAN_BUILD="${i#*=}"
+    shift # past argument=value
+    ;;
   -t=* | --build-temp=*)
     BUILD_TEMP="${i#*=}"
     shift # past argument=value
@@ -183,8 +187,7 @@ ${PY_EXE} setup.py build_ext -b${BUILD_LIB} -t${BUILD_TEMP} -j${JOBS}
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 move() {
-  #  src="${SAGE_CORE_DIR}/**/*.${1}"  # Create source files with extension.
-  src=$1           # Source.
+  src=$1           # Source folder.
   dest=$2          # Destination folder.
   mkdir -p ${dest} # Create destination folder.
 
@@ -196,11 +199,33 @@ move() {
   echo -e "${bgreen}[Moved] ${green}\"${src}\"${bgreen} to ${green}\"${dest}\"${reset}"
 }
 
+move_with_hierarchy() {
+  ext=$1           # Extensions.
+  src=$2           # Source folder.
+  dest=$3          # Destination folder.
+
+  mkdir -p ${dest} # Create destination folder.
+
+  # Reproduce directory hierarchy.
+  rsync -a --prune-empty-dirs --include='*/' --include="*.${ext}" --exclude='*' ${src} ${dest}
+
+  # Remove extension files.
+  rm -r "${src}/*.${ext}"
+
+  # Display status message.
+  echo -e "${bgreen}[Moved] ${green}\"${src}\"${bgreen} to ${green}\"${dest}\"${reset}"
+}
+
 cd "${SAGE_CORE_DIR}" || exit
 
 # Move generated Shared objects & C++ source files to the cython directory.
 echo
 echo -e "${bwhite}Moving generated files...${reset}"
 
+# Move shared objects.
 move "${PROJECT_DIR}/*.so" "${SAGE_CORE_DIR}"
-move "${SAGE_CORE_DIR}/**/*.cpp" "${BUILD_TEMP}/sage/cython/sources/"
+move "${SAGE_CORE_DIR}/cython/*.so" "${SAGE_CORE_DIR}"
+
+# Move generated C++ files.
+move_with_hierarchy "cpp" "${SAGE_CORE_DIR}/cython" "${BUILD_TEMP}/sage/sources/"
+
