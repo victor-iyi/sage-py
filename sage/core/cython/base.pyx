@@ -116,6 +116,7 @@ cdef class Base:
             return self._verbose
 
 
+# noinspection PyUnresolvedReferences
 class Attr(dict):
     """Get attributes.
 

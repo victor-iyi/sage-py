@@ -19,12 +19,11 @@ import json
 import uuid
 
 from typing import Union, List, Dict, AnyStr, Any
-
 # from sage.core.utils import Log
 
-cdef class Node(object):
+cdef class Node:
     cdef:
-        _value
+        public _value
         readonly str _key
         readonly bint _is_scope
 

@@ -123,7 +123,6 @@ cpdef dict get_properties(str schema_type, str baseURL='https://schema.org/'):
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 cdef list _parse_property(body):
-    Log.debug(type(body))
     cdef:
         list properties = []
         dict template

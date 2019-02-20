@@ -14,9 +14,9 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-cdef class Node(object):
+cdef class Node:
     cdef:
-        _value
+        public _value
         readonly str _key
         readonly bint _is_scope
 
@@ -25,7 +25,7 @@ cdef class Scope(Node):
         readonly _namespace, _generator
         readonly str _id, _type
 
-    cdef str __print(self, Node base, str so_far)
+    cdef str __print(self, Node base, str so_far= *)
     cdef void add_scope(self, Scope scope)
     cdef void add_node(self, Node node)
 
