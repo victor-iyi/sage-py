@@ -29,3 +29,6 @@ cdef class Scope(Node):
     cdef str __print(self, Node base, str so_far= *)
     cdef void add_scope(self, Scope scope)
     cdef void add_node(self, Node node)
+
+# cdef Node newNode(str key, value= *, *)
+# cdef Scope newScope(str key, value = *, *)

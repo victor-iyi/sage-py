@@ -18,7 +18,8 @@
 import json
 from typing import Union, List, Dict, AnyStr
 
-from node cimport Node, Scope
+from node cimport Scope
+from node import Node, Scope
 
 cdef class Graph:
     cdef readonly Scope _root
