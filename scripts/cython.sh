@@ -12,9 +12,9 @@ purple='\033[0;35m'  # Purple
 
 # Bold.
 bred='\033[1;31m'   # Red
-bpurple='\033[1;35m' # Purple
-bgreen='\033[1;32m'  # Green
-bwhite='\033[1;37m'  # White
+b_purple='\033[1;35m' # Purple
+b_green='\033[1;32m'  # Green
+b_white='\033[1;37m'  # White
 
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
@@ -60,15 +60,15 @@ JOBS="4"                          # -j --jobs
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 function usage() {
-  echo -e "${bpurple}Description:${purple} Build script for sage.${reset}"
+  echo -e "${b_purple}Description:${purple} Build script for sage.${reset}"
   echo
-  echo -e "${bwhite}Usage: ${green}${BASH_SOURCE[0]}${reset}
+  echo -e "${b_white}Usage: ${green}${BASH_SOURCE[0]}${reset}
     -h   | --help            = Show this help message.
     -v   | --py-version      = Which python version to use: <${PY_VERSION}>.
     -e   | --py-executable   = Path to python executable: <${PY_EXE}>.
     -l   | --build-lib       = Path to store Cython build files: <${BUILD_LIB}>.
-    -b   | --build-base      = Paty to Cython base directory: <${BUILD_BASE}>
-    -t   | --build-temp      = Paty to Cython temp directory: <${BUILD_TEMP}>
+    -b   | --build-base      = Path to Cython base directory: <${BUILD_BASE}>
+    -t   | --build-temp      = Path to Cython temp directory: <${BUILD_TEMP}>
     -c   | --clean-build     = Clean build files before starting build: <${CLEAN_BUILD}>. \"YES\" | \"NO\".
     -j   | --jobs            = No of parallel jobs to run: <${JOBS}>.
   "
@@ -128,7 +128,7 @@ for i in "$@"; do
   esac
 done
 
-echo -e "${bpurple}${BUILD_LIB}${reset}"
+echo -e "${b_purple}${BUILD_LIB}${reset}"
 echo -e "${cyan}
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
@@ -151,16 +151,16 @@ fi
 ################################################################################################
 
 if which ${PY_EXE} >/dev/null 2>&1; then
-  echo -e "${bgreen}Using Python version: ${PY_VERSION}.${reset}"
+  echo -e "${b_green}Using Python version: ${PY_VERSION}.${reset}"
 
 elif which python3 >/dev/null 2>&1; then
   PY_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
-  echo -e "${bgreen}Python version: ${PY_VERSION} detected.${reset}"
+  echo -e "${b_green}Python version: ${PY_VERSION} detected.${reset}"
   PY_EXE="$(which python3)"
 
 elif which python >/dev/null 2>&1; then
   PY_VERSION=$(python --version 2>&1 | awk '{print $2}')
-  echo -e "${bgreen}Python version ${PY_VERSION} detected.${reset}"
+  echo -e "${b_green}Python version ${PY_VERSION} detected.${reset}"
   PY_EXE="$(which python)"
 
 else
@@ -176,7 +176,7 @@ fi
 # +--------------------------------------------------------------------------------------------+
 # | Cython build command.
 # +--------------------------------------------------------------------------------------------+
-echo -e "${bwhite}+ Running...${reset}"
+echo -e "${b_white}+ Running...${reset}"
 echo -e "${PY_EXE} setup.py build_ext -build-base=${BUILD_BASE} -b${BUILD_LIB} -t${BUILD_TEMP} -j${JOBS}"
 
 ${PY_EXE} setup.py build_ext -b${BUILD_LIB} -t${BUILD_TEMP} -j${JOBS}
@@ -192,11 +192,10 @@ move() {
   mkdir -p ${dest} # Create destination folder.
 
   # Perform find & move.
-  # find "${BUILD_LIB}" -type f -iname  ${src} -exec mv {} ${dest} \;
   mv ${src} ${dest}
 
   # Display status message.
-  echo -e "${bgreen}[Moved] ${green}\"${src}\"${bgreen} to ${green}\"${dest}\"${reset}"
+  echo -e "${b_green}[Moved] ${green}\"${src}\"${b_green} to ${green}\"${dest}\"${reset}"
 }
 
 move_with_hierarchy() {
@@ -208,19 +207,17 @@ move_with_hierarchy() {
 
   # Reproduce directory hierarchy.
   rsync -a --prune-empty-dirs --include='*/' --include="*.${ext}" --exclude='*' ${src} ${dest}
-
-  # Remove extension files.
-  rm -r "${src}/*.${ext}"
+  find ${src} -name "*.${ext}" -exec rm -r {} \;
 
   # Display status message.
-  echo -e "${bgreen}[Moved] ${green}\"${src}\"${bgreen} to ${green}\"${dest}\"${reset}"
+  echo -e "${b_green}[Moved] ${green}\"${src}\"${b_green} to ${green}\"${dest}\"${reset}"
 }
 
 cd "${SAGE_CORE_DIR}" || exit
 
 # Move generated Shared objects & C++ source files to the cython directory.
 echo
-echo -e "${bwhite}Moving generated files...${reset}"
+echo -e "${b_white}Moving generated files...${reset}"
 
 # Move shared objects.
 move "${PROJECT_DIR}/*.so" "${SAGE_CORE_DIR}"
