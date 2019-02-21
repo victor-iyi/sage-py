@@ -62,12 +62,14 @@ cpdef str get_source(str url, dict query_dict=None):
 
     return response
 
-cpdef dict get_properties(str schema_type, str baseURL='https://schema.org/'):
+cpdef dict get_properties(str schema_type, str baseURL='https://schema.org/', bint compact=False):
     """Get properties for a schema Type.
 
     Args:
         schema_type (str): A valid schema:Type.
         baseURL (str, optional): Defaults to "https://schema.org/". Base URL to schema.
+        compact (bool, optional): Defaults to False. If set to True, only property names
+            will be returned.
 
     Notes:
         # rangeIncludes is similar to ExpectedTypes.
@@ -108,7 +110,7 @@ cpdef dict get_properties(str schema_type, str baseURL='https://schema.org/'):
     table = soup.find('table', class_='definition-table')
     super_types = table.find_all('tbody', class_='supertype')
 
-    cdef list properties = _parse_property(super_types[0])
+    cdef list properties = _parse_property(super_types[0], compact)
     cdef dict result = {
         '@id': 'schema:{}'.format(schema_type),
         'name': schema_type,
@@ -122,30 +124,35 @@ cpdef dict get_properties(str schema_type, str baseURL='https://schema.org/'):
 # | Private functions.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-cdef list _parse_property(body):
+cdef list _parse_property(body, bint compact=False):
     cdef:
         list properties = []
         dict template
 
     trs = body.find_all('tr', typeof='rdfs:Property')
-    for tr in trs:
-        template = {
-            'rdfs:label': '',  # Name of property.
-            'rdfs:Property': '',  # Full schema of property.
-            'rdfs:comment': '',  # Property description.
-            'rangeIncludes': [],  # Expected types.
-            'domainIncludes': [],  # Possible domains found.
-        }
-        code = tr.select('code > a')[0]
-        rangeIncludes = tr.find_all('link', property='rangeIncludes')
-        domainIncludes = tr.find_all('link', property='domainIncludes')
+    if compact:
+         for tr in trs:
+            code = tr.select('code > a')[0]
+            properties.append(code.get_text())
+    else:
+        for tr in trs:
+            template = {
+                'rdfs:label': '',  # Name of property.
+                'rdfs:Property': '',  # Full schema of property.
+                'rdfs:comment': '',  # Property description.
+                'rangeIncludes': [],  # Expected types.
+                'domainIncludes': [],  # Possible domains found.
+            }
+            code = tr.select('code > a')[0]
+            rangeIncludes = tr.find_all('link', property='rangeIncludes')
+            domainIncludes = tr.find_all('link', property='domainIncludes')
 
-        template['rdfs:label'] = code.get_text()
-        template['rdfs:Property'] = tr['resource']
-        template['rdfs:comment'] = tr.find('td', property='rdfs:comment').get_text()
-        template['rangeIncludes'] = list(map(lambda tag: tag['href'], rangeIncludes))
-        template['domainIncludes'] = list(map(lambda tag: tag['href'], domainIncludes))
+            template['rdfs:label'] = code.get_text()
+            template['rdfs:Property'] = tr['resource']
+            template['rdfs:comment'] = tr.find('td', property='rdfs:comment').get_text()
+            template['rangeIncludes'] = list(map(lambda tag: tag['href'], rangeIncludes))
+            template['domainIncludes'] = list(map(lambda tag: tag['href'], domainIncludes))
 
-        properties.append(template)
+            properties.append(template)
 
     return properties

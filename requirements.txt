@@ -1,3 +1,4 @@
+nltk
 beautifulsoup4>=4.6.0
 PyYAML>=4.1
 cython>=0.28.1

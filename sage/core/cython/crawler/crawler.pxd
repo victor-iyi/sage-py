@@ -59,11 +59,11 @@ cpdef str get_source(str url, dict query_dict= *)
 # Returns:
 #     Union[Dict[str, Any], List[Dict[str, Any]]] - Returns a dict if with_base=False,
 #         otherwise it returns a list of dicts.
-cpdef dict get_properties(str schema_type, str baseURL= *)
+cpdef dict get_properties(str schema_type, str baseURL= *, bint compact= *)
 
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
 # | Private functions.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-cdef list _parse_property(body)
+cdef list _parse_property(body, bint compact= *)

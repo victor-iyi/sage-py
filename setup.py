@@ -28,27 +28,27 @@ ext_modules = [
     # Cython.
     Extension(name="*",
               language="c++",
-              sources=['sage/core/cython/*.pyx',
-                       # 'sage/core/cython/*.pxd'
-                       ],
-              # libraries=[],
-              # library_dirs=[FS.VENDOR_DIR, ],
+              sources=[
+                  'sage/core/cython/*.pyx',
+                  # 'sage/core/cython/*.pxd',
+              ],
               include_dirs=[FS.INCLUDE_DIR, ]),
     # Cython.
     Extension(name="graph",
               language="c++",
-              sources=['sage/core/cython/graph/*.pyx',
-                       'sage/core/cython/graph/*.pxd'],
-              # libraries=[],
+              sources=[
+                  'sage/core/cython/graph/*.pyx',
+                  # 'sage/core/cython/graph/*.pxd',
+              ],
               # library_dirs=[FS.VENDOR_DIR, ],
               include_dirs=[FS.INCLUDE_DIR, ]),
     # Cython.
     Extension(name="crawler",
               language="c++",
-              sources=['sage/core/cython/crawler/*.pyx',
-                       'sage/core/cython/crawler/*.pyd'],
-              # libraries=[],
-              # library_dirs=[FS.VENDOR_DIR, ],
+              sources=[
+                  'sage/core/cython/crawler/*.pyx',
+                  # 'sage/core/cython/crawler/*.pxd',
+              ],
               include_dirs=[FS.INCLUDE_DIR, ]),
 
 ]
