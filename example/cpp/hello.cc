@@ -6,22 +6,12 @@ int main() {
     std::cout << "Could not initialize sage\n";
     exit(1);
   }
-
-
+  // Path to a JSON-LD file.
   const char* const filepath =
-      "/Users/victor/Documents/Work/"
-      "NioCraft/sage/build/test.jsonld";
+      "/Users/victor/Documents/Work/NioCraft"
+      "/sage/cache/examples/avatar.jsonld";
+
   sage::graph::KnowledgeGraph g;
   g.load(filepath);
   std::cout << g.scope() << '\n';
-  // using json = nlohmann::json;
-  // sage::File f(filepath);
-  // json contents = f.loadJSON();
-  // std::cout << contents.dump() << '\n';
-
-  // for (const auto& content : contents.items()) {
-  //   std::cout << "Key: " << content.key();
-  //   std::cout << "\tValue: " << content.value() << '\n';
-  // }
-
 }

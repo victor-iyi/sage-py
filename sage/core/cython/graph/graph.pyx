@@ -60,7 +60,7 @@ cdef class Scope(Node):
         readonly str _id, _type
 
     def __cinit__(self, key: str, value: Any = None, **kwargs):
-        super(Scope, self).__cinit__(key, is_scope=True, **kwargs)
+        super(Scope, self).__init__(key, is_scope=True, **kwargs)
         self._value = value or []
 
         _generator = uuid.uuid5(namespace=uuid.NAMESPACE_OID,
