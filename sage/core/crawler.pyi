@@ -33,10 +33,10 @@ def get_source(url: str, query_dict: Dict[str, str] = None) -> str:
 
 def get_properties(schema_type: str, baseURL: Optional[str] = 'https://schema.org/',
                    compact: Optional[bool] = False) -> Dict[str, Any]:
-    """Get properties for a schema Type.
+    """Get properties for a schema DataType.
 
     Args:
-        schema_type (str): A valid schema:Type.
+        schema_type (str): A valid schema:DataType.
         baseURL (str, optional): Defaults to "https://schema.org/". Base URL to schema.
         compact (bool, optional): Defaults to False. If set to True, only property names
             will be returned.

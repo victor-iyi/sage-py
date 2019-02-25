@@ -74,8 +74,8 @@ namespace sage {
           //   // print as a scope.
           //   stream << std::setw(4) << node.key() << '\n';
           // } else
-            // Print as a node.
-            stream << std::setw(4) << node << '\n';
+          // Print as a node.
+          stream << std::setw(4) << node << '\n';
         }
         stream << '}';
         return stream;

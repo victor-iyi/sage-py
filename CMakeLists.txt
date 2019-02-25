@@ -50,7 +50,7 @@ option(SAGE_USE_PCH "Use sage's pre-compiled header." OFF)
 option(SAGE_USE_SYSTEM_INCLUDES
        "Use C++ includes in pre-compiled headers (Recommended)." ON)
 
-# Set default Build Type.
+# Set default Build DataType.
 if(NOT CMAKE_BUILD_TYPE)
   if(SAGE_DEBUG)
     set(CMAKE_BUILD_TYPE "Debug")

@@ -50,6 +50,14 @@ ext_modules = [
                   # 'sage/core/cython/crawler/*.pxd',
               ],
               include_dirs=[FS.INCLUDE_DIR, ]),
+    # Cython.
+    Extension(name="dtype",
+              language="c++",
+              sources=[
+                  'sage/core/cython/dtype/*.pyx',
+                  # 'sage/core/cython/dtype/*.pxd',
+              ],
+              include_dirs=[FS.INCLUDE_DIR, ]),
 
 ]
 

@@ -17,7 +17,7 @@
 
 # Built-in libraries.
 from abc import ABCMeta
-from typing import Union, List, Iterable, Dict, Optional, Any
+from typing import Union, List, Iterable, Dict, Optional, Any, Tuple
 
 
 class Mode(metaclass=ABCMeta):
@@ -67,7 +67,7 @@ class Base(object, metaclass=ABCMeta):
     __module__ = ...  # type: str
     __doc__ = ...  # type: Optional[str]
     __dict__ = ...  # type: Dict[str, Any]
-    __slots__ = ...  # type: Union[str, Iterable[str]]
+    __slots__ = ...  # type: Union[str, Tuple[str]]
 
     # Properties.
     verbose = ...  # type: int
@@ -94,6 +94,7 @@ class Base(object, metaclass=ABCMeta):
 # | Attributes getter.
 # +----------------------------------------------------------------------------------------------+
 ##################################################################################################
+# noinspection PyUnresolvedReferences
 class Attr(dict):
     """Get attributes.
 
@@ -188,7 +189,7 @@ class Attr(dict):
         ```
     """
 
-    def __init__(self, d: dict=None, **kwargs: Any) -> None: ...
+    def __init__(self, d: dict = None, **kwargs: Any) -> None: ...
 
     def __setattr__(self, name: str, value: Any) -> None: ...
 

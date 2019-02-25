@@ -287,7 +287,7 @@
 <http://schema.org/serviceArea> <http://schema.org/supersededBy> <http://schema.org/areaServed> .
 <http://schema.org/UserPlays> <http://www.w3.org/2000/01/rdf-schema#label> "UserPlays" .
 <http://schema.org/checkoutTime> <http://schema.org/domainIncludes> <http://schema.org/LodgingBusiness> .
-<http://schema.org/itemListOrder> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of ordering (e.g. Ascending, Descending, Unordered)." .
+<http://schema.org/itemListOrder> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of ordering (e.g. Ascending, Descending, Unordered)." .
 <http://schema.org/Female> <http://www.w3.org/2000/01/rdf-schema#comment> "The female gender." .
 <http://schema.org/location> <http://www.w3.org/2000/01/rdf-schema#comment> "The location of for example where the event is happening, an organization is located, or where an action takes place." .
 <http://schema.org/bookingTime> <http://www.w3.org/2000/01/rdf-schema#label> "bookingTime" .
@@ -1773,7 +1773,7 @@
 <http://schema.org/cargoVolume> <http://www.w3.org/2000/01/rdf-schema#label> "cargoVolume" .
 <http://schema.org/HinduTemple> <http://www.w3.org/2000/01/rdf-schema#comment> "A Hindu temple." .
 <http://schema.org/WarrantyScope> <http://purl.org/dc/terms/source> <http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass> .
-<http://schema.org/employmentType> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship)." .
+<http://schema.org/employmentType> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship)." .
 <http://schema.org/GovernmentPermit> <http://www.w3.org/2000/01/rdf-schema#label> "GovernmentPermit" .
 <http://schema.org/course> <http://www.w3.org/2000/01/rdf-schema#label> "course" .
 <http://schema.org/runtime> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
@@ -3009,7 +3009,7 @@
 <http://schema.org/dateModified> <http://schema.org/domainIncludes> <http://schema.org/CreativeWork> .
 <http://schema.org/EngineSpecification> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/StructuredValue> .
 <http://schema.org/arrivalPlatform> <http://schema.org/domainIncludes> <http://schema.org/TrainTrip> .
-<http://schema.org/targetPlatform> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of app development: phone, Metro style, desktop, XBox, etc." .
+<http://schema.org/targetPlatform> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of app development: phone, Metro style, desktop, XBox, etc." .
 <http://schema.org/educationalFramework> <http://schema.org/rangeIncludes> <http://schema.org/Text> .
 <http://schema.org/Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/numberOfPlayers> <http://schema.org/domainIncludes> <http://schema.org/VideoGameSeries> .
@@ -4885,7 +4885,7 @@
 <http://schema.org/inAlbum> <http://www.w3.org/2000/01/rdf-schema#comment> "The album to which this recording belongs." .
 <http://schema.org/author> <http://www.w3.org/2000/01/rdf-schema#comment> "The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably." .
 <http://schema.org/typeOfGood> <http://schema.org/rangeIncludes> <http://schema.org/Product> .
-<http://schema.org/TouristAttraction> <http://www.w3.org/2000/01/rdf-schema#comment> "A tourist attraction.  In principle any Thing can be a <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, from a <a class=\"localLink\" href=\"http://schema.org/Mountain\">Mountain</a> and <a class=\"localLink\" href=\"http://schema.org/LandmarksOrHistoricalBuildings\">LandmarksOrHistoricalBuildings</a> to a <a class=\"localLink\" href=\"http://schema.org/LocalBusiness\">LocalBusiness</a>.  This Type can be used on its own to describe a general <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, or be used as an <a class=\"localLink\" href=\"http://schema.org/additionalType\">additionalType</a> to add tourist attraction properties to any other type.  (See examples below)" .
+<http://schema.org/TouristAttraction> <http://www.w3.org/2000/01/rdf-schema#comment> "A tourist attraction.  In principle any Thing can be a <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, from a <a class=\"localLink\" href=\"http://schema.org/Mountain\">Mountain</a> and <a class=\"localLink\" href=\"http://schema.org/LandmarksOrHistoricalBuildings\">LandmarksOrHistoricalBuildings</a> to a <a class=\"localLink\" href=\"http://schema.org/LocalBusiness\">LocalBusiness</a>.  This DataType can be used on its own to describe a general <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, or be used as an <a class=\"localLink\" href=\"http://schema.org/additionalType\">additionalType</a> to add tourist attraction properties to any other type.  (See examples below)" .
 <http://schema.org/SearchResultsPage> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/openingHours> <http://schema.org/domainIncludes> <http://schema.org/CivicStructure> .
 <http://schema.org/season> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://schema.org/hasPart> .
@@ -8405,7 +8405,7 @@
 <http://schema.org/durationOfWarranty> <http://purl.org/dc/terms/source> <http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsTerms> .
 <http://schema.org/creator> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
 <http://schema.org/geographicArea> <http://schema.org/rangeIncludes> <http://schema.org/AdministrativeArea> .
-<http://schema.org/applicationCategory> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of software application, e.g. 'Game, Multimedia'." .
+<http://schema.org/applicationCategory> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of software application, e.g. 'Game, Multimedia'." .
 <http://schema.org/beforeMedia> <http://schema.org/rangeIncludes> <http://schema.org/URL> .
 <http://schema.org/subEvents> <http://www.w3.org/2000/01/rdf-schema#comment> "Events that are a part of this event. For example, a conference event includes many presentations, each subEvents of the conference." .
 <http://schema.org/scheduledPaymentDate> <http://schema.org/rangeIncludes> <http://schema.org/Date> .

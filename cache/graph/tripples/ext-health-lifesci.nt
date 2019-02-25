@@ -561,7 +561,7 @@
 <http://schema.org/MaximumDoseSchedule> <http://schema.org/isPartOf> <http://health-lifesci.schema.org> .
 <http://schema.org/Dermatologic> <http://www.w3.org/2000/01/rdf-schema#label> "Dermatologic" .
 <http://schema.org/Psychiatric> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/MedicalSpecialty> .
-<http://schema.org/subtype> <http://www.w3.org/2000/01/rdf-schema#comment> "A more specific type of the condition, where applicable, for example 'Type 1 Diabetes', 'Type 2 Diabetes', or 'Gestational Diabetes' for Diabetes." .
+<http://schema.org/subtype> <http://www.w3.org/2000/01/rdf-schema#comment> "A more specific type of the condition, where applicable, for example 'DataType 1 Diabetes', 'DataType 2 Diabetes', or 'Gestational Diabetes' for Diabetes." .
 <http://schema.org/endorsers> <http://www.w3.org/2000/01/rdf-schema#comment> "People or organizations that endorse the plan." .
 <http://schema.org/Neck> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PhysicalExam> .
 <http://schema.org/InfectiousDisease> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/MedicalCondition> .
@@ -657,7 +657,7 @@
 <http://schema.org/howPerformed> <http://www.w3.org/2000/01/rdf-schema#label> "howPerformed" .
 <http://schema.org/indication> <http://schema.org/domainIncludes> <http://schema.org/MedicalProcedure> .
 <http://schema.org/PET> <http://www.w3.org/2000/01/rdf-schema#comment> "Positron emission tomography imaging." .
-<http://schema.org/exerciseType> <http://www.w3.org/2000/01/rdf-schema#comment> "Type(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc." .
+<http://schema.org/exerciseType> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc." .
 <http://schema.org/preOp> <http://schema.org/domainIncludes> <http://schema.org/MedicalDevice> .
 <http://schema.org/adverseOutcome> <http://schema.org/domainIncludes> <http://schema.org/MedicalDevice> .
 <http://schema.org/differentialDiagnosis> <http://schema.org/isPartOf> <http://health-lifesci.schema.org> .

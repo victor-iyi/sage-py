@@ -25,10 +25,10 @@
 #     str: Decoded source code of the give URL.
 cpdef str get_source(str url, dict query_dict= *)
 
-# Get properties for a schema Type.
+# Get properties for a schema DataType.
 #
 # Args:
-#     schema_type (str): A valid schema:Type.
+#     schema_type (str): A valid schema:DataType.
 #     baseURL (str, optional): Defaults to "https://schema.org/". Base URL to schema.
 #
 # Notes:

@@ -63,10 +63,10 @@ cpdef str get_source(str url, dict query_dict=None):
     return response
 
 cpdef dict get_properties(str schema_type, str baseURL='https://schema.org/', bint compact=False):
-    """Get properties for a schema Type.
+    """Get properties for a schema DataType.
 
     Args:
-        schema_type (str): A valid schema:Type.
+        schema_type (str): A valid schema:DataType.
         baseURL (str, optional): Defaults to "https://schema.org/". Base URL to schema.
         compact (bool, optional): Defaults to False. If set to True, only property names
             will be returned.

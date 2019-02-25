@@ -352,7 +352,7 @@
 <http://schema.org/featureList> <http://schema.org/rangeIncludes> <http://schema.org/Text> .
 <http://schema.org/subTest> <http://schema.org/domainIncludes> <http://schema.org/MedicalTestPanel> .
 <http://schema.org/assembly> <http://www.w3.org/2000/01/rdf-schema#label> "assembly" .
-<http://schema.org/Class> <http://www.w3.org/2000/01/rdf-schema#comment> "A class, also often called a 'Type'; equivalent to rdfs:Class." .
+<http://schema.org/Class> <http://www.w3.org/2000/01/rdf-schema#comment> "A class, also often called a 'DataType'; equivalent to rdfs:Class." .
 <http://schema.org/yearlyRevenue> <http://schema.org/rangeIncludes> <http://schema.org/QuantitativeValue> .
 <http://schema.org/FireStation> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/EmergencyService> .
 <http://schema.org/QualitativeValue> <http://purl.org/dc/terms/source> <http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass> .
@@ -1176,7 +1176,7 @@
 <http://schema.org/TouristDestination> <http://schema.org/isPartOf> <http://pending.schema.org> .
 <http://schema.org/ItemListUnordered> <http://www.w3.org/2000/01/rdf-schema#comment> "An ItemList ordered with no explicit order." .
 <http://schema.org/bed> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
-<http://schema.org/targetPlatform> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of app development: phone, Metro style, desktop, XBox, etc." .
+<http://schema.org/targetPlatform> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of app development: phone, Metro style, desktop, XBox, etc." .
 <http://schema.org/ParkingMap> <http://www.w3.org/2000/01/rdf-schema#comment> "A parking map." .
 <http://schema.org/startDate> <http://www.w3.org/2000/01/rdf-schema#label> "startDate" .
 <http://schema.org/readBy> <http://schema.org/rangeIncludes> <http://schema.org/Person> .
@@ -2670,7 +2670,7 @@
 <http://schema.org/Painting> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/beneficiaryBank> <http://schema.org/domainIncludes> <http://schema.org/MoneyTransfer> .
 <http://schema.org/MotorizedBicycle> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/Vehicle> .
-<http://schema.org/itemListOrder> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of ordering (e.g. Ascending, Descending, Unordered)." .
+<http://schema.org/itemListOrder> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of ordering (e.g. Ascending, Descending, Unordered)." .
 <http://schema.org/followee> <http://www.w3.org/2000/01/rdf-schema#label> "followee" .
 <http://schema.org/LeftHandDriving> <http://purl.org/dc/terms/source> <http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Automotive_Ontology_Working_Group> .
 <http://schema.org/Otolaryngologic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/MedicalSpecialty> .
@@ -4512,7 +4512,7 @@
 <http://schema.org/broadcastFrequencyValue> <http://www.w3.org/2000/01/rdf-schema#comment> "The frequency in MHz for a particular broadcast." .
 <http://schema.org/VideoObject> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/validFrom> <http://schema.org/domainIncludes> <http://schema.org/Permit> .
-<http://schema.org/employmentType> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship)." .
+<http://schema.org/employmentType> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship)." .
 <http://schema.org/workTranslation> <http://schema.org/domainIncludes> <http://schema.org/CreativeWork> .
 <http://schema.org/GeoCoordinates> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/partySize> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
@@ -5138,7 +5138,7 @@
 <http://schema.org/Genitourinary> <http://www.w3.org/2000/01/rdf-schema#comment> "Genitourinary system function assessment with clinical examination." .
 <http://schema.org/isConsumableFor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
 <http://schema.org/cssSelector> <http://www.w3.org/2000/01/rdf-schema#label> "cssSelector" .
-<http://schema.org/applicationCategory> <http://www.w3.org/2000/01/rdf-schema#comment> "Type of software application, e.g. 'Game, Multimedia'." .
+<http://schema.org/applicationCategory> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType of software application, e.g. 'Game, Multimedia'." .
 <http://schema.org/occupationLocation> <http://schema.org/rangeIncludes> <http://schema.org/AdministrativeArea> .
 <http://schema.org/gamePlatform> <http://schema.org/rangeIncludes> <http://schema.org/URL> .
 <http://schema.org/name> <http://www.w3.org/2000/01/rdf-schema#comment> "The name of the item." .
@@ -5612,7 +5612,7 @@
 <http://schema.org/Brand> <http://www.w3.org/2000/01/rdf-schema#comment> "A brand is a name used by an organization or business person for labeling a product, product group, or similar." .
 <http://schema.org/CorrectionComment> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/Comment> .
 <http://schema.org/PaymentCard> <http://www.w3.org/2000/01/rdf-schema#label> "PaymentCard" .
-<http://schema.org/subtype> <http://www.w3.org/2000/01/rdf-schema#comment> "A more specific type of the condition, where applicable, for example 'Type 1 Diabetes', 'Type 2 Diabetes', or 'Gestational Diabetes' for Diabetes." .
+<http://schema.org/subtype> <http://www.w3.org/2000/01/rdf-schema#comment> "A more specific type of the condition, where applicable, for example 'DataType 1 Diabetes', 'DataType 2 Diabetes', or 'Gestational Diabetes' for Diabetes." .
 <http://schema.org/OwnershipInfo> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/StructuredValue> .
 <http://schema.org/subStructure> <http://www.w3.org/2000/01/rdf-schema#comment> "Component (sub-)structure(s) that comprise this anatomical structure." .
 <http://schema.org/relatedTo> <http://www.w3.org/2000/01/rdf-schema#label> "relatedTo" .
@@ -9233,7 +9233,7 @@
 <http://schema.org/DataDownload> <http://www.w3.org/2000/01/rdf-schema#comment> "A dataset in downloadable form." .
 <http://schema.org/result> <http://www.w3.org/2000/01/rdf-schema#label> "result" .
 <http://schema.org/PerformingGroup> <http://www.w3.org/2000/01/rdf-schema#comment> "A performance group, such as a band, an orchestra, or a circus." .
-<http://schema.org/TouristAttraction> <http://www.w3.org/2000/01/rdf-schema#comment> "A tourist attraction.  In principle any Thing can be a <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, from a <a class=\"localLink\" href=\"http://schema.org/Mountain\">Mountain</a> and <a class=\"localLink\" href=\"http://schema.org/LandmarksOrHistoricalBuildings\">LandmarksOrHistoricalBuildings</a> to a <a class=\"localLink\" href=\"http://schema.org/LocalBusiness\">LocalBusiness</a>.  This Type can be used on its own to describe a general <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, or be used as an <a class=\"localLink\" href=\"http://schema.org/additionalType\">additionalType</a> to add tourist attraction properties to any other type.  (See examples below)" .
+<http://schema.org/TouristAttraction> <http://www.w3.org/2000/01/rdf-schema#comment> "A tourist attraction.  In principle any Thing can be a <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, from a <a class=\"localLink\" href=\"http://schema.org/Mountain\">Mountain</a> and <a class=\"localLink\" href=\"http://schema.org/LandmarksOrHistoricalBuildings\">LandmarksOrHistoricalBuildings</a> to a <a class=\"localLink\" href=\"http://schema.org/LocalBusiness\">LocalBusiness</a>.  This DataType can be used on its own to describe a general <a class=\"localLink\" href=\"http://schema.org/TouristAttraction\">TouristAttraction</a>, or be used as an <a class=\"localLink\" href=\"http://schema.org/additionalType\">additionalType</a> to add tourist attraction properties to any other type.  (See examples below)" .
 <http://schema.org/MusicAlbum> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/addressRegion> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
 <http://schema.org/TireShop> <http://www.w3.org/2000/01/rdf-schema#label> "TireShop" .
@@ -10292,7 +10292,7 @@
 <http://schema.org/sibling> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
 <http://schema.org/Balance> <http://www.w3.org/2000/01/rdf-schema#label> "Balance" .
 <http://schema.org/discusses> <http://schema.org/rangeIncludes> <http://schema.org/CreativeWork> .
-<http://schema.org/TouristDestination> <http://www.w3.org/2000/01/rdf-schema#comment> "A tourist destination. In principle any <a class=\"localLink\" href=\"http://schema.org/Place\">Place</a> can be a <a class=\"localLink\" href=\"http://schema.org/TouristDestination\">TouristDestination</a> from a <a class=\"localLink\" href=\"http://schema.org/City\">City</a>, <a class=\"localLink\" href=\"http://schema.org/Region\">Region</a> or <a class=\"localLink\" href=\"http://schema.org/Country\">Country</a> to an <a class=\"localLink\" href=\"http://schema.org/AmusementPark\">AmusementPark</a> or <a class=\"localLink\" href=\"http://schema.org/Hotel\">Hotel</a>. This Type can be used on its own to describe a general <a class=\"localLink\" href=\"http://schema.org/TourstDestination\">TourstDestination</a>, or be used as an <a class=\"localLink\" href=\"http://schema.org/additionalType\">additionalType</a> to add tourist relevant properties to any other <a class=\"localLink\" href=\"http://schema.org/Place\">Place</a>.  A <a class=\"localLink\" href=\"http://schema.org/TouristDestination\">TouristDestination</a> is defined as a <a class=\"localLink\" href=\"http://schema.org/Place\">Place</a> that contains, or is colocated with, one or more <a class=\"localLink\" href=\"http://schema.org/TourstAttractions\">TourstAttractions</a>, often linked by a similar theme or interest to a particular <a class=\"localLink\" href=\"http://schema.org/touristType\">touristType</a>. The <a href=\"http://www2.unwto.org/\">UNWTO</a> defines Destination (main destination of a tourism trip) as the place visited that is central to the decision to take the trip.\n  (See examples below)." .
+<http://schema.org/TouristDestination> <http://www.w3.org/2000/01/rdf-schema#comment> "A tourist destination. In principle any <a class=\"localLink\" href=\"http://schema.org/Place\">Place</a> can be a <a class=\"localLink\" href=\"http://schema.org/TouristDestination\">TouristDestination</a> from a <a class=\"localLink\" href=\"http://schema.org/City\">City</a>, <a class=\"localLink\" href=\"http://schema.org/Region\">Region</a> or <a class=\"localLink\" href=\"http://schema.org/Country\">Country</a> to an <a class=\"localLink\" href=\"http://schema.org/AmusementPark\">AmusementPark</a> or <a class=\"localLink\" href=\"http://schema.org/Hotel\">Hotel</a>. This DataType can be used on its own to describe a general <a class=\"localLink\" href=\"http://schema.org/TourstDestination\">TourstDestination</a>, or be used as an <a class=\"localLink\" href=\"http://schema.org/additionalType\">additionalType</a> to add tourist relevant properties to any other <a class=\"localLink\" href=\"http://schema.org/Place\">Place</a>.  A <a class=\"localLink\" href=\"http://schema.org/TouristDestination\">TouristDestination</a> is defined as a <a class=\"localLink\" href=\"http://schema.org/Place\">Place</a> that contains, or is colocated with, one or more <a class=\"localLink\" href=\"http://schema.org/TourstAttractions\">TourstAttractions</a>, often linked by a similar theme or interest to a particular <a class=\"localLink\" href=\"http://schema.org/touristType\">touristType</a>. The <a href=\"http://www2.unwto.org/\">UNWTO</a> defines Destination (main destination of a tourism trip) as the place visited that is central to the decision to take the trip.\n  (See examples below)." .
 <http://schema.org/overview> <http://schema.org/rangeIncludes> <http://schema.org/Text> .
 <http://schema.org/roleName> <http://www.w3.org/2000/01/rdf-schema#label> "roleName" .
 <http://schema.org/loanType> <http://www.w3.org/2000/01/rdf-schema#label> "loanType" .
@@ -12704,7 +12704,7 @@
 <http://schema.org/occupancy> <http://schema.org/domainIncludes> <http://schema.org/SingleFamilyResidence> .
 <http://schema.org/reviewCount> <http://www.w3.org/2000/01/rdf-schema#comment> "The count of total number of reviews." .
 <file:///Users/wallisr/Development/Schema/master/schemaorg/data/schema.rdfa> <http://purl.org/dc/terms/source> <http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Tourism> .
-<http://schema.org/exerciseType> <http://www.w3.org/2000/01/rdf-schema#comment> "Type(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc." .
+<http://schema.org/exerciseType> <http://www.w3.org/2000/01/rdf-schema#comment> "DataType(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc." .
 <http://schema.org/EventReservation> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/Reservation> .
 <http://schema.org/HealthPlanNetwork> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
 <http://schema.org/Schedule> <http://schema.org/category> "issue-1457" .
