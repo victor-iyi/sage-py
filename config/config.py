@@ -39,6 +39,7 @@ __all__ = [
 ]
 
 
+# noinspection PyUnresolvedReferences
 class Attr(dict):
     """Get attributes.
 
@@ -156,13 +157,12 @@ class Attr(dict):
 
     __setitem__ = __setattr__
 
+
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
 # | Config: Configuration avatar class to convert save & load config files.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-
-
 class Config(metaclass=ABCMeta):
     @staticmethod
     def from_yaml(file: str):
@@ -231,7 +231,7 @@ class Config(metaclass=ABCMeta):
             Attr: config dictionary object.
         """
 
-        assert file.endswith('json'), 'File is not a `JSON` file.'
+        assert file.endswith(('json', 'jsonld')), 'File is not a `JSON` file.'
 
         if not os.path.isfile(file):
             raise FileNotFoundError('{} was not found'.format(file))
