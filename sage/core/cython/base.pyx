@@ -15,8 +15,7 @@
      Copyright (c) 2018. Victor I. Afolabi. All rights reserved.
 """
 
-# Built-in libraries.
-from abc import ABCMeta
+# Built-in for Abstract Base Classes.
 from typing import Any
 
 # Classes in this file.
@@ -30,7 +29,7 @@ __all__ = [
 # | Run mode: Tran, test, validation.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-class Mode(metaclass=ABCMeta):
+class Mode:
     TEST = 'test'
     TRAIN = 'train'
     PREDICT = 'predict'
@@ -48,10 +47,11 @@ cdef class Base:
     cdef:
         readonly str _name
         readonly int _verbose
-    def __init__(self, verbose=1, name=None):
+
+    def __init__(self, **kwargs):
         # Verbosity level: 0 or 1.
-        self._verbose = verbose
-        self._name = name or self.__class__.__name__
+        self._verbose = kwargs.get('verbose', 1)
+        self._name = kwargs.get('name', self.__class__.__name__)
 
     def __repr__(self):
         """Object representation of Sub-classes."""
@@ -96,12 +96,12 @@ cdef class Base:
         # Call the appropriate log level, eg: Log.info(*args, **kwargs)
         eval(f'Log.{level.lower()}(*args, **kwargs)')
 
-    cpdef list _get_args(self):
+    cdef list _get_args(self):
         # names = ('data_dir', 'sub_dirs', 'results_dir')
         # return [getattr(self, f'_{name}') for name in names]
         return []
 
-    cpdef list _get_kwargs(self):
+    cdef list _get_kwargs(self):
         # names = ('verbose', 'version')
         # return [(name, getattr(self, f'_{name}')) for name in names]
         cdef str k
@@ -111,13 +111,13 @@ cdef class Base:
     property name:
         def __get__(self):
             return self._name
+
     property verbose:
         def __get__(self):
             return self._verbose
 
-
 # noinspection PyUnresolvedReferences
-class Attr(dict):
+cdef class Attr(dict):
     """Get attributes.
 
     Examples:
@@ -211,7 +211,7 @@ class Attr(dict):
         ```
     """
 
-    def __init__(self, d=None, **kwargs):
+    def __init__(self, dict d=None, **kwargs):
         if d is None:
             d = {}
         if kwargs:
@@ -223,7 +223,7 @@ class Attr(dict):
             if not (k.startswith('__') and k.endswith('__')):
                 setattr(self, k, getattr(self, k))
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, str name, value):
         if isinstance(value, (list, tuple)):
             value = [self.__class__(x)
                      if isinstance(x, dict) else x for x in value]

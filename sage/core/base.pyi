@@ -1,4 +1,4 @@
-"""Base module for Python objects.
+"""Base class for Sage.
 
    @author
      Victor I. Afolabi
@@ -7,71 +7,98 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: base.pyi
-     Created on 28 January, 2019 @ 12:42.
+     File: base.pyx
+     Created on 28 January, 2018 @ 12:38 PM.
 
    @license
      Apache License 2.0
-     Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
+     Copyright (c) 2018. Victor I. Afolabi. All rights reserved.
 """
 
-# Built-in libraries.
+
 from abc import ABCMeta
-from typing import Union, List, Iterable, Dict, Optional, Any, Tuple
+from typing import Union, List, Iterable, Dict, Optional, Any
 
 
+################################################################################################
+# +--------------------------------------------------------------------------------------------+
+# | Run mode: Tran, test, validation.
+# +--------------------------------------------------------------------------------------------+
+################################################################################################
 class Mode(metaclass=ABCMeta):
+    """Mode represents various data & model processing phase.
+
+    Attributes:
+        TEST (str) - Test phase: To evaluate how a model performs on unseen data.
+        TRAIN (str) - Training phase: To train a model on labelled samples.
+        PREDICT (str) - Prediction phase: To predict new unseen data.
+        VALIDATE (str) - Validation phase: To evaluate how a model performs during training.
+        INFERENCE (str) - For production level prediction.
+    """
+
     __class__ = ...  # type: type
     __module__ = ...  # type: str
     __doc__ = ...  # type: Optional[str]
     __dict__ = ...  # type: Dict[str, Any]
     __slots__ = ...  # type: Union[str, Iterable[str]]
 
-    VAL = ...  # type: str
+    """TEST (str) - Test phase: To evaluate how a model performs on unseen data."""
     TEST = ...  # type: str
+
+    """TRAIN (str) - Training phase: To train a model on labelled samples."""
     TRAIN = ...  # type: str
+
+    """PREDICT (str) - Prediction phase: To predict new unseen data."""
     PREDICT = ...  # type: str
+
+    """VALIDATE (str) - Validation phase: To evaluate how a model performs during training."""
     VALIDATE = ...  # type: str
 
+    """INFERENCE (str) - For production level prediction."""
+    INFERENCE = ...  # type: str
 
+
+################################################################################################
+# +--------------------------------------------------------------------------------------------+
+# | Base: Base class for all classes.
+# +--------------------------------------------------------------------------------------------+
+################################################################################################
 class Base(object, metaclass=ABCMeta):
-    """Base class for objects.
+    """Abstract Base Class for all objects.
 
     Methods:
-        def __init__(self, *args: Any, **kwargs: Any) -> None:
-            # Object initialization.
+        def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
-        def __repr__(self) -> str:
-            # Object representation of class.
+        def __repr__(self) -> str: ...
 
-        def __str__(self) -> str:
-            # String representation of class.
+        def __str__(self) -> str: ...
 
-        def __format__(self, format_spec: Optional[str]) -> str:
-            # For string formatting.
+        def __format__(self, format_spec: Optional[str]) -> str: ...
 
-        def _log(self, *args: Any, level: Optional[str] = 'debug', **kwargs: Any) -> None:
-            # Handy logger method for logging & debugging.
+        def _log(self, *args: Any, level: Optional[str] = 'debug', **kwargs: Any) -> None: ...
 
-        def _get_args(self) -> List[Any]:
-            # Get class arguments.
+        def _get_args(self) -> List[Any]: ...
 
-        def _get_kwargs(self) -> Dict[str, Any]:
-            # Get class keyword arguments.
+        def _get_kwargs(self) -> Dict[str, Any]: ...
 
     Attributes:
-        verbose (int, optional): Defaults to 1.
-        name (str, optional): Class alias (for saving & collecting metadata).
+        verbose (int, optional) - Defaults to 1. Verbosity level.
+        name (str, optional) - Defaults to self.__class__.__name__ i.e sub-class name.
+            Useful for debugging or caching instances of classes.
     """
+
     __class__ = ...  # type: type
     __module__ = ...  # type: str
     __doc__ = ...  # type: Optional[str]
     __dict__ = ...  # type: Dict[str, Any]
-    __slots__ = ...  # type: Union[str, Tuple[str]]
+    __slots__ = ...  # type: Union[str, Iterable[str]]
 
     # Properties.
-    verbose = ...  # type: int
-    name = ...  # type: str
+    """Verbosity level. Defaults to 1."""
+    verbose = ...  # type: Optional[int]
+
+    """Useful for debugging or caching instances of classes."""
+    name = ...  # type: Optional[str]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
@@ -81,19 +108,34 @@ class Base(object, metaclass=ABCMeta):
 
     def __format__(self, format_spec: Optional[str]) -> str: ...
 
-    def _log(self, *args: Any,
-             level: Optional[str] = 'debug', **kwargs: Any) -> None: ...
+    def _log(self, *args: Any, level: Optional[str] = 'debug', **kwargs: Any) -> None:
+        """Convenient Class logger method.
 
-    def _get_args(self) -> List[Any]: ...
+        Args:
+            *args (Any): Arguments to be logged.
+            level (str, optional): Defaults to debug. Log level.
+            **kwargs (Any, optional): Other keyword arguments to be
+                passed into logging.`${level}`(**kwargs).
 
-    def _get_kwargs(self) -> Dict[str, Any]: ...
+        Returns:
+            None
+        """
+
+    def _get_args(self) -> List[Any]:
+        """Returns class positional arguments.
+
+        Returns:
+            List[Any] - List of object's positional arguments.
+        """
+
+    def _get_kwargs(self) -> Dict[str, Any]:
+        """Returns class keyword arguments.
+
+        Returns:Ob
+            Dict[str, Any] - Objects keyword arguments.
+        """
 
 
-##################################################################################################
-# +----------------------------------------------------------------------------------------------+
-# | Attributes getter.
-# +----------------------------------------------------------------------------------------------+
-##################################################################################################
 # noinspection PyUnresolvedReferences
 class Attr(dict):
     """Get attributes.
@@ -189,7 +231,7 @@ class Attr(dict):
         ```
     """
 
-    def __init__(self, d: dict = None, **kwargs: Any) -> None: ...
+    def __init__(self, d: Dict[str, Any] = None, **kwargs: Any) -> None: ...
 
     def __setattr__(self, name: str, value: Any) -> None: ...
 
