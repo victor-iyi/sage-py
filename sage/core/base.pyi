@@ -15,9 +15,8 @@
      Copyright (c) 2018. Victor I. Afolabi. All rights reserved.
 """
 
-
 from abc import ABCMeta
-from typing import Union, List, Iterable, Dict, Optional, Any
+from typing import Any, Dict, Iterable, List, Optional, Union
 
 
 ################################################################################################
