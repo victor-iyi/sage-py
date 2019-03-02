@@ -1,4 +1,4 @@
-"""Graph database.
+"""Data processing pipeline.
 
    @author
      Victor I. Afolabi
@@ -7,19 +7,19 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: graph.pyd
-     Created on 20 February, 2019 @ 11:56.
+     File: data.pyx
+     Created on 02 March, 2019 @ 03:52 PM.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-cimport node
+from sage.core.base import Base
 
-cdef class Graph:
-    cdef readonly node.Scope root
+class Dataset(Base):
+    def __init__(self):
+        pass
 
-    cpdef void load(self, node.Scope base, data)
-
-cpdef Graph newGraph(str path)
+    def get(self, int index):
+        return index

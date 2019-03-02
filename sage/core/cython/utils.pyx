@@ -26,8 +26,10 @@ import zipfile
 import urllib.error
 import urllib.parse
 import urllib.request
+
 from enum import IntEnum
 from abc import ABCMeta
+from pprint import PrettyPrinter
 from logging.config import fileConfig
 from typing import Iterable, Callable
 
@@ -498,6 +500,28 @@ class Log(metaclass=ABCMeta):
             return
 
         Log._logger.log(Log.level, *args, **kwargs)
+
+    @staticmethod
+    def pretty(args, stream=None, size_t indent=1, size_t width=80, size_t depth=0, *, bint compact=False):
+        """Handle pretty printing operations onto a stream using a set of configured parameters.
+
+        Args:
+            args (Any): Structured arguments to be printed.
+            stream (BinaryIO[bytes], optional): Defaults to `sys.stdout`. The
+                desired output stream. Stream must be writable. If omitted (or false),
+                the standard output stream available at construction will be used.
+            indent (int, optional): Defaults to 1. Number of spaces to indent
+                for each level of nesting.
+            width (int, optional): Defaults to 80. Attempted maximum number of
+                columns in the output.
+            depth (int, optional): Defaults to None. The maximum depth to print
+                out nested structures.
+            compact (bool, optional): Defaults to False. If true, several items
+                will be combined in one line.
+        """
+        printer = PrettyPrinter(stream=sys.stdout, indent=indent,
+                                width=width, depth=None if depth == 0 else depth, compact=compact)
+        printer.pprint(args)
 
     @staticmethod
     def progress(int count, int max_count):

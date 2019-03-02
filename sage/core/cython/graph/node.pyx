@@ -19,61 +19,39 @@ import uuid
 from typing import Any
 
 cdef class Node:
-    cdef:
-        public _value
-        readonly str _key
-        readonly bint _is_scope
-
-    def __cinit__(self, key: str, value=None, **kwargs):
-        self._key = key
-        self._value = value
-        self._is_scope = kwargs.get('is_scope', False)
+    def __cinit__(self, str key, value=None, is_scope=False):
+        self.key = key
+        self.value = value
+        self.is_scope = is_scope
 
     def __repr__(self):
-        return 'Node({}, value={})'.format(self._key, self._value)
+        return 'Node({}, value={})'.format(self.key, self.value)
 
     def __str__(self):
-        return '"{}" : "{}"'.format(self._key, self._value)
+        return '"{}" : "{}"'.format(self.key, self.value)
 
     def __format__(self, str format_spec):
         if format_spec == "!r":
             return self.__repr__()
         return self.__str__()
 
-    property key:
-        def __get__(self):
-            return self._key
-    property is_scope:
-        def __get__(self):
-            return self._is_scope
-
-    property value:
-        def __get__(self):
-            return self._value
-        def __set__(self, value):
-            self._value = value
-
 cdef class Scope(Node):
-    cdef:
-        readonly _namespace, _generator
-        readonly str _id, _type
-
-    def __cinit__(self, key: str, value: Any = None, **kwargs):
-        super(Scope, self).__cinit__(key, is_scope=True, **kwargs)
-        self._value = value or []
+    def __cinit__(self, str key, value: Any = None, is_scope=True):
+        super(Scope, self).__cinit__(key, is_scope=is_scope)
+        self.value = value or []
 
         _generator = uuid.uuid5(namespace=uuid.NAMESPACE_OID,
                                 name=str(key))
-        self._id = _generator.hex
+        self.id = _generator.hex
 
     def __repr__(self):
-        return 'Scope({}, value={})'.format(self._key, self._value)
+        return 'Scope({}, value={})'.format(self.key, self.value)
 
     def __str__(self):
         return self.__print(self)
 
     def __iter__(self):
-        for v in self._value:
+        for v in self.value:
             yield v
 
     cdef str __print(self, base, str so_far=''):
@@ -91,14 +69,13 @@ cdef class Scope(Node):
         return so_far
 
     cdef void add_scope(self, Scope scope):
-        self._value.append(scope)
+        self.value.append(scope)
 
     cdef void add_node(self, Node node):
-        self._value.append(node)
+        self.value.append(node)
 
-    property id:
-        def __get__(self):
-            return self._id
-    property type:
-        def __get__(self):
-            return self._type
+cpdef Node newNode(str key, value=None):
+    return Node(key, value, is_scope=False)
+
+cpdef Scope newScope(str key, value=None):
+    return  Scope(key, value, is_scope=True)

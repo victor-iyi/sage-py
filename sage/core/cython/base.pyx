@@ -48,7 +48,7 @@ cdef class Base:
         readonly str name
         readonly int verbose
 
-    def __init__(self, **kwargs):
+    def __cinit__(self, **kwargs):
         # Verbosity level: 0 or 1.
         self.verbose = kwargs.get('verbose', 1)
         self.name = kwargs.get('name', self.__class__.__name__)

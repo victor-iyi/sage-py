@@ -16,11 +16,13 @@
 """
 
 # Built-in libraries.
+from pprint import PrettyPrinter
+
 from enum import IntEnum
 from abc import ABCMeta, abstractmethod
 from typing import (List, Tuple, Iterable, Callable, Union, SupportsBytes,
                     TypeVar, Generic, SupportsFloat, SupportsInt, Dict,
-                    Optional, Generator, Any, AnyStr, Type)
+                    Optional, Generator, Any, AnyStr, Type, BinaryIO)
 
 # Third-party libraries.
 import numpy as np
@@ -715,6 +717,26 @@ class Log(metaclass=ABCMeta):
 
         Returns:
             None
+        """
+
+    @staticmethod
+    def pretty(args: Any, stream: BinaryIO[bytes] = None, indent: int = 1,
+               width: int = 80, depth: int = None, *, compact: bool = False):
+        """Handle pretty printing operations onto a stream using a set of configured parameters.
+
+        Args:
+            args (Any): Structured arguments to be printed.
+            stream (BinaryIO[bytes], optional): Defaults to `sys.stdout`. The
+                desired output stream. Stream must be writable. If omitted (or false),
+                the standard output stream available at construction will be used.
+            indent (int, optional): Defaults to 1. Number of spaces to indent
+                for each level of nesting.
+            width (int, optional): Defaults to 80. Attempted maximum number of
+                columns in the output.
+            depth (int, optional): Defaults to None. The maximum depth to print
+                out nested structures.
+            compact (bool, optional): Defaults to False. If true, several items
+                will be combined in one line.
         """
 
     @staticmethod

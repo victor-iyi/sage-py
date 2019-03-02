@@ -34,7 +34,7 @@ Avatar --trailer--> https://avatar.trailer.com
 tokens = nltk.word_tokenize(text)
 tagged = nltk.pos_tag(tokens)
 entities = nltk.ne_chunk(tagged, binary=False)
-entities.draw()
+# entities.draw()
 
 if __name__ == '__main__':
     Log.debug(tagged)

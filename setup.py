@@ -30,15 +30,15 @@ ext_modules = [
               language="c++",
               sources=[
                   'sage/core/cython/*.pyx',
-                  # 'sage/core/cython/*.pxd',
+                  'sage/core/cython/*.pxd',
               ],
               include_dirs=[FS.INCLUDE_DIR, ]),
     # Cython.
     Extension(name="graph",
               language="c++",
               sources=[
+                  'sage/core/cython/graph/*.pxd',
                   'sage/core/cython/graph/*.pyx',
-                  # 'sage/core/cython/graph/*.pxd',
               ],
               # library_dirs=[FS.VENDOR_DIR, ],
               include_dirs=[FS.INCLUDE_DIR, ]),
@@ -55,6 +55,14 @@ ext_modules = [
               language="c++",
               sources=[
                   'sage/core/cython/dtype/*.pyx',
+                  # 'sage/core/cython/dtype/*.pxd',
+              ],
+              include_dirs=[FS.INCLUDE_DIR, ]),
+    # Cython.
+    Extension(name="data",
+              language="c++",
+              sources=[
+                  'sage/core/cython/data/*.pyx',
                   # 'sage/core/cython/dtype/*.pxd',
               ],
               include_dirs=[FS.INCLUDE_DIR, ]),
