@@ -1,4 +1,5 @@
-"""
+"""Crawler utility module for getting info from schema.org.
+
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.

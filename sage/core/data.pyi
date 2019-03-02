@@ -1,4 +1,5 @@
-"""
+"""Data processing pipeline.
+
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.
@@ -6,10 +7,16 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: __init__.pxd
-     Created on 02 March, 2019 @ 04:56 PM.
+     File: data.pyi.py
+     Created on 02 March, 2019 @ 06:42 PM.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+
+
+class Dataset:
+    def __init__(self, path: str): ...
+
+    def get(self, index: int) -> int: ...

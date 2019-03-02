@@ -1,4 +1,5 @@
-"""
+"""Data processing pipeline.
+
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.
@@ -6,16 +7,15 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: data.py
-     Created on 02 March, 2019 @ 16:08.
+     File: data.pxd
+     Created on 02 March, 2019 @ 04:08 PM.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-cdef class Node:
-    cdef:
-        public value
-        readonly str key
-        readonly bint is_scope
+from sage.core.cython.base cimport Base
+
+cdef class Dataset(Base):
+    cdef public str path

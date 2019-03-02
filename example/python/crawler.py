@@ -15,8 +15,12 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from sage.core import Log, get_properties
+from sage.core.utils import Log
+from sage.core.data import Dataset
+
 
 if __name__ == '__main__':
-    properties = get_properties('Person', compact=True)
-    Log.pretty(properties)
+    d = Dataset("path/to/file")
+    Log.debug(d.get(4))
+    # properties = get_properties('Person', compact=True)
+    # Log.pretty(properties)

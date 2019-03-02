@@ -220,8 +220,8 @@ echo
 echo -e "${b_white}Moving generated files...${reset}"
 
 # Move shared objects.
-move "${PROJECT_DIR}/*.so" "${SAGE_CORE_DIR}"
 move "${SAGE_CORE_DIR}/cython/*.so" "${SAGE_CORE_DIR}"
+move "${SAGE_CORE_DIR}/cython/**/*.so" "${SAGE_CORE_DIR}"
 
 # Move generated C++ files.
 move_with_hierarchy "cpp" "${SAGE_CORE_DIR}/cython" "${BUILD_TEMP}/sage/sources/"

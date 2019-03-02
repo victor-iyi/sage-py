@@ -27,8 +27,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from enum import IntEnum
 from abc import ABCMeta
+from enum import IntEnum
 from pprint import PrettyPrinter
 from logging.config import fileConfig
 from typing import Iterable, Callable
@@ -49,7 +49,7 @@ __all__ = [
 # | Downloader: For fetching resources from the internet & extracting compressed files.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-cdef class Downloader:
+class Downloader(metaclass=ABCMeta):
     @staticmethod
     def get_source(str url, dict query_dict=None):
         """Retrieve the source code of a given URL.

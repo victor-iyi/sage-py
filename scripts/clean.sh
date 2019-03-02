@@ -107,6 +107,13 @@ fi
 # Sleep for half a second.
 sleep .5s
 
+# Clean extension files from a source directory.
+clean_ext() {
+  src=$1  # Source directory.
+  ext=$2  # Extension file.
+  find ${src} -name "*.${ext}" -exec rm -r {} \;
+}
+
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
 # | Cython lib & src files.
@@ -119,8 +126,9 @@ if [[ -d ${SAGE_CORE_DIR} ]]; then
 
   echo -e "${bpurple}Removing Cython shared objects & DLLs...${reset}"
 
-  # Remove everything in this directory except GLOBIGNORE
-  rm **.so
+  # Clean shared objects and cpp files.
+  clean_ext ${SAGE_CORE_DIR} "so"  # Remove all shared objects. *.so files.
+  clean_ext ${SAGE_CORE_DIR} "cpp" # Remove all generated cpp files.
 
   echo -e "${yellow}
   Tasks:${green}

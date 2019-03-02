@@ -15,10 +15,13 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
-from typing import Dict, Any, Optional
+from typing import Dict, Any, AnyStr, Optional
+
+# Type aliases.
+URL = str
 
 
-def get_source(url: str, query_dict: Dict[str, str] = None) -> str:
+def get_source(url: URL, query_dict: Dict[str, str] = None) -> AnyStr:
     """Retrieve the source code of a given URL.
 
     Args:
@@ -31,7 +34,7 @@ def get_source(url: str, query_dict: Dict[str, str] = None) -> str:
     """
 
 
-def get_properties(schema_type: str, baseURL: Optional[str] = 'https://schema.org/',
+def get_properties(schema_type: str, baseURL: Optional[URL] = 'https://schema.org/',
                    compact: Optional[bool] = False) -> Dict[str, Any]:
     """Get properties for a schema DataType.
 

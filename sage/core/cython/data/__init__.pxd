@@ -1,4 +1,4 @@
-"""Graph database.
+"""Data processing pipeline.
 
    @author
      Victor I. Afolabi
@@ -7,19 +7,14 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: graph.pyd
-     Created on 20 February, 2019 @ 11:56.
+     File: __init__.pxd
+     Created on 02 March, 2019 @ 07:12 PM.
 
    @license
-     MIT License
+     Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-cimport node
+from data cimport Dataset
 
-cdef class Graph:
-    cdef readonly node.Scope root
-
-    cpdef void load(self, node.Scope base, data)
-
-cpdef Graph newGraph(str path)
+__all__ = ['Dataset']

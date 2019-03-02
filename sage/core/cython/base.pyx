@@ -15,9 +15,6 @@
      Copyright (c) 2018. Victor I. Afolabi. All rights reserved.
 """
 
-# from abc import abstractmethod, ABCMeta
-from typing import Any
-
 # Classes in this file.
 __all__ = [
     'Base', 'Mode', 'Attr',
@@ -42,13 +39,8 @@ class Mode:
 # | Base: Base class for all classes.
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
-# noinspection PyUnusedLocal
 cdef class Base:
-    cdef:
-        readonly str name
-        readonly int verbose
-
-    def __cinit__(self, **kwargs):
+    def __cinit__(self, *args, **kwargs):
         # Verbosity level: 0 or 1.
         self.verbose = kwargs.get('verbose', 1)
         self.name = kwargs.get('name', self.__class__.__name__)
@@ -81,7 +73,7 @@ cdef class Base:
             return self.__repr__()
         return self.__str__()
 
-    def _log(self, *args: Any, str level='log', **kwargs: Any):
+    def _log(self, *args, str level='log', **kwargs):
         """Logging method helper based on verbosity."""
         # No logging if verbose is not 'on'.
         if not kwargs.pop('verbose', self.verbose):
@@ -203,7 +195,7 @@ cdef class Attr(dict):
         ```
     """
 
-    def __init__(self, d=None, **kwargs):
+    def __cinit__(self, dict d=None, **kwargs):
         if d is None:
             d = {}
         if kwargs:
@@ -215,7 +207,7 @@ cdef class Attr(dict):
             if not (k.startswith('__') and k.endswith('__')):
                 setattr(self, k, getattr(self, k))
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, str name, value):
         if isinstance(value, (list, tuple)):
             value = [self.__class__(x)
                      if isinstance(x, dict) else x for x in value]

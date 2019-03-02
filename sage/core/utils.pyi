@@ -16,8 +16,6 @@
 """
 
 # Built-in libraries.
-from pprint import PrettyPrinter
-
 from enum import IntEnum
 from abc import ABCMeta, abstractmethod
 from typing import (List, Tuple, Iterable, Callable, Union, SupportsBytes,

@@ -1,4 +1,5 @@
-"""
+"""sage.core extension module.
+
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.
@@ -10,18 +11,15 @@
      Created on 20 February, 2019 @ 11:45.
 
    @license
-     Apache 2.0 License
+     MIT License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from node cimport Node, Scope, newNode, newScope
-from graph cimport Graph, newGraph
+from base cimport Base, Attr
 
 __all__ = [
-    # Node.
-    'Node', 'Scope',
-    'newNode', 'newScope',
+    # From base.pxd
+    'Base', 'Attr',
 
-    # Graph.
-    'Graph', 'newGraph'
+    # From utils.pxd
 ]
