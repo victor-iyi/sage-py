@@ -35,16 +35,9 @@ sh ./scripts/cython.sh
 The [Sage API](./sage) has a relatively simple API. The code snippet below builds a simple Knowledge Graph.
 
 ```python
-from config import FS
-from sage.core import File, Log, Graph
+from sage.core.utils import Log
 
-# Path to a JSON-LD file.
-path = File.join(FS.CACHE_DIR,
-                 'graph/examples/avatar.jsonld')
-
-# Create a Graph object from a JSON-LD file.
-g = Graph(path=path)
-Log.pretty('{:!r}'.format(g))
+Log.debug('Testing...')
 ```
 
 ## Credits

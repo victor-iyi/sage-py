@@ -21,5 +21,5 @@ cdef class Dataset(Base):
     def __cinit__(self, str path):
         self.path = path
 
-    def get(self, int index):
+    cpdef int get(self, int index):
         return index
