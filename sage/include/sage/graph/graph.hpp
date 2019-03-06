@@ -1,108 +1,55 @@
 #ifndef SAGE_GRAPH_HPP
 #define SAGE_GRAPH_HPP
 
-#include "sage/dtype/dtype.hpp"
+#include "sage_pch.hpp"
 
 namespace sage {
 
   namespace graph {
 
-    class SAGE_API Scope;
-    std::ostream& operator<<(std::ostream& stream, const Scope& scope);
-
-    /**
-     * Node class
-     *
-     * */
-    class SAGE_API Node {
+    class SAGE_API Edge {
      public:
-      Node(const char* const key, bool isScope = false)
-          : _m_IsScope(isScope), _m_Key(key), _m_Value("") {}
-      Node(const char* const key, const char* const value, bool isScope = false)
-          : _m_IsScope(isScope), _m_Key(key), _m_Value(value) {}
+      Edge(std::string leftEntityId, std::string rightEntityId,
+           std::string relationId, std::string qualifierRelationId,
+           std::string qualifierEntityId)
+          : _m_LeftEntityId(leftEntityId),
+            _m_RightEntityId(rightEntityId),
+            _m_RelationId(relationId),
+            _m_QualifierRelationId(qualifierRelationId),
+            _m_QualifierEntityId(qualifierEntityId) {
+              if (_m_RelationId != "iclass") {
+                // assert len({self.leftEntityId, self.rightEntityId,
+                // self.qualifierEntityId}) == 3
+              }
+            }
 
-      Node(const Node& other)
-          : _m_IsScope(other._m_IsScope),
-            _m_Key(other._m_Key),
-            _m_Value(other._m_Value) {}
-
-      inline bool isScope() const { return this->_m_IsScope; }
-      const dtype::Text& key() const { return this->_m_Key; }
-      const dtype::Text& value() const { return this->_m_Value; }
-
-      friend std::ostream& operator<<(std::ostream& stream, const Node& node) {
-        // key : value
-        // TODO: If node is a Scope: Call the scope operator<<.
-        // if (node._m_IsScope) {
-        //   graph::Scope* s = (graph::Scope*)&node;
-        //   stream << s;
-        // } else
-        stream << '"' << node._m_Key << "\" : " << node._m_Value;
-        return stream;
-      }
+      const char* type() const;
+      void invert();
+      std::tuple<std::string> nodes();
 
      private:
-      bool _m_IsScope;  // If this node is a Scope, it has children.
-      dtype::Text _m_Key;
-      dtype::Text _m_Value;  // Could be empty at times.
+      size_t _m_edgeId = 0;
+      std::string _m_LeftEntityId, _m_RightEntityId, _m_RelationId,
+          _m_QualifierRelationId, _m_QualifierEntityId;
     };
 
-    /**
-     * Scope class
-     * */
-    class SAGE_API Scope : public Node {
+    class SAGE_API EdgeList {
      public:
-      Scope(const char* const key) : Node(key, true) {}
-
-      void addNode(const char* const key, const char* const value);
-      void addScope(const char* const key);
-      void addScope(const Scope& scope);
-
-      const std::vector<Node>& getConnections() const {
-        return this->_m_Connections;
-      }
-      const dtype::Text& id() const { return this->_m_MachineID; }
-
-      friend std::ostream& operator<<(std::ostream& stream,
-                                      const Scope& scope) {
-        // key<ID> : {
-        //  key:value
-        // }
-        stream << scope.key() << '<' << scope._m_MachineID << "> : {\n";
-        for (const Node& node : scope._m_Connections) {
-          // if (node.isScope()) {
-          //   // print as a scope.
-          //   stream << std::setw(4) << node.key() << '\n';
-          // } else
-          // Print as a node.
-          stream << std::setw(4) << node << '\n';
-        }
-        stream << '}';
-        return stream;
-      }
+      EdgeList() {}
+      size_t size() const;
 
      private:
-      dtype::Text _m_MachineID;
-      std::vector<Node> _m_Connections;
+      std::vector<Edge> _m_List;
     };
 
-    /**
-     * Knowledge Graph.
-     */
-    class SAGE_API KnowledgeGraph {
+    class SAGE_API SemanticGraph {
      public:
-      KnowledgeGraph() : _m_Root("ns") {}
-      void load(const char* const path);
-      void load(Scope& base, const nlohmann::json& data);
-
-      const Scope& scope() const { return this->_m_Root; }
+      SemanticGraph() {}
 
      private:
-      Scope _m_Root;
     };
 
   }  // namespace graph
-
 }  // namespace sage
 
 #endif  // !SAGE_GRAPH_HPP
