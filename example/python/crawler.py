@@ -16,11 +16,9 @@
 """
 
 from sage.core.utils import Log
-from sage.core.data import Dataset
+from sage.core.crawler import get_properties
 
 
 if __name__ == '__main__':
-    d = Dataset("path/to/file")
-    Log.debug(d.get(4))
-    # properties = get_properties('Person', compact=True)
-    # Log.pretty(properties)
+    properties = get_properties('Person', compact=True)
+    Log.pretty(properties)
