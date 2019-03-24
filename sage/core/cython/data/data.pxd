@@ -18,6 +18,9 @@
 from sage.core.cython.base cimport Base
 
 cdef class Dataset(Base):
-    cdef public str path
+    cdef:
+        public str path, cache_dir
+        public bint cache
+
 
     cpdef int get(self, int index)

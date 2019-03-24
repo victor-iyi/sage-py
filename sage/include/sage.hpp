@@ -19,6 +19,7 @@
 #include "sage/dtype/dtype.hpp"
 #include "sage/error/error.hpp"
 #include "sage/graph/graph.hpp"
+#include "sage/graph/graph_legacy.hpp"
 
 // Create namespace alias for sage.
 namespace sg = sage;
