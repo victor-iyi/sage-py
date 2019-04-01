@@ -40,7 +40,6 @@ class FS(metaclass=ABCMeta):
     APP_NAME = os.path.basename(PROJECT_DIR)
 
     # Directory to save stuffs.
-    CACHE_DIR = os.path.join(PROJECT_DIR, 'cache')
     CONFIG_DIR = os.path.join(PROJECT_DIR, 'config')
 
     # Libraries & Include folders.
@@ -50,6 +49,7 @@ class FS(metaclass=ABCMeta):
 
     # Resources & data directories.
     RESOURCE_DIR = os.path.join(PROJECT_DIR, 'resources')
+    CACHE_DIR = os.path.join(RESOURCE_DIR, 'cache')
     DATASET_DIR = os.path.join(RESOURCE_DIR, 'dataset')
 
     # WebQSP & QALD-7 Wikidata.
