@@ -47,7 +47,7 @@ setup(
     ext_modules=cythonize(ext_modules,
                           compiler_directives=compiler_directives),
     url='https://github.com/victor-iyiola/sage',
-    license='MIT',
+    license='Apache',
     author='Victor I. Afolabi',
     author_email='javafolabi@gmail.com',
     description=("Sage is an open-source Knowledge Graph which uses <https://schema.org> "
