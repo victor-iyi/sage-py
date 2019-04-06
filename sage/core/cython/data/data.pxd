@@ -24,3 +24,4 @@ cdef class Dataset(Base):
 
 
     cpdef int get(self, int index)
+    cpdef void maybe_download_and_extract(self)
