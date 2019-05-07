@@ -2,9 +2,9 @@
 #define SAGE_HPP
 
 // Use Sage's Pre-Compiled Header.
-// #ifdef SAGE_USE_PCH
-//   #include "sage_pch.hpp"
-// #endif
+#ifdef SAGE_USE_PCH
+  #include "sage_pch.hpp"
+#endif
 
 // Core, config files.
 #include "sage/config.hpp"
