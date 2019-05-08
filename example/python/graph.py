@@ -1,7 +1,7 @@
 # Built-in libraries.
 import secrets
 from collections import defaultdict
-from typing import Any
+from typing import Any, Union
 
 # class Node:
 #     ID_LEN = 8   # Max length of id tokens.
@@ -72,11 +72,11 @@ from typing import Any
 #     #     self.graph[node.id] = node
 
 
-# # class Predicate(Edge):
-# #     def __init__(self, src: Node, dest: Node):
-# #         super(Predicate, self).__init__(src, dest)
-# #         self.src = src
-# #         self.dest = dest
+# class Predicate(Edge):
+#     def __init__(self, src: Node, dest: Node):
+#         super(Predicate, self).__init__(src, dest)
+#         self.src = src
+#         self.dest = dest
 
 
 # class Object(Edge):
@@ -108,7 +108,7 @@ from typing import Any
 #     print(f'node = {node}')
 
 class Vertex:
-    def __init__(self, key, data=None):
+    def __init__(self, key: Union[str, int], data: Any = None):
         self.id = key
         self.payload = data
         self.connectedTo = {}
@@ -116,8 +116,8 @@ class Vertex:
     def __repr__(self):
         return f'{self.__class__.__name__}({self.id})'
 
-    def addNeighbor(self, nbr, weight=0):
-        self.connectedTo[nbr] = weight
+    def addNeighbor(self, nbr, predicate=None):
+        self.connectedTo[nbr] = predicate
 
     def __str__(self):
         return str(self.id) + ' connectedTo: ' + str([x.id for x in self.connectedTo])
@@ -128,8 +128,30 @@ class Vertex:
     def getId(self):
         return self.id
 
-    def getWeight(self, nbr):
+    def getPredicates(self, nbr):
         return self.connectedTo[nbr]
+
+
+class Predicate:
+    def __init__(self, pred: Any):
+        self.pred = pred
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.pred})'
+
+    def __new__(self, pred: Any):
+        # TODO: Maybe validate schema.
+        self.pred = pred
+
+
+class Object(Vertex):
+    def __init__(self, key: str, data=None):
+        super(Object, self).__init__(key, data=data)
+
+
+class Subject(Vertex):
+    def __init__(self, key: str, data=None):
+        super(Subject, self).__init__(key, data=data)
 
 
 class Graph:
@@ -154,13 +176,13 @@ class Graph:
     def __contains__(self, node):
         return node in self.graph
 
-    def addEdge(self, f, t, cost=0):
+    def addEdge(self, f, t, predicate=0):
         # f - from (src)   t - to (dest)
         if f not in self.graph:
             _ = self.addVertex(f)
         if t not in self.graph:
             _ = self.addVertex(t)
-        self.graph[f].addNeighbor(self.graph[t], cost)
+        self.graph[f].addNeighbor(self.graph[t], Predicate(predicate))
 
     def getVertices(self):
         return self.graph.keys()
@@ -171,22 +193,22 @@ class Graph:
 
 if __name__ == '__main__':
     graph = Graph()
-    for i in range(6):
-        graph.addVertex(i)
+    tokens = [secrets.token_hex(8) for _ in range(6)]
+    for key in tokens:
+        graph.addVertex(key)
 
     print(graph)
-    graph.addEdge(0, 1, 5)
-    graph.addEdge(0, 5, 2)
-    graph.addEdge(1, 2, 4)
-    graph.addEdge(2, 3, 9)
-    graph.addEdge(3, 4, 7)
-    graph.addEdge(3, 5, 3)
-    graph.addEdge(4, 0, 1)
-    graph.addEdge(5, 4, 8)
-    graph.addEdge(5, 2, 1)
+    graph.addEdge(tokens[0], tokens[1], 5)
+    graph.addEdge(tokens[0], tokens[5], 2)
+    graph.addEdge(tokens[1], tokens[2], 4)
+    graph.addEdge(tokens[2], tokens[3], 9)
+    graph.addEdge(tokens[3], tokens[4], 7)
+    graph.addEdge(tokens[3], tokens[5], 3)
+    graph.addEdge(tokens[4], tokens[0], 1)
+    graph.addEdge(tokens[5], tokens[4], 8)
+    graph.addEdge(tokens[5], tokens[2], 1)
 
     for v in graph:
         for w in v.getConnections():
             print("( %s , %s )" % (v.getId(), w.getId()))
-
     print(graph)
