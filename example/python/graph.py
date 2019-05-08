@@ -3,6 +3,8 @@ import secrets
 from collections import defaultdict
 from typing import Any, Union
 
+# from sage.core.utils import Log
+
 # class Node:
 #     ID_LEN = 8   # Max length of id tokens.
 #     NODES = []   # Keep track of all nodes created.
@@ -106,42 +108,83 @@ from typing import Any, Union
 #     print(f'graph = {g}')
 #     node = Node('Victor')
 #     print(f'node = {node}')
+# TODO: Write to a file or DB.
+store = defaultdict(list)
+
+
+def is_new_entry(label, schema):
+    if label in store:
+        return schema not in store[label]
+    return True
+
 
 class Vertex:
-    def __init__(self, key: Union[str, int], data: Any = None):
-        self.id = key
-        self.payload = data
-        self.connectedTo = {}
+    def __init__(self, label, schema=None, data=None, tmp=False):
+        if not tmp:
+            assert is_new_entry(label, schema), "Vertex already exist!"
+
+        self.label = label
+        self.schema = schema
+        # Can't be chaned once instantiated.
+        self.__id = secrets.token_hex(8)
+        self.payload = data      # Data contained by vertex.
+        self.type = None
+        self.connected_to = {}   # Connection to other vertex.
+        store[label].append(schema)
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.id})'
-
-    def addNeighbor(self, nbr, predicate=None):
-        self.connectedTo[nbr] = predicate
+        return f'{self.__class__.__name__}({self.__id}, {self.label})'
 
     def __str__(self):
-        return str(self.id) + ' connectedTo: ' + str([x.id for x in self.connectedTo])
+        return f'Vertex({self.id}): {str([x.id for x in self.connected_to])}'
 
-    def getConnections(self):
-        return self.connectedTo.keys()
+    def __eq__(self, other):
+        return isinstance(self, type(other)) and (self.__key() == other.__key())
 
-    def getId(self):
-        return self.id
+    def __key(self):
+        return (self.label, self.schema)
 
-    def getPredicates(self, nbr):
-        return self.connectedTo[nbr]
+    def __hash__(self):
+        return hash(self.__key())
+
+    @classmethod
+    def fromlabel(cls, label, schema):
+        inst = cls(label, schema, tmp=True)
+        return inst
+
+    def add_neighbor(self, nbr, predicate=None):
+        self.connected_to[nbr] = predicate
+
+    def get_predicates(self, nbr):
+        return self.connected_to[nbr]
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def data(self):
+        return self.payload
+
+    @property
+    def connections(self):
+        return self.connected_to.keys()
+
+    @property
+    def predicates(self):
+        return self.connected_to.values()
 
 
 class Predicate:
     def __init__(self, pred: Any):
         self.pred = pred
 
-    def __repr__(self):
-        return f'{self.__class__.__name__}({self.pred})'
-
     def __new__(self, pred: Any):
         # TODO: Maybe validate schema.
         self.pred = pred
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.pred})'
 
 
 class Object(Vertex):
@@ -154,61 +197,120 @@ class Subject(Vertex):
         super(Subject, self).__init__(key, data=data)
 
 
+# class Graph:
+
+#     Labels = []
+
+#     def __init__(self):
+#         self.graph = {}
+#         self.__n_vertices = 0
+
+#     def __repr__(self):
+#         return f'{self.__class__.__name__}({self.graph})'
+
+#     def __len__(self):
+#         return self.numVertices
+
+#     def __iter__(self):
+#         return iter(self.graph.values())
+
+#     def __contains__(self, node):
+#         return node in self.graph
+
+#     def add_vertex(self, key: Union[str, int], *, data: Any = None):
+#         self.__n_vertices += 1  # Increment number of vertices.
+#         newVertex = Vertex(key, data=data)
+#         self.graph[key] = newVertex
+#         return newVertex
+
+#     def get_vertex(self, node):
+#         if node in self.graph:
+#             return self.graph[node]
+#         return None
+
+#     def add_edge(self, f: Vertex, t: Vertex, predicate=0):
+#         # f - from (src)   t - to (dest)
+#         if f not in self.graph:
+#             _ = self.add_vertex(f)
+#         if t not in self.graph:
+#             _ = self.add_vertex(t)
+#         self.graph[f].add_neighbor(self.graph[t], Predicate(predicate))
+
+#     @property
+#     def vertices(self):
+#         return self.graph.keys()
+
 class Graph:
+    # label: [schema]
+    # TODO: Create a Graph Store DB.
+    store = defaultdict(list)
+
     def __init__(self):
         self.graph = {}
-        self.numVertices = 0
+        self.__n_vertices = 0
 
     def __repr__(self):
         return f'{self.__class__.__name__}({self.graph})'
 
-    def addVertex(self, key):
-        self.numVertices += 1  # Increment number of vertices.
-        newVertex = Vertex(key)
-        self.graph[key] = newVertex
-        return newVertex
+    def __len__(self):
+        return self.__n_vertices
 
-    def getVertex(self, node):
-        if node in self.graph:
-            return self.graph[node]
+    def __getitem__(self, id):
+        return self.graph[id]
+
+    def get_vertex(self, label, *, schema=None):
+        tmp = Vertex.fromlabel(label, schema)
+        for _, v in self.graph.items():
+            if (tmp.label, tmp.schema) == (v.label, v.schema):
+                return v
         return None
 
-    def __contains__(self, node):
-        return node in self.graph
+    @staticmethod
+    def is_new_entry(label, schema):
+        if label in Graph.store:
+            return schema not in Graph.store[label]
+        return True
 
-    def addEdge(self, f, t, predicate=0):
-        # f - from (src)   t - to (dest)
-        if f not in self.graph:
-            _ = self.addVertex(f)
-        if t not in self.graph:
-            _ = self.addVertex(t)
-        self.graph[f].addNeighbor(self.graph[t], Predicate(predicate))
-
-    def getVertices(self):
-        return self.graph.keys()
-
-    def __iter__(self):
-        return iter(self.graph.values())
+    def add_vertex(self, label, schema=None, data=None):
+        # TODO: Handle default schema.
+        try:
+            vertex = Vertex(label, schema, data)
+            self.graph[vertex.id] = vertex
+            self.__n_vertices += 1
+            return vertex
+        except AssertionError:
+            print("Vertex already exist")
+            return None
 
 
 if __name__ == '__main__':
+    data = [
+        ('Victor', 'age', 23),
+        ('Victor', 'month', 'October'),
+        ('Victor', 'bestFriends', 'Dara'),
+        ('Dara', 'school', 'China'),
+        ('Ope', 'school', 'USA'),
+        ('Ope', 'field', 'Medical'),
+        ('Victor', 'field', 'Science'),
+        ('Dara', 'field', 'Engineering'),
+    ]
+
     graph = Graph()
-    tokens = [secrets.token_hex(8) for _ in range(6)]
-    for key in tokens:
-        graph.addVertex(key)
+    for (subject, predicate, obj) in data:
+        try:
+            vertex = graph.add_vertex(subject)
+            if vertex is not None:
+                try:
+                    v = Vertex(obj)
+                    vertex.add_neighbor(v, predicate)
+                except AssertionError:
+                    print(f'{obj} already exist!')
+        except AssertionError:
+            print(f'{subject} already exist!')
 
     print(graph)
-    graph.addEdge(tokens[0], tokens[1], 5)
-    graph.addEdge(tokens[0], tokens[5], 2)
-    graph.addEdge(tokens[1], tokens[2], 4)
-    graph.addEdge(tokens[2], tokens[3], 9)
-    graph.addEdge(tokens[3], tokens[4], 7)
-    graph.addEdge(tokens[3], tokens[5], 3)
-    graph.addEdge(tokens[4], tokens[0], 1)
-    graph.addEdge(tokens[5], tokens[4], 8)
-    graph.addEdge(tokens[5], tokens[2], 1)
 
-    for v in graph:
-        for w in v.getConnections():
-            print("( %s , %s )" % (v.getId(), w.getId()))
-    print(graph)
+    # Get the "Victor" with "None" schema.
+    victor = graph.get_vertex('Victor', schema=None)
+    print(victor.connections)
+    print(victor.predicates)
