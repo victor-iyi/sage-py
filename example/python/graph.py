@@ -304,6 +304,7 @@ class Vertex(Base):
                 nullable=False)
     label = Column(String(250), nullable=False)
     schema = Column(String(250))
+    # schema = Column(String(250), default='http://schema.org/Thing')
 
     # neighbors [{vertex: predicate}]
 
@@ -347,7 +348,7 @@ class Graph(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
     vertex_id = Column(String(8), ForeignKey('vertex.id'))
-    vertex = relationship(Vertex)
+    vertex = relationship("Vertex")
 
     def __init__(self, name: str, verbose: int = 1):
         self.name = name
@@ -442,6 +443,10 @@ if __name__ == '__main__':
     ]
 
     graph = Graph('sage')
+
     for triple in triples:
         vertex = graph.add_vertex(triple[0])
         Log.debug(vertex)
+        # TODO: Add vertex connections (neighbors).
+
+    Log.warn(graph.vertices)
