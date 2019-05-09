@@ -7,16 +7,16 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: data.pyi
-     Created on 02 March, 2019 @ 06:42 PM.
+     File: __init__.pxd
+     Created on 09 May, 2019 @ 08:01 PM.
 
    @license
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
+from graph cimport Vertex, Graph
 
-class Dataset:
-    def __init__(self, path: str): ...
-
-    def get(self, index: int) -> int: ...
+__all__ = [
+  'Vertex', 'Graph',
+]

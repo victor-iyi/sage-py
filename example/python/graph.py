@@ -1,8 +1,3 @@
-# Built-in libraries.
-import secrets
-from collections import defaultdict
-from typing import Any, Union, List, Tuple
-
 """
     # from sage.core.utils import Log
 
@@ -285,21 +280,23 @@ from typing import Any, Union, List, Tuple
 #         except AssertionError:
 #             print("Vertex already exist")
 #             return None
-
+# Built-in libraries.
 import secrets
-from typing import Union, Tuple
+from typing import Union, Tuple, List
 
-from sqlalchemy import Column, ForeignKey, Integer, Text, String
+# Third-party libraries.
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
+# Custom libraries.
+from sage.core.utils import Log
 
 Base = declarative_base()
 
 
 class Vertex(Base):
-
     __tablename__ = 'vertex'
 
     id = Column(String(8), primary_key=True, unique=True,
@@ -319,7 +316,7 @@ class Vertex(Base):
         return f"<Vertex(label='{self.label}', schema='{self.schema}')>"
 
     def __key(self):
-        return (self.id, self.label, self.schema)
+        return self.id, self.label, self.schema
 
     def __eq__(self, other) -> bool:
         if isinstance(other, type(self)):
@@ -346,7 +343,6 @@ class Vertex(Base):
 
 
 class Graph(Base):
-
     __tablename__ = 'graph'
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
@@ -356,9 +352,9 @@ class Graph(Base):
     def __init__(self, name: str, verbose: int = 1):
         self.name = name
         self.verbose = verbose
-        self._sess = self._initialize_session(name)
+        self._sess = self._initialize_session()
 
-    def _initialize_session(self, name: str):
+    def _initialize_session(self):
         engine = create_engine(f'sqlite:///{self.name}.db')
         Base.metadata.create_all(engine)
         Session = sessionmaker(bind=engine)
@@ -371,23 +367,23 @@ class Graph(Base):
     def get(self, other: Union[str, Tuple[str, str], Vertex]):
         # other is either (label, schema) or id or Vertex
         # Get vertex for (label, schema) or id
-        # Retrun match object or Raise exception for bad input.
+        # Return match object or Raise exception for bad input.
         if isinstance(other, str):
             # Treat as id.
-            match = self._sess.query(Vertex).\
+            match = self._sess.query(Vertex). \
                 filter(Vertex.id == other)
         elif isinstance(other, tuple):
             # Treat as (label, schema) combo.
             assert len(other) == 2, f'Expected 2 got {len(other)}'
 
-            match = self._sess.query(Vertex).\
-                filter(Vertex.label == other[0]).\
+            match = self._sess.query(Vertex). \
+                filter(Vertex.label == other[0]). \
                 filter(Vertex.schema == other[1])
         elif isinstance(other, Vertex):
             # Treat as Vertex object.
-            match = self._sess.query(Vertex).\
-                filter(Vertex.id == other.id).\
-                filter(Vertex.label == other.label).\
+            match = self._sess.query(Vertex). \
+                filter(Vertex.id == other.id). \
+                filter(Vertex.label == other.label). \
                 filter(Vertex.schema == other.schema)
         else:
             raise TypeError('Inappropriate argument type.')
@@ -409,8 +405,7 @@ class Graph(Base):
 
         if vertex is None:
             if self.verbose:
-                print('Creating a new Vertex:'
-                      f' label: {label}, schema={schema}')
+                Log.info(f'New Vertex: label: {label}, schema={schema}')
             # Create a new vertex.
             vertex = Vertex(label=label, schema=schema)
             # Add new vertex to DB.
@@ -435,7 +430,7 @@ class Graph(Base):
 
 
 if __name__ == '__main__':
-    data = [
+    triples = [
         ('Victor', 'age', 23),
         ('Victor', 'month', 'October'),
         ('Victor', 'bestFriends', 'Dara'),
@@ -446,22 +441,7 @@ if __name__ == '__main__':
         ('Dara', 'field', 'Engineering'),
     ]
 
-    graph = Graph()
-    for (subject, predicate, obj) in data:
-        try:
-            vertex = graph.add_vertex(subject)
-            if vertex is not None:
-                try:
-                    v = Vertex(obj)
-                    vertex.add_neighbor(v, predicate)
-                except AssertionError:
-                    print(f'{obj} already exist!')
-        except AssertionError:
-            print(f'{subject} already exist!')
-
-    print(graph)
-
-    # Get the "Victor" with "None" schema.
-    victor = graph.get_vertex('Victor', schema=None)
-    print(victor.connections)
-    print(victor.predicates)
+    graph = Graph('sage')
+    for triple in triples:
+        vertex = graph.add_vertex(triple[0])
+        Log.debug(vertex)

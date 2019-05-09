@@ -16,12 +16,24 @@
 """
 
 # Built-in libraries.
+import platform
 from distutils.core import setup
 from Cython.Build import cythonize
 from distutils.extension import Extension
 
 # Custom libraries.
 from config import FS
+
+# Compiler & Linker flags.
+compile_extra_args = []
+link_extra_args = []
+
+# Platform specific flags.
+if platform.system() == "Windows":
+    compile_extra_args = ["/std:c++latest", "/EHsc"]
+elif platform.system() == "Darwin":
+    compile_extra_args = ['-std=c++14', "-mmacosx-version-min=10.9"]
+    link_extra_args = ["-stdlib=libc++", "-mmacosx-version-min=10.9"]
 
 # Cython extension modules.
 ext_modules = [
@@ -31,12 +43,15 @@ ext_modules = [
               sources=[
                   'sage/core/cython/**/*.pyx',
               ],
-              include_dirs=[FS.INCLUDE_DIR, ]),
+              include_dirs=[FS.INCLUDE_DIR, ],
+              extra_compile_args=compile_extra_args,
+              extra_link_args=link_extra_args),
 ]
 
 # Compiler directives
 compiler_directives = {
     'language_level': 3,
+    'always_allow_keywords': True,
 }
 
 setup(
@@ -44,6 +59,16 @@ setup(
     version='1.0.0',
     # packages=[],
     requires=['Cython'],
+    package_data={
+        'sage/core': ['sage/core/cython/**/*.pxd',
+                      'sage/core/cython/**/*.pyx'],
+        'sage/core/data': ['sage/core/cython/data/*.pxd',
+                           'sage/core/cython/data/*.pyx'],
+        'sage/core/crawler': ['sage/core/cython/crawler/*.pxd',
+                              'sage/core/cython/crawler/*.pyx'],
+        'sage/core/graph': ['sage/core/cython/graph/*.pxd',
+                            'sage/core/cython/graph/*.pyx'],
+    },
     ext_modules=cythonize(ext_modules,
                           compiler_directives=compiler_directives),
     url='https://github.com/victor-iyiola/sage',

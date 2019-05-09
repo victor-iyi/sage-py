@@ -203,3 +203,4 @@ instance/
 ### Project specific
 vendor/**
 resources/**
+*.db
