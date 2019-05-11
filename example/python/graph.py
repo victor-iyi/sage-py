@@ -285,7 +285,7 @@ import secrets
 from typing import Union, Tuple, List
 
 # Third-party libraries.
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -305,7 +305,7 @@ class Vertex(Base):
     label = Column(String(250), nullable=False)
     schema = Column(String(250))
     # schema = Column(String(250), default='http://schema.org/Thing')
-
+    description = Column(Text, nullable=True)
     # neighbors [{vertex: predicate}]
 
     def __init__(self, label: str = None, schema: str = None):
