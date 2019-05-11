@@ -203,4 +203,5 @@ instance/
 ### Project specific
 vendor/**
 resources/**
+!resources/.gitkeep
 *.db
