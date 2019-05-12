@@ -13,3 +13,8 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+from example.python.schema import Vertex, Edge, Graph
+
+__all__ = [
+    'Vertex', 'Edge', 'Graph',
+]
