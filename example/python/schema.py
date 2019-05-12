@@ -17,7 +17,7 @@
 # Built-in libraries.
 import json
 import secrets
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Dict, Any
 
 # Third-party libraries.
 from sqlalchemy import create_engine, Column, ForeignKey, Integer, String
@@ -106,9 +106,10 @@ class Vertex(BaseSchema):
     # List of connections to other Vertices.
     edges = relationship('Edge', secondary='connection')
 
-    def __init__(self, label: str = None, schema: str = None):
+    def __init__(self, label: str = None, schema: str = None, payload=None):
         self.label = label  # Key: name
         self.schema = schema  # Key: @type
+        self.payload = payload or dict()
 
     def __repr__(self):
         return f"<Vertex(label='{self.label}', schema='{self.schema}')>"
@@ -130,7 +131,7 @@ class Vertex(BaseSchema):
 
         return res
 
-    def hash(self) -> int:
+    def __hash__(self) -> int:
         return hash(self.__key())
 
     def add_neighbor(self, nbr, predicate=None):
@@ -151,6 +152,12 @@ class Vertex(BaseSchema):
         edge = Edge(nbr.id, predicate=predicate)
         self.edges.append(edge)
         return edge
+
+    def add_payload(self, payload: Dict[str, str]):
+        for k, v in payload.items():
+            # Key doesn't start with "@" & Value must be a primitive type.
+            if not k.startswith('@') and isinstance(v, (int, float, str, bool)):
+                self.payload[k] = v
 
     def get_connection(self, nbr):
         """Retrieve immediate connection to target vertex.

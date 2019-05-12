@@ -18,7 +18,7 @@
 import json
 from typing import List
 
-from example.python import Graph
+from example.python import Graph, Vertex
 from sage.core.base import Base
 from sage.core.utils import Log, File
 
@@ -76,17 +76,25 @@ class KnowledgeGraph(Base):
             Log.warn('RDF/XML & n-triple not yet supported.')
             return NotImplemented
 
-    # def load(self, base, data):
-    #     if isinstance(data, (str, dict, list)):
-    #         data_it = data.items() if isinstance(data, dict) else enumerate(data)
-    #         for key, value in data_it:
-    #             Log.debug(f'{key} {value}')
-    #             if isinstance(value, str):
-    #                 pass
-    #             elif isinstance(value, (dict, list)):
-    #                 pass
-    #     else:
-    #         raise TypeError(f'Expected one of list, dict, str. Got {type(data)}')
+    def load(self, base, data):
+        if isinstance(data, (str, dict, list)):
+            data_it = data.items() if isinstance(data, dict) else enumerate(data)
+            # Retrieve "name" & "@type".
+            # Create a new Vertex obj.
+            # Add payload.
+            # Check for the value of (dict, list)
+            # call load with new data in dict/list.
+            # Add connection with new data.
+            for key, value in data_it:
+                Log.debug(f'{key} {value}')
+                if isinstance(value, str):
+                    # Add payload.
+                    pass
+                elif isinstance(value, (dict, list)):
+                    # Add vertex using "name" & "@type" keys.
+                    pass
+        else:
+            raise TypeError(f'Expected one of list, dict, str. Got {type(data)}')
 
     # def load(self, base, data):
     #     if isinstance(data, (dict, list)):
@@ -133,3 +141,21 @@ if __name__ == '__main__':
     Log.debug(f'dara.id = {dara.id}')
     Log.debug(f'victor.payload = {victor.payload}')
     Log.debug(f'victor.edges = {victor.edges}')
+
+    # tom = Vertex('Tom', 'Person')
+    # payload = {
+    #     "@context": "https://schema.org",
+    #     "@type": "Movie",
+    #     "name": "Avatar",
+    #     "director": {
+    #         "@type": "Person",
+    #         "name": "James Cameron",
+    #         "placeOfBirth": "London",
+    #         "birthDate": "August 16, 1954"
+    #     },
+    #     "genre": "Science Fiction",
+    #     "trailer": "https://example.com/trailer.mp4"
+    # }
+    # tom.add_payload(payload)
+    # Log.debug(f'tom = {tom}')
+    # Log.debug(f'tom.payload = {tom.payload}')
