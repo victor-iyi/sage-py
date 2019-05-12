@@ -286,10 +286,12 @@ import secrets
 from typing import Union, Tuple, List
 
 # Third-party libraries.
-from sqlalchemy import Column, ForeignKey, Integer, String, Text
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, Column, ForeignKey, Integer, String
+from sqlalchemy.sql import operators
 from sqlalchemy.orm import relationship, sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy.types import TypeDecorator, VARCHAR
+from sqlalchemy.ext.mutable import MutableDict
+from sqlalchemy.ext.declarative import declarative_base
 
 # Custom libraries.
 from sage.core.base import Base
@@ -298,25 +300,76 @@ from sage.core.utils import Log, File
 BaseSchema = declarative_base()
 
 
+class JSONEncodedDict(TypeDecorator):
+    impl = VARCHAR
+
+    def coerce_compared_value(self, op, value):
+        if op in (operators.like_op, operators.notlike_op):
+            return String()
+        else:
+            return self
+
+    def process_bind_param(self, value, dialect):
+        if value is not None:
+            value = json.dumps(value)
+        return value
+
+    def process_result_value(self, value, dialect):
+        if value is not None:
+            value = json.loads(value)
+        return value
+
+    def process_literal_param(self, value, dialect):
+        return super(JSONEncodedDict, self).process_literal_param(value, dialect)
+
+    @property
+    def python_type(self):
+        return super(JSONEncodedDict, self).python_type
+
+
+JSON_Type = MutableDict.as_mutable(JSONEncodedDict)
+
+
+# class PayLoad(BaseSchema):
+#     __tablename__ = 'payload'
+#     id = Column(Integer, primary_key=True)
+#     key = Column(String)
+#     value = Column(String)
+#
+#     def __init__(self, key, value):
+#         self.key = key
+#         self.value = value
+
+class Connection(BaseSchema):
+    __tablename__ = 'connection'
+    edge_id = Column(Integer, ForeignKey('edge.id'), primary_key=True)
+    vertex_id = Column(String(8), ForeignKey('vertex.id'), primary_key=True)
+
+
+class Edge(BaseSchema):
+    __tablename__ = 'edge'
+    id = Column(Integer, primary_key=True)
+    vertex_id = Column(String(8), ForeignKey('vertex.id'))
+    vertices = relationship('Vertex', secondary='connection')
+
+
 class Vertex(BaseSchema):
     __tablename__ = 'vertex'
 
+    # Unique ID.
     id = Column(String(8), primary_key=True, unique=True,
                 default=lambda: secrets.token_hex(8),
                 nullable=False)
     label = Column(String(250), nullable=False)
+    # default: https://schema.org/Thing
     schema = Column(String(250))
-    # schema = Column(String(250), default='http://schema.org/Thing')
     # Serialized dictionary.
-    payload = Column(Text)
-    description = Column(Text, nullable=True)
-
-    # neighbors [{vertex: predicate}]
+    payload = Column(JSON_Type)
+    edges = relationship('Edge', secondary='connection')
 
     def __init__(self, label: str = None, schema: str = None):
-        self.label = label
-        self.schema = schema
-        self.edges = {}  # {id: Vertex}
+        self.label = label  # Key: name
+        self.schema = schema  # Key: @type
 
     def __repr__(self):
         return f"<Vertex(label='{self.label}', schema='{self.schema}')>"
@@ -479,6 +532,18 @@ class KnowledgeGraph(Base):
             Log.warn('RDF/XML & n-triple not yet supported.')
             return NotImplemented
 
+    def load(self, base, data):
+        if isinstance(data, (str, dict, list)):
+            data_it = data.items() if isinstance(data, dict) else enumerate(data)
+            for key, value in data_it:
+                Log.debug(f'{key} {value}')
+                if isinstance(value, str):
+                    pass
+                elif isinstance(value, (dict, list)):
+                    pass
+        else:
+            raise TypeError(f'Expected one of list, dict, str. Got {type(data)}')
+
     # def load(self, base, data):
     #     if isinstance(data, (dict, list)):
     #         data_it = data.items() if isinstance(data, dict) else enumerate(data)
@@ -515,3 +580,8 @@ if __name__ == '__main__':
         # TODO: Add vertex connections (neighbors).
 
     Log.warn(graph.vertices)
+    victor = graph['Victor', None]
+    Log.debug(f'victor = {victor}')
+    Log.debug(f'victor.id = {victor.id}')
+    Log.debug(f'victor.payload = {victor.payload}')
+    Log.debug(f'victor.edges = {victor.edges}')
