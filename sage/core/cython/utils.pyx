@@ -420,6 +420,31 @@ class File(metaclass=ABCMeta):
         """
         return os.path.split(path)[0]
 
+    @staticmethod
+    def ext(str path):
+        """Returns extension of a give path.
+
+        Args:
+            path (AnyStr): Path name.
+
+        Examples:
+            ```python
+            >>> # For files.
+            >>> path = 'path/to/file.ext'
+            >>> ext = File.ext(path)
+            >>> assert(ext, 'ext')
+            >>> # For directories.
+            >>> path = 'path/to/directory'
+            >>> ext = File.ext(path)
+            >>> assert(ext, '')
+            ''
+            ```
+
+        Returns:
+            AnyStr - Extension of path.
+        """
+        return os.path.splitext(path)[-1].rstrip('.')
+
 
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+

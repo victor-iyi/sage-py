@@ -427,7 +427,7 @@ class File(metaclass=ABCMeta):
         """
 
     @staticmethod
-    def basename(path: AnyStr):
+    def basename(path: AnyStr) -> AnyStr:
         """Returns the final component of a pathname.
 
         Args:
@@ -438,7 +438,7 @@ class File(metaclass=ABCMeta):
         """
 
     @staticmethod
-    def dirname(path: AnyStr):
+    def dirname(path: AnyStr) -> AnyStr:
         """Returns the directory component of a pathname.
 
         Args:
@@ -446,6 +446,30 @@ class File(metaclass=ABCMeta):
 
         Returns:
             AnyStr - Directory of a given file.
+        """
+
+    @staticmethod
+    def ext(path: AnyStr) -> AnyStr:
+        """Returns extension of a give path.
+
+        Args:
+            path (AnyStr): Path name.
+
+        Examples:
+            ```python
+            >>> # For files.
+            >>> path = 'path/to/file.ext'
+            >>> ext = File.ext(path)
+            >>> assert(ext, 'ext')
+            >>>
+            >>> # For directories.
+            >>> path = 'path/to/directory'
+            >>> ext = File.ext(path)
+            >>> assert(ext, '')
+            ```
+
+        Returns:
+            AnyStr - Extension of path.
         """
 
 

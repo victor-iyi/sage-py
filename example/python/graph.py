@@ -281,6 +281,7 @@
 #             print("Vertex already exist")
 #             return None
 # Built-in libraries.
+import json
 import secrets
 from typing import Union, Tuple, List
 
@@ -291,12 +292,13 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
 # Custom libraries.
-from sage.core.utils import Log
+from sage.core.base import Base
+from sage.core.utils import Log, File
 
-Base = declarative_base()
+BaseSchema = declarative_base()
 
 
-class Vertex(Base):
+class Vertex(BaseSchema):
     __tablename__ = 'vertex'
 
     id = Column(String(8), primary_key=True, unique=True,
@@ -305,7 +307,10 @@ class Vertex(Base):
     label = Column(String(250), nullable=False)
     schema = Column(String(250))
     # schema = Column(String(250), default='http://schema.org/Thing')
+    # Serialized dictionary.
+    payload = Column(Text)
     description = Column(Text, nullable=True)
+
     # neighbors [{vertex: predicate}]
 
     def __init__(self, label: str = None, schema: str = None):
@@ -343,7 +348,7 @@ class Vertex(Base):
         pass
 
 
-class Graph(Base):
+class Graph(BaseSchema):
     __tablename__ = 'graph'
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
@@ -357,7 +362,7 @@ class Graph(Base):
 
     def _initialize_session(self):
         engine = create_engine(f'sqlite:///{self.name}.db')
-        Base.metadata.create_all(engine)
+        BaseSchema.metadata.create_all(engine)
         Session = sessionmaker(bind=engine)
         sess = Session()
         return sess
@@ -428,6 +433,66 @@ class Graph(Base):
     @property
     def vertices(self) -> List[Vertex]:
         return self._sess.query(Vertex).all()
+
+
+class KnowledgeGraph(Base):
+    # Supported file formats.
+    SUPPORTED_FORMATS = ('json', 'jsonld', 'json-ld',
+                         'rdf', 'xml', 'nt')
+
+    def __init__(self, name):
+        self.name = name
+        self._graph = Graph(name)
+
+    @classmethod
+    def fromfile(cls, path):
+        # noinspection PyUnusedLocal
+        data = KnowledgeGraph.read(path)
+
+        # Create a new KnowledgeGraph instance.
+        inst = cls(name=File.basename(path))
+
+        # TODO: Add data to inst.
+        #   Construct Knowledge Graph with data.
+
+        # Return KnowledgeGraph object.
+        return inst
+
+    @staticmethod
+    def read(path: str):
+        # Check if file exists.
+        if not File.is_file(path):
+            raise FileNotFoundError(f'{path} was not found.')
+
+        # Supported file formats.
+        if not path.endswith(KnowledgeGraph.SUPPORTED_FORMATS):
+            raise AssertionError(f'Expected one of: {KnowledgeGraph.SUPPORTED_FORMATS}')
+
+        # Get the file extension.
+        ext = File.ext(path)
+        if ext in ('json', 'jsonld', 'json-ld'):
+            # Load JSON-LD file.
+            with open(path) as f:
+                return json.loads(f.read())
+        else:
+            # TODO(victor-iyiola): Support for RDF/XML & n-triples.
+            Log.warn('RDF/XML & n-triple not yet supported.')
+            return NotImplemented
+
+    # def load(self, base, data):
+    #     if isinstance(data, (dict, list)):
+    #         data_it = data.items() if isinstance(data, dict) else enumerate(data)
+    #         for key, value in data_it:
+    #             # print(key, value)
+    #             if isinstance(value, str):
+    #                 base.add_node(Node(str(key), value))
+    #             elif isinstance(value, (dict, list)):
+    #                 scope = Scope(str(key))
+    #                 self.load(scope, value)
+    #                 base.add_scope(scope)
+    #     else:
+    #         raise TypeError('Expected one of List, Dict, Str. Got {}'
+    #                         .format(type(data)))
 
 
 if __name__ == '__main__':

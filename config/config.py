@@ -231,7 +231,8 @@ class Config(metaclass=ABCMeta):
             Attr: config dictionary object.
         """
 
-        assert file.endswith(('json', 'jsonld')), 'File is not a `JSON` file.'
+        assert file.endswith(('json', 'jsonld',
+                              'json-ld')), 'File must be a JSON/JSON-LD file.'
 
         if not os.path.isfile(file):
             raise FileNotFoundError('{} was not found'.format(file))
