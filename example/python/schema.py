@@ -17,7 +17,7 @@
 # Built-in libraries.
 import json
 import secrets
-from typing import Union, Tuple, List, Dict, Any
+from typing import Union, Tuple, List, Dict
 
 # Third-party libraries.
 from sqlalchemy import create_engine, Column, ForeignKey, Integer, String
@@ -29,6 +29,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # Custom libraries.
 from sage.core.utils import Log
+from config.consts import FS
 
 __all__ = [
     'Edge', 'Vertex', 'Graph'
@@ -76,9 +77,11 @@ class Connection(BaseSchema):
 class Edge(BaseSchema):
     __tablename__ = 'edge'
     id = Column(Integer, primary_key=True)
+    # Vertex which the edge is connected to.
     vertex_id = Column(String(8), ForeignKey('vertex.id'))
     predicate = Column(String(256))
-    vertices = relationship('Vertex', secondary='connection')
+    # Source Vertex (`vertex`) is connected to `vertex_id`.
+    vertex = relationship('Vertex', uselist=False, secondary='connection')
 
     def __init__(self, vertex_id, predicate):
         self.vertex_id = vertex_id
@@ -189,10 +192,20 @@ class Graph(BaseSchema):
         self._sess = self._initialize_session()
 
     def _initialize_session(self):
+        import os
+        # Switch directory to database dir.
+        cur_dir = os.path.abspath(os.curdir)
+        os.chdir(FS.DATABASE_DIR)
+
+        # Create DB engine & session.
         engine = create_engine(f'sqlite:///{self.name}.db')
         BaseSchema.metadata.create_all(engine)
         Session = sessionmaker(bind=engine)
         sess = Session()
+
+        # Switch back to cur dir.
+        os.chdir(cur_dir)
+
         return sess
 
     def __repr__(self):

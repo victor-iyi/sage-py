@@ -449,6 +449,17 @@ class File(metaclass=ABCMeta):
         """
 
     @staticmethod
+    def filename(path: AnyStr) -> AnyStr:
+        """Returns the final component of a pathname without extension.
+
+        Args:
+            path (str): Path name.
+
+        Returns:
+            AnyStr - File name of the given path without extension.
+        """
+
+    @staticmethod
     def ext(path: AnyStr) -> AnyStr:
         """Returns extension of a give path.
 

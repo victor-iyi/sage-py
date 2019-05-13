@@ -16,11 +16,12 @@
 """
 
 import json
-from typing import List
+from typing import List, Dict, Union, Any
 
-from example.python import Graph, Vertex
+from example.python import Graph
 from sage.core.base import Base
 from sage.core.utils import Log, File
+from config.consts import FS
 
 
 class KnowledgeGraph(Base):
@@ -29,7 +30,7 @@ class KnowledgeGraph(Base):
                          'rdf', 'xml', 'nt')
 
     def __init__(self, name):
-        self.name = name
+        self.label = name
         self._graph = Graph(name)
 
     def add_triple(self, triples: List[tuple]):
@@ -47,7 +48,8 @@ class KnowledgeGraph(Base):
         data = KnowledgeGraph.read(path)
 
         # Create a new KnowledgeGraph instance.
-        inst = cls(name=File.basename(path))
+        inst = cls(name=File.filename(path))
+        inst.load(data)
 
         # TODO: Add data to inst.
         #   Construct Knowledge Graph with data.
@@ -61,12 +63,14 @@ class KnowledgeGraph(Base):
         if not File.is_file(path):
             raise FileNotFoundError(f'{path} was not found.')
 
-        # Supported file formats.
-        if not path.endswith(KnowledgeGraph.SUPPORTED_FORMATS):
-            raise AssertionError(f'Expected one of: {KnowledgeGraph.SUPPORTED_FORMATS}')
-
         # Get the file extension.
         ext = File.ext(path)
+
+        # Supported file formats.
+        if ext not in KnowledgeGraph.SUPPORTED_FORMATS:
+            raise AssertionError(f'Expected one of: {KnowledgeGraph.SUPPORTED_FORMATS}.'
+                                 f' Got {ext}')
+
         if ext in ('json', 'jsonld', 'json-ld'):
             # Load JSON-LD file.
             with open(path) as f:
@@ -76,86 +80,86 @@ class KnowledgeGraph(Base):
             Log.warn('RDF/XML & n-triple not yet supported.')
             return NotImplemented
 
-    def load(self, base, data):
-        if isinstance(data, (str, dict, list)):
-            data_it = data.items() if isinstance(data, dict) else enumerate(data)
-            # Retrieve "name" & "@type".
-            # Create a new Vertex obj.
-            # Add payload.
-            # Check for the value of (dict, list)
-            # call load with new data in dict/list.
-            # Add connection with new data.
-            for key, value in data_it:
-                Log.debug(f'{key} {value}')
-                if isinstance(value, str):
-                    # Add payload.
-                    pass
-                elif isinstance(value, (dict, list)):
-                    # Add vertex using "name" & "@type" keys.
-                    pass
-        else:
-            raise TypeError(f'Expected one of list, dict, str. Got {type(data)}')
+    def load(self, data: Union[Dict[str, Any], List[dict]]):
+        # New Scope.
+        if isinstance(data, dict):
+            # Add vertex in current scope to graph.
+            label = data.get('name', 'Unknown')
+            schema = data.get('@type', 'Thing')
+            vertex = self._graph.add_vertex(label, schema)
 
-    # def load(self, base, data):
-    #     if isinstance(data, (dict, list)):
-    #         data_it = data.items() if isinstance(data, dict) else enumerate(data)
-    #         for key, value in data_it:
-    #             # print(key, value)
-    #             if isinstance(value, str):
-    #                 base.add_node(Node(str(key), value))
-    #             elif isinstance(value, (dict, list)):
-    #                 scope = Scope(str(key))
-    #                 self.load(scope, value)
-    #                 base.add_scope(scope)
-    #     else:
-    #         raise TypeError('Expected one of List, Dict, Str. Got {}'
-    #                         .format(type(data)))
+            # Loop through the key-value pairs of current vertex.
+            for k, v in data.items():
+                # Key doesn't start with "@" & Value must be a primitive type.
+                if not k.startswith('@') and isinstance(v, (int, float, str, bool)):
+                    # Add necessary payloads.
+                    vertex.payload[k] = v
+                # A new list of scopes.
+                elif isinstance(v, (list, tuple)):
+                    for item in v:  # Loop through the list.
+                        # Assert that we have another scope (neighboring scope).
+                        if isinstance(item, dict):
+                            nbr_label = item.get('name', 'Unknown')
+                            nbr_schema = item.get('@type', 'Thing')
+                            nbr = self._graph.add_vertex(nbr_label, nbr_schema)
+                            vertex.add_neighbor(nbr, predicate=k)
+                        # Visit neighboring scope.
+                        self.load(item)
+                elif isinstance(v, dict):
+                    # Direct neighboring scope.
+                    nbr_label = v.get('name', 'Unknown')
+                    nbr_schema = v.get('@type', 'Thing')
+                    nbr = self._graph.add_vertex(nbr_label, nbr_schema)
+                    vertex.add_neighbor(nbr, predicate=k)
+                    # Visit direct neighboring scope.
+                    self.load(v)
+        elif isinstance(data, (list, tuple)):
+            # In case scope starts with a list.
+            for item in data:
+                self.load(item)
+
+    @property
+    def graph(self):
+        return self._graph
 
 
 if __name__ == '__main__':
     # Testing Graph.
-    triples = [
-        ('Victor', 'age', '23'),
-        ('Victor', 'month', 'October'),
-        ('Victor', 'bestFriends', 'Dara'),
-        ('Dara', 'school', 'China'),
-        ('Ope', 'school', 'USA'),
-        ('Ope', 'field', 'Medical'),
-        ('Victor', 'field', 'Science'),
-        ('Dara', 'field', 'Engineering'),
-    ]
-
-    graph = Graph('sage', verbose=1)
-
-    for triple in triples:
-        subj = graph.add_vertex(triple[0])
-        obj = graph.add_vertex(triple[2])
-        # TODO: Add vertex connections (neighbors).
-        subj.add_neighbor(obj, predicate=triple[1])
-
-    Log.warn(graph.vertices)
-    victor = graph['Victor', None]
-    dara = graph['Dara', None]
-    Log.debug(f'victor = {victor}')
-    Log.debug(f'victor.id = {victor.id}')
-    Log.debug(f'dara.id = {dara.id}')
-    Log.debug(f'victor.payload = {victor.payload}')
-    Log.debug(f'victor.edges = {victor.edges}')
-
-    # tom = Vertex('Tom', 'Person')
-    # payload = {
-    #     "@context": "https://schema.org",
-    #     "@type": "Movie",
-    #     "name": "Avatar",
-    #     "director": {
-    #         "@type": "Person",
-    #         "name": "James Cameron",
-    #         "placeOfBirth": "London",
-    #         "birthDate": "August 16, 1954"
-    #     },
-    #     "genre": "Science Fiction",
-    #     "trailer": "https://example.com/trailer.mp4"
+    # example = {
+    #     "@type": 'Person',
+    #     "name": 'Victor',
+    #     "age": 22,
+    #     "month": 'October',
+    #     'bestFriends': [
+    #         {
+    #             "@type": 'Person',
+    #             "name": 'Dara',
+    #             "school": {
+    #                 "@type": 'Place',
+    #                 'name': 'China',
+    #                 'population': 21341341234
+    #             },
+    #             "field": 'Engineering'
+    #         },
+    #         {
+    #             "@type": 'Person',
+    #             "name": 'Ope',
+    #             "school": 'USA',
+    #             "field": 'Medicine'
+    #         }
+    #     ],
+    #     "field": "Science"
     # }
-    # tom.add_payload(payload)
-    # Log.debug(f'tom = {tom}')
-    # Log.debug(f'tom.payload = {tom.payload}')
+
+    path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
+    kg = KnowledgeGraph.fromfile(path)
+    Log.debug(kg.graph.vertices)
+    avatar = kg.graph['Avatar', 'Movie']
+    Log.debug(f'avatar = {avatar}')
+    Log.debug(f'avatar.payload = {avatar.payload}')
+    Log.debug(f'avatar.edges = {avatar.edges}')
+
+    # kg = KnowledgeGraph('example')
+    # kg.load(data=example)
+    # Log.debug(kg.graph.vertices)
+    # Log.info('Avatar:')

@@ -44,6 +44,7 @@ __all__ = [
     'Downloader', 'Cache', 'File', 'Log',
 ]
 
+
 ################################################################################################
 # +--------------------------------------------------------------------------------------------+
 # | Downloader: For fetching resources from the internet & extracting compressed files.
@@ -409,6 +410,18 @@ class File(metaclass=ABCMeta):
         return os.path.split(path)[1]
 
     @staticmethod
+    def filename(str path):
+        """Returns the final component of a pathname without extension.
+
+        Args:
+            path (str): Path name.
+
+        Returns:
+            AnyStr - File name of the given path without extension.
+        """
+        return os.path.splitext(File.basename(path))[0]
+
+    @staticmethod
     def dirname(str path):
         """Returns the directory component of a pathname.
 
@@ -443,7 +456,7 @@ class File(metaclass=ABCMeta):
         Returns:
             AnyStr - Extension of path.
         """
-        return os.path.splitext(path)[-1].rstrip('.')
+        return os.path.splitext(path)[-1].lstrip('.')
 
 
 ################################################################################################
