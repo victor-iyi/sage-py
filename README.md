@@ -35,9 +35,30 @@ sh ./scripts/cython.sh
 The [Sage API](./sage) has a relatively simple API. The code snippet below builds a simple Knowledge Graph.
 
 ```python
-from sage.core.utils import Log
+from config.consts import FS
+from sage.core.utils import Log, File
+from sage.core.graph import KnowledgeGraph
 
-Log.debug('Testing...')
+# !- Loading Graph data from File.
+path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
+
+# !- Loading KnowledgeGraph from file.
+kg = KnowledgeGraph.fromfile(path)
+# INFO     | New Vertex: label: Avatar, schema=Movie
+# INFO     | New Vertex: label: James Cameron, schema=Person
+
+Log.debug(kg.graph.vertices)
+# DEBUG    | [<Vertex(label='Avatar', schema='Movie')>, <Vertex(label='James Cameron', schema='Person')>]
+
+# !- Retrieve Vertices in the Graph.
+avatar = kg.graph['Avatar', 'Movie']
+Log.debug(f'avatar = {avatar}')
+# DEBUG    | avatar = <Vertex(label='Avatar', schema='Movie')>
+Log.debug(f'avatar.payload = {avatar.payload}')
+# DEBUG    | avatar.payload = {'name': 'Avatar', 'genre': 'Science Fiction', 'trailer': 'https://example.com/trailer
+Log.debug(f'avatar.edges = {avatar.edges}')
+# DEBUG    | avatar.edges = [<Edge(e147c670075ef62b, director)>]
+
 ```
 
 ## Credits

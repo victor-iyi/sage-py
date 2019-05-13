@@ -14,6 +14,7 @@ sh ./scripts/build/cython.sh
 
   - `sage.core.utils` - Consist of utility classes e.g `File`, `Log`, `Downloader`, and `Cache`.
 
-  - `sage.core.graph` - Core Knowledge Graph module. Main class is the `Graph` class.
+  - `sage.core.graph` - Core Knowledge Graph module. Main class for creation is `KnowledgeGraph` & supporting classes
+   includes `Vertex`, `Edge` and `Graph`.
 
   - `sage.core.crawler` - Implements several utility functions for parsing web pages like `get_source`, `get_properties`, etc.

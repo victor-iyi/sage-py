@@ -1,4 +1,4 @@
-"""Knowledge Graph related classes.
+"""Knowledge Graph high level classes.
 
    @author
      Victor I. Afolabi
@@ -7,17 +7,18 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: __init__.pxd
-     Created on 09 May, 2019 @ 08:01 PM.
+     File: graph.pxd
+     Created on 13 May, 2019 @ 08:27 PM.
 
    @license
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+from sage.core.cython.base cimport Base
 
-from graph cimport KnowledgeGraph
+cdef class KnowledgeGraph(Base):
+    cdef:
+        public str label
 
-
-__all__ = [
-    'KnowledgeGraph'
-]
+    cpdef void add_triple(self, triples)
+    cpdef void load(self, data)
