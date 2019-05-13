@@ -20,7 +20,7 @@ import unittest
 
 from config.consts import FS
 from sage.core.utils import File
-from example.python.schema import Vertex, Graph
+from sage.core.schema import Vertex, Graph
 
 
 class TestVertex(unittest.TestCase):
