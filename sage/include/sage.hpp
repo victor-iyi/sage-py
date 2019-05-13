@@ -2,9 +2,9 @@
 #define SAGE_HPP
 
 // Use Sage's Pre-Compiled Header.
-// #ifdef SAGE_USE_PCH
-//   #include "sage_pch.hpp"
-// #endif
+#ifdef SAGE_USE_PCH
+  #include "sage_pch.hpp"
+#endif
 
 // Core, config files.
 #include "sage/config.hpp"
@@ -19,6 +19,7 @@
 #include "sage/dtype/dtype.hpp"
 #include "sage/error/error.hpp"
 #include "sage/graph/graph.hpp"
+#include "sage/graph/graph_legacy.hpp"
 
 // Create namespace alias for sage.
 namespace sg = sage;

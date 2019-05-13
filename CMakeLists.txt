@@ -14,11 +14,15 @@ set(
   )
 set(PROJECT_HOMEPAGE_URL "https://github.com/victor-iyiola/sage")
 
-project(${PROJECT_NAME}
-        VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
-        DESCRIPTION "${PROJECT_DESCRIPTION}"
-        HOMEPAGE_URL "${PROJECT_HOMEPAGE_URL}"
-        LANGUAGES CXX)
+project(
+  ${PROJECT_NAME}
+  VERSION
+    "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+    DESCRIPTION
+    "${PROJECT_DESCRIPTION}"
+    HOMEPAGE_URL
+    "${PROJECT_HOMEPAGE_URL}"
+  LANGUAGES CXX)
 
 # --------------------------------------------------------------------
 # compiler config
@@ -46,7 +50,7 @@ option(SAGE_USE_PCH "Use sage's pre-compiled header." OFF)
 option(SAGE_USE_SYSTEM_INCLUDES
        "Use C++ includes in pre-compiled headers (Recommended)." ON)
 
-# Set default Build Type.
+# Set default Build DataType.
 if(NOT CMAKE_BUILD_TYPE)
   if(SAGE_DEBUG)
     set(CMAKE_BUILD_TYPE "Debug")
@@ -108,7 +112,7 @@ endif()
 if(NOT CONFIGURED_ONCE)
   # Make CMake Configurations to be available in source files.
   configure_file(# Where configurations are defined.
-                 "${CMAKE_SOURCE_DIR}/config/config.hpp.in"
+                 "${CMAKE_SOURCE_DIR}/config/cpp/config.hpp.in"
                  # Where CMake writes auto configuration @build time.
                  "${SAGE_LIB_DIR}/include/sage/config.hpp")
 
@@ -126,7 +130,7 @@ include_directories(SYSTEM "sage/include")
 add_subdirectory("sage")
 
 # !-------------------------- Target: example. --------------------------!
-file(GLOB_RECURSE SAGE_EXAMPLE "${EXAMPLE_DIR}/src/*cc")
+file(GLOB_RECURSE SAGE_EXAMPLE "${EXAMPLE_DIR}/cpp/*cc")
 add_executable(example ${SAGE_EXAMPLE})
 target_link_libraries(example sage)
 

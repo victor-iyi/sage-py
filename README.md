@@ -8,9 +8,58 @@ Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON
 [![GitHub Releases](https://img.shields.io/github/release/victor-iyiola/sage.svg)](https://github.com/victor-iyiola/sage/releases)
 [![GitHub Issues](https://img.shields.io/github/issues/victor-iyiola/sage.svg)](http://github.com/victor-iyiola/sage/issues)
 
+- [Sage](#sage)
+  - [Functionalities](#functionalities)
+  - [Setup](#setup)
+  - [Usage](#usage)
+  - [Credits](#credits)
+  - [Contribution](#contribution)
+  - [License (Apache)](#license-apache)
+
 ## Functionalities
 
-Sage basically reads your `.jsonld` file & builds a Knowledge Graph using <https://schema.org> standards. It can also load in Knowedge triples from [WikiData](https://www.wikidata.org/wiki/Special:EntityPage/Q6108942), or any [FOAF ontology](<https://en.wikipedia.org/wiki/FOAF_(ontology)>).
+Sage basically reads your `.jsonld` file & builds a Knowledge Graph using <https://schema.org> standards. It can also
+ load in Knowledge triples from [WikiData](https://www.wikidata.org/wiki/Special:EntityPage/Q6108942), or any [FOAF
+ ontology](<https://en.wikipedia.org/wiki/FOAF_(ontology)>).
+
+## Setup
+
+The `sage.core` package is built with [Cython](https://cython.org) - meaning it has to be built before usage. To build it simply run the Cython build script in the project root:
+
+```bash
+sh ./scripts/cython.sh
+```
+
+## Usage
+
+The [Sage API](./sage) has a relatively simple API. The code snippet below builds a simple Knowledge Graph.
+
+```python
+from config.consts import FS
+from sage.core.utils import Log, File
+from sage.core.graph import KnowledgeGraph
+
+# !- Loading Graph data from File.
+path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
+
+# !- Loading KnowledgeGraph from file.
+kg = KnowledgeGraph.fromfile(path)
+# INFO     | New Vertex: label: Avatar, schema=Movie
+# INFO     | New Vertex: label: James Cameron, schema=Person
+
+Log.debug(kg.graph.vertices)
+# DEBUG    | [<Vertex(label='Avatar', schema='Movie')>, <Vertex(label='James Cameron', schema='Person')>]
+
+# !- Retrieve Vertices in the Graph.
+avatar = kg.graph['Avatar', 'Movie']
+Log.debug(f'avatar = {avatar}')
+# DEBUG    | avatar = <Vertex(label='Avatar', schema='Movie')>
+Log.debug(f'avatar.payload = {avatar.payload}')
+# DEBUG    | avatar.payload = {'name': 'Avatar', 'genre': 'Science Fiction', 'trailer': 'https://example.com/trailer
+Log.debug(f'avatar.edges = {avatar.edges}')
+# DEBUG    | avatar.edges = [<Edge(e147c670075ef62b, director)>]
+
+```
 
 ## Credits
 

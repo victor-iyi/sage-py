@@ -4,7 +4,9 @@
 #include "sage/error/error.hpp"
 
 namespace sage {
-
+  /**
+   *
+   * */
   template <typename T>
   struct SAGE_API NamedPair {
     using value_type = T;

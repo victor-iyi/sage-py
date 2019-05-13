@@ -7,7 +7,7 @@ branches:
   only:
     - master
     - develop
-    - /v-.*/
+    - /^v-.*$/
 
 build:
   verbosity: normal

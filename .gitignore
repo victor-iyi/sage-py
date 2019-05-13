@@ -173,7 +173,7 @@ gen
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.py[co]
 *$py.class
 
 # Distribution / packaging
@@ -202,4 +202,7 @@ instance/
 
 ### Project specific
 vendor/**
-*.gch
+resources/**
+!resources/.gitkeep
+*.db
+.pytest_cache
