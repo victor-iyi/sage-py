@@ -14,3 +14,10 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+
+from graph cimport KnowledgeGraph
+
+
+__all__ = [
+    'KnowledgeGraph'
+]

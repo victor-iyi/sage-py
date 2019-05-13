@@ -24,6 +24,9 @@ from sage.core.utils import Log, File
 from config.consts import FS
 
 
+__all__ = ['KnowledgeGraph']
+
+
 class KnowledgeGraph(Base):
     # Supported file formats.
     SUPPORTED_FORMATS = ('json', 'jsonld', 'json-ld',
