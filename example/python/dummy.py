@@ -1,5 +1,4 @@
-"""Knowledge Graph related classes.
-
+"""
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.
@@ -7,10 +6,12 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: __init__.pxd
-     Created on 09 May, 2019 @ 08:01 PM.
+     File: dummy.py
+     Created on 13 May, 2019 @ 20:43.
 
    @license
-     Apache 2.0 License
+     MIT License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+from sage.core.graph import KnowledgeGraph
+

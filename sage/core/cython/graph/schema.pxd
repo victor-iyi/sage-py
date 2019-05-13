@@ -1,4 +1,4 @@
-"""Knowledge Graph related classes.
+"""Graph database schema.
 
    @author
      Victor I. Afolabi
@@ -7,8 +7,8 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: __init__.pxd
-     Created on 09 May, 2019 @ 08:01 PM.
+     File: schema.pxd
+     Created on 13 May, 2019 @ 08:28 PM.
 
    @license
      Apache 2.0 License

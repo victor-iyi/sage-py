@@ -205,3 +205,4 @@ vendor/**
 resources/**
 !resources/.gitkeep
 *.db
+.pytest_cache
