@@ -124,6 +124,15 @@ class KnowledgeGraph(Base):
 
 
 if __name__ == '__main__':
+    # Loading Graph data from File.
+    path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
+    kg = KnowledgeGraph.fromfile(path)
+    Log.debug(kg.graph.vertices)
+    avatar = kg.graph['Avatar', 'Movie']
+    Log.debug(f'avatar = {avatar}')
+    Log.debug(f'avatar.payload = {avatar.payload}')
+    Log.debug(f'avatar.edges = {avatar.edges}')
+
     # Testing Graph.
     # example = {
     #     "@type": 'Person',
@@ -150,15 +159,6 @@ if __name__ == '__main__':
     #     ],
     #     "field": "Science"
     # }
-
-    path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
-    kg = KnowledgeGraph.fromfile(path)
-    Log.debug(kg.graph.vertices)
-    avatar = kg.graph['Avatar', 'Movie']
-    Log.debug(f'avatar = {avatar}')
-    Log.debug(f'avatar.payload = {avatar.payload}')
-    Log.debug(f'avatar.edges = {avatar.edges}')
-
     # kg = KnowledgeGraph('example')
     # kg.load(data=example)
     # Log.debug(kg.graph.vertices)
