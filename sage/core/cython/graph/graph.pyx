@@ -28,6 +28,10 @@ cdef class KnowledgeGraph(Base):
     SUPPORTED_FORMATS = ('json', 'jsonld', 'json-ld',
                          'rdf', 'xml', 'nt')
 
+    def __cinit__(self, str name):
+        self.label = name
+        self._graph = Graph(name)
+
     def __init__(self, str name):
         self.label = name
         self._graph = Graph(name)
