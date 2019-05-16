@@ -272,6 +272,14 @@ class Graph(BaseSchema):
         # pred: str - Predicate
         pass
 
+    def close(self):
+        import os
+        # Delete the database.
+        os.removedirs(os.path.join(FS.DATABASE_DIR,
+                                   f'{self.name}.db'))
+        # Close the session.
+        self._sess.close()
+
     @property
     def vertices(self) -> List[Vertex]:
         return self._sess.query(Vertex).all()

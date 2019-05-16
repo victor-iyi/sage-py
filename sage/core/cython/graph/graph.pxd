@@ -14,11 +14,11 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
-from sage.core.cython.base cimport Base
+# from sage.core.cython.base cimport Base
 
-cdef class KnowledgeGraph(Base):
-    cdef:
-        public str label
-
-    cpdef void add_triple(self, triples)
-    cpdef void load(self, data)
+# cdef class KnowledgeGraph(Base):
+#     cdef:
+#         public str label
+#
+#     cpdef void add_triple(self, triples)
+#     cpdef void load(self, data)

@@ -273,6 +273,9 @@ class Graph(BaseSchema):
         # pred: str - Predicate
         pass
 
+    def close(self):
+        self._sess.close()
+
     @property
     def vertices(self) -> List[Vertex]:
         return self._sess.query(Vertex).all()

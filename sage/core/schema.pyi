@@ -311,3 +311,5 @@ class Graph(Base):
         Returns:
 
         """
+
+    def close(self): ...

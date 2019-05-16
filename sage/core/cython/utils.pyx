@@ -214,6 +214,43 @@ class File(metaclass=ABCMeta):
                 Log.info('"{}" has been created.'.format(path))
 
     @staticmethod
+    def remove(str path, int verbose=0):
+        """Remove directories & files if it already exist.
+
+        Args:
+            path (str): Directory/file to be removed.
+            verbose (bool, optional): Defaults to 0. 0 turns of logging,
+                while 1 gives feedback on creation of director(y|ies).
+
+        Example:
+            ```python
+            >>> # Removing directories.
+            >>> path = File.join("path/to", "be/removed")
+            >>> File.remove(path, verbose=1)
+            INFO  |  "path/to/be/removed/" has been removed.
+            >>> # Removing a file.
+            >>> path = File.join("path/to", "be/removed/file.ext")
+            >>> File.remove(path, verbose=1)
+            WARNING |  Removing directories & it's content(s).
+            INFO    |  "path/to/be/removed/file.ext" has been removed.
+            ```
+        """
+
+        # if director(y|ies) doesn't already exist.
+        if File.is_dir(path):
+            # Recursively delete directory & it's children.
+            import shutil
+            Log.warn('Removing directories & it\'s content(s).')
+            shutil.rmtree(path)
+        else:
+            # Remove file.
+            os.remove(path)
+
+        if verbose:
+            # Feedback based on verbosity.
+            Log.info('"{}" has been created.'.format(path))
+
+    @staticmethod
     def get_dirs(str path, exclude: Iterable[str] = None, bint optimize = False):
         """Retrieve all directories in a given path.
 

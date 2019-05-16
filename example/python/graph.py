@@ -18,7 +18,7 @@
 import json
 from typing import List, Dict, Union, Any
 
-from example.python import Graph
+from example.python.schema import Graph
 from sage.core.base import Base
 from sage.core.utils import Log, File
 from config.consts import FS
@@ -130,6 +130,7 @@ if __name__ == '__main__':
     # Loading Graph data from File.
     path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
     kg = KnowledgeGraph.fromfile(path)
+    Log.warn('Created Knowledge Graph')
     Log.debug(kg.graph.vertices)
     avatar = kg.graph['Avatar', 'Movie']
     Log.debug(f'avatar = {avatar}')
