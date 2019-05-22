@@ -253,8 +253,8 @@ class Graph(BaseSchema):
         vertex = self[label, schema]
 
         if vertex is None:
-            if self.verbose:
-                Log.info(f'New Vertex: label: {label}, schema={schema}')
+            # if self.verbose:
+            #     Log.info(f'New Vertex: label: {label}, schema={schema}')
             # Create a new vertex.
             vertex = Vertex(label=label, schema=schema)
             # Add new vertex to DB.

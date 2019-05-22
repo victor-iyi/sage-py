@@ -81,11 +81,16 @@ class KnowledgeGraph(Base):
             return NotImplemented
 
     def load(self, data):
+        cdef:
+            str label, nbr_label
+
         # New Scope.
         if isinstance(data, dict):
             # Add vertex in current scope to graph.
             label = data.get('name', 'Unknown')
             schema = data.get('@type', 'Thing')
+            schema = (', '.join(schema) if isinstance(schema, list)
+                      else schema)
             vertex = self._graph.add_vertex(label, schema)
 
             # Loop through the key-value pairs of current vertex.
@@ -101,6 +106,9 @@ class KnowledgeGraph(Base):
                         if isinstance(item, dict):
                             nbr_label = item.get('name', 'Unknown')
                             nbr_schema = item.get('@type', 'Thing')
+                            nbr_schema = (', '.join(nbr_schema)
+                                          if isinstance(nbr_schema, list)
+                                          else nbr_schema)
                             nbr = self._graph.add_vertex(nbr_label, nbr_schema)
                             vertex.add_neighbor(nbr, predicate=k)
                         # Visit neighboring scope.
@@ -109,6 +117,9 @@ class KnowledgeGraph(Base):
                     # Direct neighboring scope.
                     nbr_label = v.get('name', 'Unknown')
                     nbr_schema = v.get('@type', 'Thing')
+                    nbr_schema = (', '.join(nbr_schema)
+                                  if isinstance(nbr_schema, list)
+                                  else nbr_schema)
                     nbr = self._graph.add_vertex(nbr_label, nbr_schema)
                     vertex.add_neighbor(nbr, predicate=k)
                     # Visit direct neighboring scope.
