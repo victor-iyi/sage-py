@@ -7,6 +7,13 @@ namespace sage {
 
   namespace graph {
 
+    struct Edge {};
+
+    struct Vertex {
+      std::string id, label, schema;
+      std::vector<Edge> edges;
+    };
+
     struct Graph {
       int V;
       std::set<int, std::greater<int> >* adjList;
