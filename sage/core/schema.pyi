@@ -16,7 +16,7 @@
 """
 
 # Built-in libraries.
-from typing import Union, Tuple, List, TypeVar
+from typing import Union, Tuple, List, TypeVar, Dict, Optional
 
 # TypeVars.
 Session = TypeVar('Session')
@@ -66,7 +66,13 @@ class Vertex(Base):
     """Vertex schema."""
     schema = ...  # type: str
 
-    def __init__(self, label: str = None, schema: str = None):
+    """Payload which current vertex carries. Contains information about Vertex."""
+    payload = ...  # type: Optional[Union[dict, None]]
+
+    """Connection of Vertex to other Vertex in the Graph."""
+    edges = ...  # type: List[Edge]
+
+    def __init__(self, label: Optional[str] = None, schema: Optional[str] = None):
         """Vertex.__init__
 
         Args:
@@ -102,25 +108,47 @@ class Vertex(Base):
             int - Hash based on Vertex.__key()
         """
 
-    def add_neighbor(self, nbr, predicate=None):
-        """
+    def add_neighbor(self, nbr: Vertex, predicate: Optional[str] = None) -> Edge:
+        """Add new connection to the current Vertex object.
 
         Args:
-            nbr ():
-            predicate ():
+            nbr (Vertex): Destination vertex, which current vertex
+                is connected to.
+            predicate (str): Description of their connection.
 
         Returns:
-
+            Edge - Edge object containing connection details.
         """
 
-    def get_predicate(self, nbr):
-        """
+    def add_payload(self, payload: Dict[str, str]) -> None:
+        """Add payload to current Vertex. Appends if not already exits.
 
         Args:
-            nbr ():
+            payload (Dict[str, str]): Contains information conveyed by current Vertex.
 
         Returns:
+            None
+        """
 
+    def get_predicate(self, nbr: Vertex) -> str:
+        """Get connection of current Vertex with a neighboring Vertex.
+
+        Args:
+            nbr (Vertex): Get connection of current Vertex with this
+                neighboring Vertex.
+
+        Returns:
+            str - Connection predicate (description).
+        """
+
+    def get_connection(self, nbr: Vertex) -> Union[Edge, None]:
+        """Retrieve immediate connection to target vertex.
+
+        Args:
+            nbr (Vertex): Vertex to get connected edges from.
+
+        Returns:
+            Union[Edge, None] - Returns edge or None if it doesn't exits.
         """
 
 
@@ -158,7 +186,7 @@ class Edge(Base):
     """Source Vertex (`vertex`) is connected to `vertex_id`."""
     vertex = ...  # type: Vertex
 
-    def __init__(self, vertex_id: str, predicate: str): ...
+    def __init__(self, vertex_id: str, predicate: Optional[str]): ...
 
     def __repr__(self) -> str: ...
 
@@ -213,15 +241,15 @@ class Graph(Base):
     name = ...  # type: str
 
     """Vertex Id foreign key."""
-    vertex_id = ...  # type: int
+    vertex_id = ...  # type: str
 
     """Vertex relational mapper."""
-    vertex = ...  # type: List[Vertex]
+    vertex = ...  # type: Union[Vertex, None]
 
     """List of all Vertex objects in Graph."""
     vertices = ...  # type: List[Vertex]
 
-    def __init__(self, name: str, verbose: int = 1):
+    def __init__(self, name: str, verbose: Optional[int] = 1):
         """Graph.__init__
 
         Args:
@@ -278,7 +306,7 @@ class Graph(Base):
             Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
         """
 
-    def add_vertex(self, label: str, schema: str = None) -> Vertex:
+    def add_vertex(self, label: str, schema: Optional[str] = None) -> Vertex:
         """Add a new Vertex/Node to the Graph if it doesn't already exist.
 
         Args:

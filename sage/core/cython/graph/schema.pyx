@@ -28,7 +28,6 @@ from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy.ext.declarative import declarative_base
 
 # Custom libraries.
-from sage.core.utils import Log
 from config.consts import FS
 
 __all__ = [
@@ -253,8 +252,6 @@ class Graph(BaseSchema):
         vertex = self[label, schema]
 
         if vertex is None:
-            # if self.verbose:
-            #     Log.info(f'New Vertex: label: {label}, schema={schema}')
             # Create a new vertex.
             vertex = Vertex(label=label, schema=schema)
             # Add new vertex to DB.

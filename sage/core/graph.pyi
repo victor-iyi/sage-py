@@ -17,8 +17,10 @@
 
 # Built-in libraries.
 from typing import Union, Tuple, List, Dict, Any, Iterable
+
+# Custom libraries.
 from sage.core.base import Base
-from sage.core.schema import Graph
+from sage.core.schema import Graph, Vertex, Query
 
 
 class KnowledgeGraph(Base):
@@ -77,11 +79,53 @@ class KnowledgeGraph(Base):
     """Internal graph database managed by Knowledge Graph."""
     graph = ...  # type: Graph
 
+    """List of all Vertex objects in Graph."""
+    vertices = ...  # type: List[Vertex]
+
     def __init__(self, name: str):
         """Knowledge Graph initialization.
 
         Args:
             name (str): Label given to Knowledge Graph for description.
+        """
+
+    def get(self, other: Union[str, Tuple[str, str], Vertex]) -> Query:
+        """Returns a match object for `other` if Vertex is in Graph.
+
+        Args:
+            other (Union[str, Tuple[str, str], Vertex]):
+
+        Returns:
+            sqlalchemy.query.Query - SQLAlchemy's Query match object.
+        """
+
+    def __contains__(self, other: Union[str, Tuple[str, str], Vertex]) -> bool:
+        """Checks if `other` is in Graph.
+
+        Args:
+            other (Union[str, Tuple[str, str], Vertex]):
+
+        Returns:
+            bool - True if it exists, False otherwise.
+        """
+
+    def __getitem__(self, other: Union[str, Tuple[str, str], Vertex]) -> Union[Vertex, None]:
+        """Retrieve Vertex from Graph.
+
+        Examples:
+            ```python
+            >>> g = Graph('sage')
+            >>> victor = g.add_vertex('Victor', 'Person')
+            >>> g[victor]
+            >>> g['Victor', 'Person']
+            >>> g[victor.id]
+            ```
+
+        Args:
+            other (Union[str, Tuple[str, str], Vertex]):
+
+        Returns:
+            Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
         """
 
     def add_triple(self, triples: Iterable[Tuple[str, str, str]]) -> None: ...
