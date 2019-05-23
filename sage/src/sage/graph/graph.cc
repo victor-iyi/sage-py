@@ -4,7 +4,6 @@ namespace sage {
 
   namespace graph {
 
-
     // A utility function that creates a graph of V vertices
     Graph* createGraph(int V) {
       Graph* graph = new Graph;
@@ -39,11 +38,11 @@ namespace sage {
     void printGraph(std::vector<std::pair<int, int> > adj[], int V) {
       int v, w;
       for (int u = 0; u < V; u++) {
-        std::cout << "Node " << u << " makes an edge with \n";
+        SAGE_CORE_TRACE("Node {0} makes an edge with \n", u);
         for (auto it = adj[u].begin(); it != adj[u].end(); it++) {
           v = it->first;
           w = it->second;
-          std::cout << "\tNode " << v << " with edge weight =" << w << "\n";
+          SAGE_CORE_TRACE("\tNode {0} with edge weight {1}", v, w);
         }
         std::cout << "\n";
       }
@@ -53,13 +52,9 @@ namespace sage {
     void searchEdge(Graph* graph, int src, int dest) {
       auto itr = graph->adjList[src].find(dest);
       if (itr == graph->adjList[src].end())
-        std::cout << std::endl
-                  << "Edge from " << src << " to " << dest << " not found."
-                  << std::endl;
+        SAGE_CORE_ERROR("Edge from {0} to {1} not found.", src, dest);
       else
-        std::cout << std::endl
-                  << "Edge from " << src << " to " << dest << " found."
-                  << std::endl;
+        SAGE_CORE_TRACE("Edge from {0} to {1} not found.", src, dest);
     }
 
   }  // namespace graph
