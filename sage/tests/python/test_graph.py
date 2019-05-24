@@ -86,7 +86,7 @@ class TestGraph(unittest.TestCase):
 
     def tearDown(self):
         import os
-        File.removedirs(File.join(FS.DATABASE_DIR,
+        File.remove(File.join(FS.DATABASE_DIR,
                                 f'{self.graph.name}.db'))
 
     def test_graph_creation(self):
