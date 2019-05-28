@@ -39,6 +39,13 @@ class KnowledgeGraph(Base):
     def __contains__(self, other):
         return self._graph.__contains__(other)
 
+    def __enter__(self):
+        self._graph = Graph(self.label)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._graph.close()
+
     def get(self, other):
         return self._graph.get(other)
 

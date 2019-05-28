@@ -306,6 +306,10 @@ class Graph(Base):
             Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
         """
 
+    def __enter__(self) -> Graph: ...
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None: ...
+
     def add_vertex(self, label: str, schema: Optional[str] = None) -> Vertex:
         """Add a new Vertex/Node to the Graph if it doesn't already exist.
 

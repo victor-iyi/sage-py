@@ -25,7 +25,8 @@ Sage basically reads your `.jsonld` file & builds a Knowledge Graph using <https
 
 ## Setup
 
-The `sage.core` package is built with [Cython](https://cython.org) - meaning it has to be built before usage. To build it simply run the Cython build script in the project root:
+The `sage.core` package is written in [Cython](https://cython.org) - meaning it has to be built before usage. To 
+build it simply run the Cython build script in the project root:
 
 ```bash
 sh ./scripts/cython.sh

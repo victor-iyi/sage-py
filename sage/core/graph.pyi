@@ -117,8 +117,11 @@ class KnowledgeGraph(Base):
             >>> g = Graph('sage')
             >>> victor = g.add_vertex('Victor', 'Person')
             >>> g[victor]
+            <Vertex(label=Victor, schema=Person)>
             >>> g['Victor', 'Person']
+            <Vertex(label=Victor, schema=Person)>
             >>> g[victor.id]
+            <Vertex(label=Victor, schema=Person)>
             ```
 
         Args:
@@ -127,6 +130,10 @@ class KnowledgeGraph(Base):
         Returns:
             Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
         """
+
+    def __enter__(self) -> KnowledgeGraph: ...
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None: ...
 
     def add_triple(self, triples: Iterable[Tuple[str, str, str]]) -> None: ...
 

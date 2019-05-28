@@ -247,6 +247,13 @@ class Graph(BaseSchema):
         # Returns Vertex or None
         return self.get(other).one_or_none()
 
+    def __enter__(self):
+        self._sess = self._initialize_session()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._sess.close()
+
     def add_vertex(self, str label, str schema = None) -> Vertex:
         # Check if label-schema combo already exist.
         vertex = self[label, schema]
@@ -264,8 +271,12 @@ class Graph(BaseSchema):
     def get_vertex(self, v: Union[str, Tuple[str, str], Vertex]) -> Union[Vertex, None]:
         return self[v]
 
-    def add_edge(self, sub, obj, pred):
+    def add_edge(self, sub, obj, predicate=None):
         # sub: Vertex - Subject
+        if sub not in self:
+            pass
+        if obj not in self:
+            pass
         # obj: Vertex - Object
         # pred: str - Predicate
         pass
