@@ -20,5 +20,5 @@ from sage.core.crawler import get_properties
 
 
 if __name__ == '__main__':
-    properties = get_properties('Person', compact=True)
+    properties = get_properties('MedicalEntity', compact=True)
     Log.pretty(properties)
