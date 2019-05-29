@@ -71,7 +71,7 @@ class KnowledgeGraph(Base):
     """
 
     """Supported file formats."""
-    SUPPORTED_FORMATS = ...  # type: tuple
+    SUPPORTED_FORMATS = ...  # type: Tuple[str]
 
     """Label given to Knowledge Graph for description."""
     label = ...  # type: str
@@ -162,6 +162,31 @@ class KnowledgeGraph(Base):
             Union[List, Dict[str, Any]] - Linked data in a list or dict data structure.
         """
 
-    def load(self, data: Union[List[Dict[str, Any]], Dict[str, Any]]) -> None: ...
+    def load(self, data: Union[List[Dict[str, Any]], Dict[str, Any]]) -> None:
+        """Load knowledge data to Knowledge Graph.
 
-    def close(self): ...
+        Args:
+            data (Union[List[Dict[str, Any]], Dict[str, Any]]): Knowledge data to be loaded into Knowledge Graph.
+
+        Returns:
+            None
+        """
+
+    def depth_first(self, start: Vertex, visited: List[Vertex] = None, to_visit: List[Vertex] = None) -> Vertex:
+        """Perform depth first search algorithm on Knowledge Graph.
+
+        Args:
+            start (Vertex): Start Vertex - Where to start search.
+            visited (List[Vertex]): List of visited vertices.
+            to_visit (List[Vertex]): List of vertices to be visited.
+
+        Returns:
+            Vertex - Vertex where goal is found.
+        """
+
+    def close(self) -> None:
+        """Close database session & clean up resources.
+
+        Returns:
+            None
+        """

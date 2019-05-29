@@ -145,6 +145,28 @@ class KnowledgeGraph(Base):
             for item in data:
                 self.load(item)
 
+    def reached_goal(self, vertex):
+        return True
+
+    def depth_first(self, start, list visited=None, list to_visit=None):
+        visited = visited or [start]
+        to_visit = to_visit or [start]
+
+        while to_visit:
+            vertex = visited.pop()
+
+            if self.reached_goal(vertex):
+                return vertex
+
+            # Visit vertex edges.
+            for edge in vertex.edges:
+                child = self._graph[edge.vertex_id]
+                if child not in visited:
+                    visited.append(child)
+                    to_visit.append(child)
+
+        return start
+
     def close(self):
         self._graph.close()
 
