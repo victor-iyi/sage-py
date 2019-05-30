@@ -146,21 +146,24 @@ class KnowledgeGraph(Base):
                 self.load(item)
 
     def reached_goal(self, vertex):
-        return True
+        return vertex
 
     def depth_first(self, start, list visited=None, list to_visit=None):
-        visited = visited or [start]
-        to_visit = to_visit or [start]
+        # Iterative approach to depth-first search.
+        cdef list visited = visited or [start]
+        cdef list to_visit = to_visit or [start]
 
+        # While there's still a node to visit.
         while to_visit:
             vertex = visited.pop()
-
+            # Goal check.
             if self.reached_goal(vertex):
                 return vertex
 
             # Visit vertex edges.
             for edge in vertex.edges:
                 child = self._graph[edge.vertex_id]
+                # Extend child node if not already visited.
                 if child not in visited:
                     visited.append(child)
                     to_visit.append(child)
