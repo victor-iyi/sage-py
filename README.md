@@ -61,6 +61,8 @@ Log.debug(f'avatar.payload = {avatar.payload}')
 Log.debug(f'avatar.edges = {avatar.edges}')
 # DEBUG    | avatar.edges = [<Edge(e147c670075ef62b, director)>]
 
+# !- Close Knowledge Graph connection.
+kg.close()
 ```
 
 ## Credits
