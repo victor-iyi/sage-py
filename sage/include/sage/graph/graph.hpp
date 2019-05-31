@@ -64,10 +64,13 @@ namespace sage {
 
     class SAGE_API Graph {
      public:
+      // Graph name.
       std::string name;
+
+      // List of all vertex objects in Graph.
       std::vector<Vertex> vertices;
 
-    public:
+     public:
       Graph(const char* name) : name(name) {}
 
       // Add a new vertex/Node to the Graph if it doesn't already exist.
@@ -83,22 +86,22 @@ namespace sage {
     };
 
     class SAGE_API KnowledgeGraph {
-      public:
-        std::string name;
+     public:
+      std::string name;
 
-      public:
-        KnowledgeGraph(const char* name);
+     public:
+      KnowledgeGraph(const char* name);
 
-        // Create KnowledgeGraph instance from file.
-        KnowledgeGraph* fromfile(const char* path);
+      // Create KnowledgeGraph instance from file.
+      KnowledgeGraph* fromfile(const char* path);
 
-        // Read data from a given file.
-        nlohmann::json read(const char* path);
+      // Read data from a given file.
+      nlohmann::json read(const char* path);
 
-        // Load knowledge data to Knowledge Graph.
-        nlohmann::json load(nlohmann::json data);
+      // Load knowledge data to Knowledge Graph.
+      nlohmann::json load(nlohmann::json data);
 
-        void close();
+      void close();
     };
 
   }  // namespace graph
