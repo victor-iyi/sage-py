@@ -7,15 +7,15 @@ namespace sage {
 
   namespace graph {
 
-    class SAGE_API KnowledgeGraph {
+    class SAGE_API KG {
      public:
       std::string name;
 
      public:
-      KnowledgeGraph(const char* name);
+      KG(const char* name);
 
-      // Create KnowledgeGraph instance from file.
-      KnowledgeGraph* fromfile(const char* path);
+      // Create KG instance from file.
+      KG* fromfile(const char* path);
 
       // Read data from a given file.
       nlohmann::json read(const char* path);

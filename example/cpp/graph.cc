@@ -9,7 +9,7 @@ int main() {
   // Path to a JSON-LD file.
   const char* const filepath =
       "/Users/victor/Documents/Work/NioCraft"
-      "/sage/resources/cache/examples/avatar.jsonld";
+      "/sage/resources/cache/graph/examples/avatar.jsonld";
 
   sage::graph::KnowledgeGraph g;
   g.load(filepath);
