@@ -1,4 +1,4 @@
-"""Test for creating Vertices.
+"""Test for creating schema (Veretx, Edge, Graph).
 
    @author
      Victor I. Afolabi
@@ -22,7 +22,7 @@ import unittest
 # custom libraries.
 from config.consts import FS
 from sage.core.utils import File
-from sage.core.schema import Vertex, Edge
+from sage.core.schema import Vertex, Edge, Graph
 
 
 class TestVertex(unittest.TestCase):
@@ -81,6 +81,34 @@ class TestVertex(unittest.TestCase):
         # Add payload that already exists.
         self.vertex.add_payload(payload)
         self.assertEqual(len(self.vertex.payload), 3)
+
+
+class TestGraph(unittest.TestCase):
+    def setUp(self):
+        self.graph = Graph('test')
+        self.graph_path = File.join(FS.DATABASE_DIR,
+                                    'test.db')
+
+    def tearDown(self):
+        File.remove(File.join(FS.DATABASE_DIR,
+                              f'{self.graph.name}.db'))
+        self.graph.close()
+
+    def test_graph_creation(self):
+        self.assertEqual(self.graph.name, 'test')
+        self.assertTrue(File.is_file(self.graph_path))
+
+    def test_query(self):
+        pass
+
+    def test_add_neighbor(self):
+        pass
+
+    def test_add_vertex(self):
+        pass
+
+    def test_get_vertex(self):
+        pass
 
 
 if __name__ == '__main__':
