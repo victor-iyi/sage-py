@@ -3,7 +3,7 @@
 int main() {
   if (sage::init() != SAGE_INIT_SUCCESS) {
     // Could not initialize sage.
-    std::cout << "Could not initialize sage\n";
+    std::cerr << "Could not initialize sage\n";
     exit(1);
   }
   // Path to a JSON-LD file.
