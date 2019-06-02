@@ -6,7 +6,7 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: __init__.py.py
+     File: __init__.py
      Created on 20 February, 2019 @ 11:45.
 
    @license

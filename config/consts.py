@@ -7,7 +7,7 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: fs.py
+     File: consts.py
      Created on 26 January, 2018 @ 01:11 PM.
 
    @license
