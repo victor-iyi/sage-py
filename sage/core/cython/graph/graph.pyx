@@ -89,7 +89,7 @@ class KnowledgeGraph(Base):
 
         if ext in ('json', 'jsonld', 'json-ld'):
             # Load JSON-LD file.
-            with open(path) as f:
+            with open(path, mode='r', encoding='utf-8') as f:
                 return json.loads(f.read())
         else:
             # TODO(victor-iyiola): Support for RDF/XML & n-triples.
@@ -150,8 +150,8 @@ class KnowledgeGraph(Base):
 
     def depth_first(self, start, list visited=None, list to_visit=None):
         # Iterative approach to depth-first search.
-        cdef list visited = visited or [start]
-        cdef list to_visit = to_visit or [start]
+        visited = visited or [start]
+        to_visit = to_visit or [start]
 
         # While there's still a node to visit.
         while to_visit:
