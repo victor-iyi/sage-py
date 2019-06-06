@@ -51,6 +51,7 @@ class FS(metaclass=ABCMeta):
     RESOURCE_DIR = os.path.join(PROJECT_DIR, 'resources')
     CACHE_DIR = os.path.join(RESOURCE_DIR, 'cache')
     DATASET_DIR = os.path.join(RESOURCE_DIR, 'dataset')
+    GRAPH_DIR = os.path.join(RESOURCE_DIR, 'graph')
     DATABASE_DIR = os.path.join(RESOURCE_DIR, 'database')
 
     # WebQSP & QALD-7 Wikidata.
