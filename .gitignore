@@ -202,8 +202,10 @@ instance/
 
 ### Project specific
 vendor/**
-resources/**
-!resources/.gitkeep
-!resources/graph
+resources/cache/**
+resources/database/**
+resources/dataset/**
+!resources/**/.gitkeep
+
 *.db
 .pytest_cache
