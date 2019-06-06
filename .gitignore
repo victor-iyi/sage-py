@@ -1,51 +1,22 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Node template
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+### Python template
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[co]
+*$py.class
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Distribution / packaging
+.Python
+build/
+dist/
 
-# Bower dependency directory (https://bower.io/)
-bower_components
+# Jupyter Notebook
+.ipynb_checkpoints
 
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
-
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
+# mkdocs documentation
+/site
 
 
-### C template
+### C/C++ template
 # Prerequisites
 *.d
 
@@ -54,11 +25,6 @@ jspm_packages/
 *.ko
 *.obj
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
 
 # Precompiled Headers
 *.gch
@@ -76,20 +42,17 @@ jspm_packages/
 *.so.*
 *.dylib
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
 
-
-### Sass template
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
+### CMake template
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
 
 
 ### macOS template
@@ -104,34 +67,6 @@ Icon
 # Thumbnails
 ._*
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-
-### CMake template
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
-
 
 ### VisualStudioCode template
 .vscode/*
@@ -141,28 +76,6 @@ CTestTestfile.cmake
 # !.vscode/extensions.json
 
 
-### C++ template
-# Prerequisites
-
-# Compiled Object files
-*.slo
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-
-
-### Go template
-# Binaries for programs and plugins
-*.exe~
-
-# Test binary, _build with `go test -c`
-*.test
-
-
 ### IntelliJ project files
 .idea
 *.iml
@@ -170,42 +83,16 @@ out
 gen
 
 
-### Python template
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[co]
-*$py.class
-
-# Distribution / packaging
-.Python
-build/
-dist/
-
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# mkdocs documentation
-/site
-
-
 ### Project specific
+
+# Third-party Vendor
 vendor/**
-resources/cache/**
-resources/database/**
+
+# Resources
+resources/cache/*
+resources/database/*
 resources/dataset/**
 !resources/**/.gitkeep
 
-*.db
+# PyTest
 .pytest_cache
