@@ -204,5 +204,6 @@ instance/
 vendor/**
 resources/**
 !resources/.gitkeep
+!resources/graph
 *.db
 .pytest_cache
