@@ -29,11 +29,11 @@ def create_kg(name: str):
 def action():
     kg = create_kg('action')
 
-    Log.info('Action vertices:')
+    Log.info(f'Action vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    Log.info('Action Edges:')
     node = kg['Unknown', 'ListenAction']
+    Log.info(f'Action Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
@@ -44,11 +44,11 @@ def action():
 def creative_work():
     kg = create_kg('creative-work')
 
-    Log.info('Creative Work vertices:')
+    Log.info(f'Creative Work vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    Log.info('Creative Work Edges:')
     node = kg['Holt Physical Science', 'Book']
+    Log.info(f'Creative Work Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
@@ -59,11 +59,11 @@ def creative_work():
 def event():
     kg = create_kg('event')
 
-    Log.info('Event vertices:')
+    Log.info(f'Event vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    Log.info('Event Edges:')
     node = kg['Typhoon with Radiation City', 'Event']
+    Log.info(f'Event Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
@@ -74,11 +74,11 @@ def event():
 def medical_condition():
     kg = create_kg('medical-condition')
 
-    Log.info('Medical vertices:')
+    Log.info(f'Medical vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    Log.info('Medical Edges:')
     node = kg['Stable angina', 'MedicalCondition']
+    Log.info(f'Medical Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
@@ -89,11 +89,11 @@ def medical_condition():
 def movie():
     kg = create_kg('movie')
 
-    Log.info('Movie vertices:')
+    Log.info(f'Movie vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    Log.info('Movie Edges:')
     node = kg['Pirates of the Carribean: On Stranger Tides (2011)', 'Movie']
+    Log.info(f'Movie Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
@@ -104,11 +104,11 @@ def movie():
 def property_value():
     kg = create_kg('property-value')
 
-    Log.info('Property vertices:')
+    Log.info(f'Property vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    Log.info('Property Edges:')
     node = kg['Beach in Mexico', 'ImageObject']
+    Log.info(f'Property Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')

@@ -46,7 +46,7 @@ SAGE_CORE_DIR="${SAGE_DIR}/core"
 # Go to the project folder or stop.
 cd ${PROJECT_DIR} || exit
 # Python version cython.sh "3.6" | "3.7"
-PY_VERSION="3.7"                  # -v --py-version
+PY_VERSION="3.6"                  # -v --py-version
 PY_EXE="python${PY_VERSION}"      # -e --py-exe
 BUILD_LIB="${PROJECT_DIR}"        # -l --build-lib
 BUILD_BASE="${PROJECT_DIR}/build" # -b --build-base

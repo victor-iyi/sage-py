@@ -248,7 +248,6 @@ class Graph(BaseSchema):
         return self.get(other).one_or_none()
 
     def __enter__(self):
-        self._sess = self._initialize_session()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
