@@ -117,9 +117,9 @@ def property_value():
 
 
 if __name__ == '__main__':
-    action()
-    creative_work()
-    event()
+    # action()
+    # creative_work()
+    # event()
     medical_condition()
-    movie()
-    property_value()
+    # movie()
+    # property_value()
