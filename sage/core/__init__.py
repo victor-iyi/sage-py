@@ -16,9 +16,8 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-# from sage.core.graph import Graph
 from sage.core.base import Base, Mode, Attr
-from sage.core.graph import KnowledgeGraph
+from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
 from sage.core.schema import Vertex, Graph, Edge
 from sage.core.crawler import get_properties, get_source
 from sage.core.utils import Log, File, Cache, Downloader
@@ -32,7 +31,8 @@ __all__ = [
     'Downloader', 'Cache', 'File', 'Log',
 
     # Knowledge Graph.
-    'Vertex', 'Edge', 'Graph', 'KnowledgeGraph',
+    'Vertex', 'Edge', 'Graph',
+    'KnowledgeGraph', 'MultiKnowledgeGraph',
 
     # Crawler.
     'get_properties', 'get_source',

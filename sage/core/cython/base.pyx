@@ -40,7 +40,7 @@ class Mode:
 # +--------------------------------------------------------------------------------------------+
 ################################################################################################
 cdef class Base:
-    def __cinit__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         # Verbosity level: 0 or 1.
         self.verbose = kwargs.get('verbose', 1)
         self.name = kwargs.get('name', self.__class__.__name__)
@@ -75,6 +75,9 @@ cdef class Base:
 
     def _log(self, *args, str level='log', **kwargs):
         """Logging method helper based on verbosity."""
+        # noinspection PyUnresolvedReferences
+        from sage.core.utils import Log
+
         # No logging if verbose is not 'on'.
         if not kwargs.pop('verbose', self.verbose):
             return

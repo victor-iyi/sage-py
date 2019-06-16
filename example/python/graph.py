@@ -15,69 +15,26 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from sage.core.graph import KnowledgeGraph
+from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
 from sage.core.utils import Log, File
 from config.consts import FS
 
 
-def create_kg(name: str):
+def single(name: str = 'medical-condition',
+           node_name: str = 'Stable angina',
+           node_schema: str = 'MedicalCondition'):
+    # Create Single Knowledge Graph.
     Log.warn(f'Loading for {name}')
-    path = File.join(FS.GRAPH_DIR, f'schema-org/{name}.jsonld')
-    return KnowledgeGraph.fromfile(path)
+    path = File.join(FS.GRAPH_DIR,
+                     f'schema-org/{name}.jsonld')
+    kg = KnowledgeGraph(name, data_file=path)
 
-
-def action():
-    kg = create_kg('action')
-
-    Log.info(f'Action vertices: ({len(kg.vertices)})')
-    Log.debug(kg.vertices)
-
-    node = kg['Unknown', 'ListenAction']
-    Log.info(f'Action Edges: ({len(node.edges)})')
-    for edge in node.edges:
-        vertex = kg[edge.vertex_id]
-        Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
-
-    Log.debug('')
-
-
-def creative_work():
-    kg = create_kg('creative-work')
-
-    Log.info(f'Creative Work vertices: ({len(kg.vertices)})')
-    Log.debug(kg.vertices)
-
-    node = kg['Holt Physical Science', 'Book']
-    Log.info(f'Creative Work Edges: ({len(node.edges)})')
-    for edge in node.edges:
-        vertex = kg[edge.vertex_id]
-        Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
-
-    Log.debug('')
-
-
-def event():
-    kg = create_kg('event')
-
-    Log.info(f'Event vertices: ({len(kg.vertices)})')
-    Log.debug(kg.vertices)
-
-    node = kg['Typhoon with Radiation City', 'Event']
-    Log.info(f'Event Edges: ({len(node.edges)})')
-    for edge in node.edges:
-        vertex = kg[edge.vertex_id]
-        Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
-
-    Log.debug('')
-
-
-def medical_condition():
-    kg = create_kg('medical-condition')
-
+    # Display all vertices.
     Log.info(f'Medical vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
-    node = kg['Stable angina', 'MedicalCondition']
+    # Query graph for a named node with schema.
+    node = kg[node_name, node_schema]
     Log.info(f'Medical Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
@@ -90,40 +47,30 @@ def medical_condition():
     Log.debug('')
 
 
-def movie():
-    kg = create_kg('movie')
+def multiple(graph_name: str = 'movie',
+             graph_entity: str = 'Pirates of the Carribean: On Stranger Tides (2011)',
+             entity_schema: str = 'Movie'):
+    path = File.join(FS.GRAPH_DIR, 'schema-org')
+    Log.warn(f'Loading graphs in `{path}`')
 
-    Log.info(f'Movie vertices: ({len(kg.vertices)})')
-    Log.debug(kg.vertices)
+    mkg = MultiKnowledgeGraph.from_dir(path)
+    Log.debug(mkg)
 
-    node = kg['Pirates of the Carribean: On Stranger Tides (2011)', 'Movie']
-    Log.info(f'Movie Edges: ({len(node.edges)})')
-    for edge in node.edges:
-        vertex = kg[edge.vertex_id]
-        Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
+    Log.info('Display all graphs in multi-graph.')
+    Log.debug(mkg.graphs)
 
-    Log.debug('')
-
-
-def property_value():
-    kg = create_kg('property-value')
-
-    Log.info(f'Property vertices: ({len(kg.vertices)})')
-    Log.debug(kg.vertices)
-
-    node = kg['Beach in Mexico', 'ImageObject']
-    Log.info(f'Property Edges: ({len(node.edges)})')
-    for edge in node.edges:
-        vertex = kg[edge.vertex_id]
-        Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
-
-    Log.debug('')
+    Log.info(f'Getting `{graph_name}` graph.')
+    node = mkg[graph_name, graph_entity, entity_schema]
+    Log.debug(node)
 
 
 if __name__ == '__main__':
-    # action()
-    # creative_work()
-    # event()
-    medical_condition()
-    # movie()
-    # property_value()
+    # Process single knowledge graph.
+    single(name='medical-condition',
+           node_name='Stable angina',
+           node_schema='MedicalCondition')
+
+    # Process multiple related knowledge graph.
+    multiple(graph_name='movie',
+             graph_entity='Pirates of the Carribean: On Stranger Tides (2011)',
+             entity_schema='Movie')
