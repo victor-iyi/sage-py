@@ -229,7 +229,7 @@ class Graph(BaseSchema):
         return sess
 
     def __repr__(self):
-        return f'Graph({self.name})'
+        return f'<Graph({self.name})>'
 
     def get(self, other: Union[str, Tuple[str, str], Vertex]):
         # other is either (label, schema) or id or Vertex
