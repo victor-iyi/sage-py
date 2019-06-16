@@ -23,6 +23,47 @@ from sage.core.base import Base
 from sage.core.schema import Graph, Vertex, Query
 
 
+class MultiKnowledgeGraph(Base):
+    """MultiKnowledgeGraph stores multiple related graphs.
+
+    Methods:
+
+    Attributes:
+        name (str)
+        base (str)
+        graphs (List[Graph])
+
+    See Also:
+        KnowledgeGraph - stores single entities & their relationship to other entities.
+    """
+
+    """Graph's identifier & the base name in file system."""
+    name = ...  # type: str
+
+    """Base file where"""
+    base = ...  # type: str
+
+    """List of related graphs."""
+    graphs = ...  # type: List[Graph]
+
+    def __init__(self, name: str, **kwargs): ...
+
+    def __getitem__(self, item: Union[str,
+                                      Tuple[str, str],
+                                      Tuple[str, str, str],
+                                      Tuple[str, Vertex]]) -> Union[Vertex, Graph, None]: ...
+
+    def get(self, *item: Union[str,
+                               Tuple[str, str],
+                               Tuple[str, str, str],
+                               Tuple[str, Vertex]]) -> Union[Query, Graph, None]: ...
+
+    def add_graph(self, name: str, data_file: str = None) -> Graph: ...
+
+    @classmethod
+    def from_dir(cls: MultiKnowledgeGraph, path: str) -> MultiKnowledgeGraph: ...
+
+
 class KnowledgeGraph(Base):
     """KnowledgeGraph stores entities & relationship to other entities.
 
@@ -41,10 +82,14 @@ class KnowledgeGraph(Base):
             # Read data from a given file.
 
         def load(self, data: Union[List[Dict[str, Any]], Dict[str, Any]]) -> None: ...
+            # Loads knowledge data to KnowledgeGraph.
 
     Attributes:
         label (str): Label given to Knowledge Graph for description.
         graph (Graph): Internal graph database managed by Knowledge Graph.
+
+    See Also:
+        MultiKnowledgeGraph - stores multiple related graphs.
 
     Examples:
         ```python
@@ -82,11 +127,12 @@ class KnowledgeGraph(Base):
     """List of all Vertex objects in Graph."""
     vertices = ...  # type: List[Vertex]
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, data_file: str, **kwargs):
         """Knowledge Graph initialization.
 
         Args:
             name (str): Label given to Knowledge Graph for description.
+            data_file (str): Path to Knowledge data.
         """
 
     def get(self, other: Union[str, Tuple[str, str], Vertex]) -> Query:
@@ -138,7 +184,7 @@ class KnowledgeGraph(Base):
     def add_triple(self, triples: Iterable[Tuple[str, str, str]]) -> None: ...
 
     @classmethod
-    def fromfile(cls, path: str) -> KnowledgeGraph:
+    def fromfile(cls: KnowledgeGraph, path: str) -> KnowledgeGraph:
         """Create KnowledgeGraph instance from file.
 
         Args:
