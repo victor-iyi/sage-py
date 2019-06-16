@@ -1,4 +1,4 @@
-"""Implementation of Graph database.
+"""Usage of KnowledgeGraph and MultiKnowledgeGraph.
 
    @author
      Victor I. Afolabi
@@ -15,9 +15,10 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
-from sage.core.utils import Log, File
 from config.consts import FS
+
+from sage.core.utils import Log, File
+from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
 
 
 def single(name: str = 'medical-condition',
@@ -47,18 +48,21 @@ def single(name: str = 'medical-condition',
     Log.debug('')
 
 
-def multiple(graph_name: str = 'movie',
-             graph_entity: str = 'Pirates of the Carribean: On Stranger Tides (2011)',
-             entity_schema: str = 'Movie'):
+def multiple(graph_name: str = 'medical_condition',
+             graph_entity: str = 'Stable angina',
+             entity_schema: str = 'MedicalCondition'):
     path = File.join(FS.GRAPH_DIR, 'schema-org')
     Log.warn(f'Loading graphs in `{path}`')
 
+    # Load multiple graphs from a base directory.
     mkg = MultiKnowledgeGraph.from_dir(path)
     Log.debug(mkg)
 
-    Log.info('Display all graphs in multi-graph.')
+    # Display all graphs associated with mkg.
+    Log.info(f'Display all graphs ({len(mkg.graphs)}).')
     Log.debug(mkg.graphs)
 
+    # Getting a single entity from a named graph.
     Log.info(f'Getting `{graph_name}` graph.')
     node = mkg[graph_name, graph_entity, entity_schema]
     Log.debug(node)
