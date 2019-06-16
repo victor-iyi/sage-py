@@ -83,6 +83,10 @@ def medical_condition():
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
 
+    Log.info(f'Medical Payload: ({len(node.payload)})')
+    for key, value in node.payload.items():
+        Log.debug(f'{key}: {value}')
+
     Log.debug('')
 
 
