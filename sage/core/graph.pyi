@@ -1,9 +1,9 @@
-"""Knowledge Graph schema.
+"""Implementation of Graph database.
 
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.
-     Email: javafolabi@gmail.com | victor.afolabi@zephyrtel.com
+     Email: javafolabi@gmail.com
      GitHub: https://github.com/victor-iyiola
 
    @project
@@ -27,41 +27,128 @@ class MultiKnowledgeGraph(Base):
     """MultiKnowledgeGraph stores multiple related graphs.
 
     Methods:
+        def __init__(self, name: str, **kwargs):
+            # Initialize an empty multiple knowledge graph.
+
+        def __getitem__(self, item: Union[str,
+                                      Tuple[str, str],
+                                      Tuple[str, str, str],
+                                      Tuple[str, Vertex]]) -> Union[Vertex, Graph, None]:
+            # Getting specific graph or vertex of a graph from the Knowledge Graph.
+
 
     Attributes:
-        name (str)
-        base (str)
-        graphs (List[Graph])
+        name (str): Graph's identifier & the base name in file system.
+        base (str): Base file where graph db is stored.
+        graphs (List[Graph]): List of related graphs.
 
+    Raises:
+        FileNotFoundError - Occurs when a file is not found.
+        AssertionError - Occurs when incorrect inputs are encountered.
+        KeyError - Occurs during graph lookup.
+        TypeError - Occurs when getting vertex or graph from Knowledge Graph.
+
+    Examples:
+          ```python
+          >>> from config.consts import FS
+          >>> from sage.core.utils import Log, File
+
+          >>> path = File.join(FS.GRAPH_DIR, 'schema-org')
+          >>> Log.warn(f'Loading graphs in `{path}`')
+
+          >>> # Load multiple graphs from a base directory.
+          >>> mkg = MultiKnowledgeGraph.from_dir(path)
+          >>> Log.debug(mkg)
+
+          >>> # Display all graphs associated with mkg.
+          >>> Log.info(f'Display all graphs ({len(mkg.graphs)}).')
+          >>> Log.debug(mkg.graphs)
+
+          >>> # Getting a single entity from a named graph.
+          >>> Log.info(f'Getting `medical_condition` graph.')
+          >>> node = mkg['medical_condition', 'Stable angina', 'MedicalCondition']
+          >>> Log.debug(node)
+          ```
     See Also:
         KnowledgeGraph - stores single entities & their relationship to other entities.
     """
 
     """Graph's identifier & the base name in file system."""
-    name = ...  # type: str
+    label = ...  # type: str
 
-    """Base file where"""
+    """Base file where graph db is stored."""
     base = ...  # type: str
 
     """List of related graphs."""
     graphs = ...  # type: List[Graph]
 
-    def __init__(self, name: str, **kwargs): ...
+    def __init__(self, name: str, **kwargs):
+        """Initialize an empty multiple knowledge graph.
+
+        Args:
+            name (str): Identifier for the graph.
+
+        Keyword Args:
+            See `sage.core.Base` for more options.
+        """
 
     def __getitem__(self, item: Union[str,
                                       Tuple[str, str],
                                       Tuple[str, str, str],
-                                      Tuple[str, Vertex]]) -> Union[Vertex, Graph, None]: ...
+                                      Tuple[str, Vertex]]) -> Union[Vertex, Graph, None]:
+        """Getting specific graph or vertex of a graph from the Knowledge Graph.
+
+        Args:
+            item (Union[str, Tuple[str, str], Tuple[str, str, str], Tuple[str, Vertex]]): Query
+                the Knowledge Graph with the graph name and one of Vertex ID, Vertex name
+                & schema or Vertex object.
+
+        Returns:
+            Union[Vertex, Graph, None] - Instance of a Graph if a single string is provided.
+                Returns instance of a Vertex or None for other combination of arguments.
+        """
 
     def get(self, *item: Union[str,
                                Tuple[str, str],
                                Tuple[str, str, str],
-                               Tuple[str, Vertex]]) -> Union[Query, Graph, None]: ...
+                               Tuple[str, Vertex]]) -> Union[Query, Graph, None]:
+        """Getting specific graph or vertex of a graph from the Knowledge Graph.
 
-    def add_graph(self, name: str, data_file: str = None) -> Graph: ...
+        Args:
+            item (Union[str, Tuple[str, str], Tuple[str, str, str], Tuple[str, Vertex]]): Query
+                the Knowledge Graph with the graph name and one of Vertex ID, Vertex name &
+                schema or Vertex object.
+
+        Returns:
+            Union[Query, Graph, None] - Instance of a Graph if a single string is provided.
+                Returns instance of SQL-Alchemy Query or None for other combination of
+                arguments.
+        """
+
+    def add_graph(self, name: str, data_file: str = None) -> Graph:
+        """Adds a new graph into the Knowledge Graph with optional data loaded.
+
+        Args:
+            name (str): Graph name identifier.
+            data_file (str): Defaults to None. Path to a loadable data into
+                the graph. File must be of supported format.
+                See `Graph.SUPPORTED_FORMAT`.
+
+        Returns:
+            Graph - Returns created graph.
+        """
 
     @classmethod
-    def from_dir(cls: MultiKnowledgeGraph, path: str) -> MultiKnowledgeGraph: ...
+    def from_dir(cls: MultiKnowledgeGraph, path: str) -> MultiKnowledgeGraph:
+        """Creates a multiple graphs from data inferred from files in directory.
+
+        Args:
+            path (str): Path to a directory containing files to be loaded.
+
+        Returns:
+            MultiKnowledgeGraph - An instance of multiple knowledge graph
+                with graph data.
+        """
 
 
 class KnowledgeGraph(Base):

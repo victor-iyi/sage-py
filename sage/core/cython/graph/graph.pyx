@@ -15,6 +15,9 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
+from threading import Thread, Lock
+from queue import Queue
+
 from config.consts import FS
 
 from sage.core.base import Base
@@ -38,6 +41,8 @@ class MultiKnowledgeGraph(Base):
 
         # List of graphs contained in Multi-KG.
         self._graphs = dict()
+        self.__lock = Lock()
+        self.__queue = Queue()
 
     def __getitem__(self, item):
         result = None
@@ -84,20 +89,30 @@ class MultiKnowledgeGraph(Base):
         for file_path in File.get_files(path, optimize=False):
             if File.ext(file_path) in Graph.SUPPORTED_FORMATS:
                 name = File.filename(file_path)
+                # args = (name.replace(' ', '_').replace('-', '_'), file_path)
+                # t = Thread(target=inst.add_graph, args=args)
+                # t.daemon = True
                 inst.add_graph(name.replace(' ', '_').replace('-', '_'),
                                data_file=file_path)
+                # t.start()
+                # t.join()
             else:
                 Log.warn(f'{file_path} not supported.')
 
         return inst
 
     def add_graph(self, str name, str data_file=None):
-        if name in self._graphs:
-            raise KeyError(f'{name} already exists.')
+        g = None
 
-        g = Graph(name, base=self.base,
-                  data_file=data_file)
-        self._graphs[name] = g
+        try:
+            self.__lock.acquire()
+            if name in self._graphs:
+                raise KeyError(f'{name} already exists.')
+            g = Graph(name, base=self.base,
+                      data_file=data_file)
+            self._graphs[name] = g
+        finally:
+            self.__lock.release()
 
         return g
 

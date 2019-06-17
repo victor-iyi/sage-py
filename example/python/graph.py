@@ -45,7 +45,7 @@ def single(name: str = 'medical-condition',
     for key, value in node.payload.items():
         Log.debug(f'{key}: {value}')
 
-    Log.debug('')
+    Log.debug('\n')
 
 
 def multiple(graph_name: str = 'medical_condition',

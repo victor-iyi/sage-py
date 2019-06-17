@@ -61,19 +61,19 @@ class Vertex(BaseSchema):
     id = ...  # type: str
 
     """Vertex label."""
-    label = ...  # type: str
+    label = ...  # type: Optional[str]
 
     """Vertex schema."""
-    schema = ...  # type: str
+    schema = ...  # type: Optional[str]
 
     """Payload which current vertex carries. Contains information about Vertex."""
-    payload = ...  # type: Optional[Union[dict, None]]
+    payload = ...  # type: Optional[Dict[str, Any]]
 
     """Connection of Vertex to other Vertex in the Graph."""
     edges = ...  # type: List[Edge]
 
     def __init__(self, label: Optional[str] = None, schema: Optional[str] = None):
-        """Vertex.__init__
+        """Create a new instance of a Vertex.
 
         Args:
             label (str): Defaults to None.
