@@ -15,8 +15,8 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-from threading import Thread, Lock
-from queue import Queue
+# from queue import Queue
+# from threading import Thread
 
 from config.consts import FS
 
@@ -30,6 +30,21 @@ __all__ = [
 ]
 
 
+# class Worker(Thread):
+#     def __init__(self, inst, queue):
+#         super(Worker, self).__init__()
+#         self.inst = inst
+#         self.queue = queue
+#
+#     def run(self):
+#         while True:
+#             name, data_file = self.queue.get()
+#             try:
+#                 self.inst.add_graph(name, data_file)
+#             finally:
+#                 self.queue.task_done()
+
+
 class MultiKnowledgeGraph(Base):
     def __init__(self, str name, **kwargs):
         super(MultiKnowledgeGraph, self).__init__(**kwargs)
@@ -41,8 +56,6 @@ class MultiKnowledgeGraph(Base):
 
         # List of graphs contained in Multi-KG.
         self._graphs = dict()
-        self.__lock = Lock()
-        self.__queue = Queue()
 
     def __getitem__(self, item):
         result = None
@@ -84,35 +97,25 @@ class MultiKnowledgeGraph(Base):
         cdef str name = File.filename(path)
         inst = cls(name.replace(' ', '_').replace('-', '_'))
 
-        cdef str file_path
         # Get all files in directory.
+        cdef str file_path
         for file_path in File.get_files(path, optimize=False):
             if File.ext(file_path) in Graph.SUPPORTED_FORMATS:
                 name = File.filename(file_path)
-                # args = (name.replace(' ', '_').replace('-', '_'), file_path)
-                # t = Thread(target=inst.add_graph, args=args)
-                # t.daemon = True
                 inst.add_graph(name.replace(' ', '_').replace('-', '_'),
                                data_file=file_path)
-                # t.start()
-                # t.join()
             else:
                 Log.warn(f'{file_path} not supported.')
 
         return inst
 
     def add_graph(self, str name, str data_file=None):
-        g = None
+        if name in self._graphs:
+            raise KeyError(f'{name} already exists.')
 
-        try:
-            self.__lock.acquire()
-            if name in self._graphs:
-                raise KeyError(f'{name} already exists.')
-            g = Graph(name, base=self.base,
-                      data_file=data_file)
-            self._graphs[name] = g
-        finally:
-            self.__lock.release()
+        g = Graph(name, base=self.base,
+                  data_file=data_file)
+        self._graphs[name] = g
 
         return g
 
