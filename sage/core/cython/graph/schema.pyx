@@ -83,14 +83,14 @@ class Edge(BaseSchema):
     # Source Vertex (`vertex`) is connected to `vertex_id`.
     vertex = relationship('Vertex', uselist=False, secondary='connection')
 
-    def __init__(self, vertex_id, predicate):
+    def __init__(self, str vertex_id, str predicate):
         self.vertex_id = vertex_id
         self.predicate = predicate
 
     def __repr__(self):
         return f'<Edge({self.vertex_id}, {self.predicate})>'
 
-    def __eq__(self, other):
+    def __eq__(self, str other):
         return self.vertex_id == other
 
 
@@ -186,9 +186,13 @@ class Graph(BaseSchema):
                          'rdf', 'xml', 'nt')
 
     __tablename__ = 'graph'
+    # Unique integer column.
     id = Column(Integer, primary_key=True)
+    # Name of the graph.
     name = Column(String(250))
+    # Foreign key to Vertex.
     vertex_id = Column(String(8), ForeignKey('vertex.id'))
+    # Relational mapper to Vertex.
     vertex = relationship("Vertex")
 
     def __init__(self, str name, str base=None, data=None,
@@ -364,14 +368,7 @@ class Graph(BaseSchema):
     def get_vertex(self, v: Union[str, Tuple[str, str], Vertex]) -> Union[Vertex, None]:
         return self[v]
 
-    def add_edge(self, sub, obj, predicate=None):
-        # sub: Vertex - Subject
-        if sub not in self:
-            pass
-        if obj not in self:
-            pass
-        # obj: Vertex - Object
-        # pred: str - Predicate
+    def add_edge(self, edge):
         pass
 
     def close(self):
