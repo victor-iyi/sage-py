@@ -38,4 +38,6 @@ environment:
 build_script:
   - cmd: >-
       chmod +x ./scripts/*
-      ./scripts/build.sh -G=%GENERATOR% -b=%BUILD_TYPE%
+      ./scripts/clean.sh
+      ./scripts/cpp.sh -G=%GENERATOR% -b=%BUILD_TYPE%
+      ./scripts/cython.sh

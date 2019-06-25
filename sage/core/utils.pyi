@@ -289,6 +289,29 @@ class File(metaclass=ABCMeta):
         """
 
     @staticmethod
+    def remove(path: AnyStr, verbose: Optional[int] = 0) -> None:
+        """Remove directories & files if it already exist.
+
+        Args:
+            path (str): Directory/file to be removed.
+            verbose (bool, optional): Defaults to 0. 0 turns of logging,
+                while 1 gives feedback on creation of director(y|ies).
+
+        Example:
+            ```python
+            >>> # Removing directories.
+            >>> path = File.join("path/to", "be/removed")
+            >>> File.remove(path, verbose=1)
+            INFO  |  "path/to/be/removed/" has been removed.
+            >>> # Removing a file.
+            >>> path = File.join("path/to", "be/removed/file.ext")
+            >>> File.remove(path, verbose=1)
+            WARNING |  Removing directories & it's content(s).
+            INFO    |  "path/to/be/removed/file.ext" has been removed.
+            ```
+        """
+
+    @staticmethod
     def get_dirs(path: AnyStr, exclude: Optional[Iterable[AnyStr]] = None,
                  optimize: Optional[bool] = False) -> Union[Generator[AnyStr], List[AnyStr]]:
         """Retrieve all directories in a given path.

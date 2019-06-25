@@ -7,7 +7,7 @@
      GitHub: https://github.com/victor-iyiola
 
    @project
-     File: fs.py
+     File: consts.py
      Created on 26 January, 2018 @ 01:11 PM.
 
    @license
@@ -51,6 +51,7 @@ class FS(metaclass=ABCMeta):
     RESOURCE_DIR = os.path.join(PROJECT_DIR, 'resources')
     CACHE_DIR = os.path.join(RESOURCE_DIR, 'cache')
     DATASET_DIR = os.path.join(RESOURCE_DIR, 'dataset')
+    GRAPH_DIR = os.path.join(RESOURCE_DIR, 'graph')
     DATABASE_DIR = os.path.join(RESOURCE_DIR, 'database')
 
     # WebQSP & QALD-7 Wikidata.
@@ -109,4 +110,4 @@ class LOGGER(metaclass=ABCMeta):
     # Root Logger:
     ROOT = os.path.join(FS.CONFIG_DIR, f'logger/{SETUP.MODE}.cfg')
 
-    # Another logger goes here: (and updated in helpers/utils.py)
+    # Another logger goes here: (and updated in sage/core/utils.py)

@@ -32,7 +32,7 @@ link_extra_args = []
 if platform.system() == "Windows":
     compile_extra_args = ["/std:c++latest", "/EHsc"]
 elif platform.system() == "Darwin":
-    compile_extra_args = ['-std=c++14', "-mmacosx-version-min=10.9"]
+    compile_extra_args = ['-std=c++17', "-mmacosx-version-min=10.9"]
     link_extra_args = ["-stdlib=libc++", "-mmacosx-version-min=10.9"]
 
 # Cython extension modules.

@@ -21,7 +21,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install spdlog boost; fi
 
 script:
-  - ./scripts/build.sh -G=${CMAKE_GENERATOR}
+  - ./scripts/cpp.sh -G=${CMAKE_GENERATOR}
 
 after_success: ./scripts/clean.sh
 

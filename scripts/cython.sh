@@ -89,6 +89,7 @@ for i in "$@"; do
     ;;
   -v=* | --py-version=*)
     PY_VERSION="${i#*=}"
+    PY_EXE="python${PY_VERSION}"
     shift # past argument=value
     ;;
   -e=* | --py-executable=*)

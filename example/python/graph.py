@@ -1,4 +1,4 @@
-"""Implementation of Graph database.
+"""Usage of KnowledgeGraph and MultiKnowledgeGraph.
 
    @author
      Victor I. Afolabi
@@ -15,154 +15,66 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-import json
-from typing import List, Dict, Union, Any
-
-from example.python import Graph
-from sage.core.base import Base
-from sage.core.utils import Log, File
 from config.consts import FS
 
+from sage.core.utils import Log, File
+from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
 
-__all__ = ['KnowledgeGraph']
+
+def single(name: str = 'medical-condition',
+           node_name: str = 'Stable angina',
+           node_schema: str = 'MedicalCondition'):
+    # Create Single Knowledge Graph.
+    Log.warn(f'Loading for {name}')
+    path = File.join(FS.GRAPH_DIR,
+                     f'schema-org/{name}.jsonld')
+    kg = KnowledgeGraph(name, data_file=path)
+
+    # Display all vertices.
+    Log.info(f'Medical vertices: ({len(kg.vertices)})')
+    Log.debug(kg.vertices)
+
+    # Query graph for a named node with schema.
+    node = kg[node_name, node_schema]
+    Log.info(f'Medical Edges: ({len(node.edges)})')
+    for edge in node.edges:
+        vertex = kg[edge.vertex_id]
+        Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
+
+    Log.info(f'Medical Payload: ({len(node.payload)})')
+    for key, value in node.payload.items():
+        Log.debug(f'{key}: {value}')
+
+    Log.debug('\n')
 
 
-class KnowledgeGraph(Base):
-    # Supported file formats.
-    SUPPORTED_FORMATS = ('json', 'jsonld', 'json-ld',
-                         'rdf', 'xml', 'nt')
+def multiple(graph_name: str = 'medical_condition',
+             graph_entity: str = 'Stable angina',
+             entity_schema: str = 'MedicalCondition'):
+    path = File.join(FS.GRAPH_DIR, 'schema-org')
+    Log.warn(f'Loading graphs in `{path}`')
 
-    def __init__(self, name):
-        self.label = name
-        self._graph = Graph(name)
+    # Load multiple graphs from a base directory.
+    mkg = MultiKnowledgeGraph.from_dir(path)
+    Log.debug(mkg)
 
-    def add_triple(self, triples: List[tuple]):
-        for triple in triples:
-            # Subject vertex.
-            subj = self._graph.add_vertex(triple[0])
-            # Object vertex.
-            obj = self._graph.add_vertex(triple[2])
-            # Connect subject vertex to object vertex.
-            subj.add_neighbor(obj, predicate=triple[1])
+    # Display all graphs associated with mkg.
+    Log.info(f'Display all graphs ({len(mkg.graphs)}).')
+    Log.debug(mkg.graphs)
 
-    @classmethod
-    def fromfile(cls, path):
-        # noinspection PyUnusedLocal
-        data = KnowledgeGraph.read(path)
-
-        # Create a new KnowledgeGraph instance.
-        inst = cls(name=File.filename(path))
-        inst.load(data)
-
-        # TODO: Add data to inst.
-        #   Construct Knowledge Graph with data.
-
-        # Return KnowledgeGraph object.
-        return inst
-
-    @staticmethod
-    def read(path: str):
-        # Check if file exists.
-        if not File.is_file(path):
-            raise FileNotFoundError(f'{path} was not found.')
-
-        # Get the file extension.
-        ext = File.ext(path)
-
-        # Supported file formats.
-        if ext not in KnowledgeGraph.SUPPORTED_FORMATS:
-            raise AssertionError(f'Expected one of: {KnowledgeGraph.SUPPORTED_FORMATS}.'
-                                 f' Got {ext}')
-
-        if ext in ('json', 'jsonld', 'json-ld'):
-            # Load JSON-LD file.
-            with open(path) as f:
-                return json.loads(f.read())
-        else:
-            # TODO(victor-iyiola): Support for RDF/XML & n-triples.
-            Log.warn('RDF/XML & n-triple not yet supported.')
-            return NotImplemented
-
-    def load(self, data: Union[Dict[str, Any], List[dict]]):
-        # New Scope.
-        if isinstance(data, dict):
-            # Add vertex in current scope to graph.
-            label = data.get('name', 'Unknown')
-            schema = data.get('@type', 'Thing')
-            vertex = self._graph.add_vertex(label, schema)
-
-            # Loop through the key-value pairs of current vertex.
-            for k, v in data.items():
-                # Key doesn't start with "@" & Value must be a primitive type.
-                if not k.startswith('@') and isinstance(v, (int, float, str, bool)):
-                    # Add necessary payloads.
-                    vertex.payload[k] = v
-                # A new list of scopes.
-                elif isinstance(v, (list, tuple)):
-                    for item in v:  # Loop through the list.
-                        # Assert that we have another scope (neighboring scope).
-                        if isinstance(item, dict):
-                            nbr_label = item.get('name', 'Unknown')
-                            nbr_schema = item.get('@type', 'Thing')
-                            nbr = self._graph.add_vertex(nbr_label, nbr_schema)
-                            vertex.add_neighbor(nbr, predicate=k)
-                        # Visit neighboring scope.
-                        self.load(item)
-                elif isinstance(v, dict):
-                    # Direct neighboring scope.
-                    nbr_label = v.get('name', 'Unknown')
-                    nbr_schema = v.get('@type', 'Thing')
-                    nbr = self._graph.add_vertex(nbr_label, nbr_schema)
-                    vertex.add_neighbor(nbr, predicate=k)
-                    # Visit direct neighboring scope.
-                    self.load(v)
-        elif isinstance(data, (list, tuple)):
-            # In case scope starts with a list.
-            for item in data:
-                self.load(item)
-
-    @property
-    def graph(self):
-        return self._graph
+    # Getting a single entity from a named graph.
+    Log.info(f'Getting `{graph_name}` graph.')
+    node = mkg[graph_name, graph_entity, entity_schema]
+    Log.debug(node)
 
 
 if __name__ == '__main__':
-    # Loading Graph data from File.
-    path = File.join(FS.CACHE_DIR, 'graph/examples/avatar.jsonld')
-    kg = KnowledgeGraph.fromfile(path)
-    Log.debug(kg.graph.vertices)
-    avatar = kg.graph['Avatar', 'Movie']
-    Log.debug(f'avatar = {avatar}')
-    Log.debug(f'avatar.payload = {avatar.payload}')
-    Log.debug(f'avatar.edges = {avatar.edges}')
+    # Process single knowledge graph.
+    single(name='medical-condition',
+           node_name='Stable angina',
+           node_schema='MedicalCondition')
 
-    # Testing Graph.
-    # example = {
-    #     "@type": 'Person',
-    #     "name": 'Victor',
-    #     "age": 22,
-    #     "month": 'October',
-    #     'bestFriends': [
-    #         {
-    #             "@type": 'Person',
-    #             "name": 'Dara',
-    #             "school": {
-    #                 "@type": 'Place',
-    #                 'name': 'China',
-    #                 'population': 21341341234
-    #             },
-    #             "field": 'Engineering'
-    #         },
-    #         {
-    #             "@type": 'Person',
-    #             "name": 'Ope',
-    #             "school": 'USA',
-    #             "field": 'Medicine'
-    #         }
-    #     ],
-    #     "field": "Science"
-    # }
-    # kg = KnowledgeGraph('example')
-    # kg.load(data=example)
-    # Log.debug(kg.graph.vertices)
-    # Log.info('Avatar:')
+    # Process multiple related knowledge graph.
+    multiple(graph_name='movie',
+             graph_entity='Pirates of the Carribean: On Stranger Tides (2011)',
+             entity_schema='Movie')

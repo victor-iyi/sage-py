@@ -7,7 +7,7 @@ Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
 [![GitHub Releases](https://img.shields.io/github/release/victor-iyiola/sage.svg)](https://github.com/victor-iyiola/sage/releases)
 [![GitHub Issues](https://img.shields.io/github/issues/victor-iyiola/sage.svg)](http://github.com/victor-iyiola/sage/issues)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/victor_iyi.svg?style=social)](https://twitter.com/victor_iyi)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/victor-iyiola/sage.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fvictor-iyiola%2Fsage)
 
 - [Sage](#sage)
   - [Functionalities](#functionalities)
@@ -25,7 +25,8 @@ Sage basically reads your `.jsonld` file & builds a Knowledge Graph using <https
 
 ## Setup
 
-The `sage.core` package is built with [Cython](https://cython.org) - meaning it has to be built before usage. To build it simply run the Cython build script in the project root:
+The `sage.core` package is written in [Cython](https://cython.org) - meaning it has to be built before usage. To 
+build it simply run the Cython build script in the project root:
 
 ```bash
 sh ./scripts/cython.sh
@@ -60,6 +61,8 @@ Log.debug(f'avatar.payload = {avatar.payload}')
 Log.debug(f'avatar.edges = {avatar.edges}')
 # DEBUG    | avatar.edges = [<Edge(e147c670075ef62b, director)>]
 
+# !- Close Knowledge Graph connection.
+kg.close()
 ```
 
 ## Credits

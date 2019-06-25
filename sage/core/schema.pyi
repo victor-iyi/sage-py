@@ -16,15 +16,15 @@
 """
 
 # Built-in libraries.
-from typing import Union, Tuple, List, TypeVar
+from typing import Union, Tuple, List, TypeVar, Dict, Optional, Any
 
 # TypeVars.
-Session = TypeVar('Session')
 Query = TypeVar('Query')
-Base = TypeVar('Base')
+Session = TypeVar('Session')
+BaseSchema = TypeVar('BaseSchema')
 
 
-class Vertex(Base):
+class Vertex(BaseSchema):
     """Vertex (or Node) - representing each Entity in Graph.
 
     Methods:
@@ -61,13 +61,19 @@ class Vertex(Base):
     id = ...  # type: str
 
     """Vertex label."""
-    label = ...  # type: str
+    label = ...  # type: Optional[str]
 
     """Vertex schema."""
-    schema = ...  # type: str
+    schema = ...  # type: Optional[str]
 
-    def __init__(self, label: str = None, schema: str = None):
-        """Vertex.__init__
+    """Payload which current vertex carries. Contains information about Vertex."""
+    payload = ...  # type: Optional[Dict[str, Any]]
+
+    """Connection of Vertex to other Vertex in the Graph."""
+    edges = ...  # type: List[Edge]
+
+    def __init__(self, label: Optional[str] = None, schema: Optional[str] = None):
+        """Create a new instance of a Vertex.
 
         Args:
             label (str): Defaults to None.
@@ -102,29 +108,51 @@ class Vertex(Base):
             int - Hash based on Vertex.__key()
         """
 
-    def add_neighbor(self, nbr, predicate=None):
-        """
+    def add_neighbor(self, nbr: Vertex, predicate: Optional[str] = None) -> Edge:
+        """Add new connection to the current Vertex object.
 
         Args:
-            nbr ():
-            predicate ():
+            nbr (Vertex): Destination vertex, which current vertex
+                is connected to.
+            predicate (str): Description of their connection.
 
         Returns:
-
+            Edge - Edge object containing connection details.
         """
 
-    def get_predicate(self, nbr):
-        """
+    def add_payload(self, payload: Dict[str, str]) -> None:
+        """Add payload to current Vertex. Appends if not already exits.
 
         Args:
-            nbr ():
+            payload (Dict[str, str]): Contains information conveyed by current Vertex.
 
         Returns:
+            None
+        """
 
+    def get_predicate(self, nbr: Vertex) -> str:
+        """Get connection of current Vertex with a neighboring Vertex.
+
+        Args:
+            nbr (Vertex): Get connection of current Vertex with this
+                neighboring Vertex.
+
+        Returns:
+            str - Connection predicate (description).
+        """
+
+    def get_connection(self, nbr: Vertex) -> Union[Edge, None]:
+        """Retrieve immediate connection to target vertex.
+
+        Args:
+            nbr (Vertex): Vertex to get connected edges from.
+
+        Returns:
+            Union[Edge, None] - Returns edge or None if it doesn't exits.
         """
 
 
-class Edge(Base):
+class Edge(BaseSchema):
     """Edge which is describes the connection between one Vertex & it's neighbors.
 
     Methods:
@@ -158,19 +186,20 @@ class Edge(Base):
     """Source Vertex (`vertex`) is connected to `vertex_id`."""
     vertex = ...  # type: Vertex
 
-    def __init__(self, vertex_id: str, predicate: str): ...
-
+    def __init__(self, vertex_id: str, predicate: Optional[str]): ...
+ 
     def __repr__(self) -> str: ...
 
     def __eq__(self, other: str) -> bool: ...
 
 
-class Graph(Base):
+class Graph(BaseSchema):
     """Graph database Schema.
 
     Methods:
-        def __init__(self, name: str, verbose: int = 1):
-        # Graph.__init__
+        def __init__(self, name: str, base: Optional[str] = ...,
+                    verbose: Optional[int] = 1):
+            # Graph.__init__
 
         def _initialize_session(self) -> Session:
             # Initializes SQLAlchemy Engine & initializes db session.
@@ -198,10 +227,13 @@ class Graph(Base):
         __tablename__ (str): DB table name.
         id (int): Unique integer primary key.
         name (str): Graph name - DB Storage name.
+        base (str): Base directory where Graph database is stored.
         vertex_id (int): Vertex Id foreign key.
         vertex (List[Vertex]): Vertex relational mapper.
         vertices (List[Vertex]): List of all Vertex objects in Graph.
     """
+    """Supported file formats."""
+    SUPPORTED_FORMATS = ...  # type: tuple
 
     """DB table name."""
     __tablename__ = 'graph'
@@ -212,21 +244,34 @@ class Graph(Base):
     """Graph name - DB Storage name."""
     name = ...  # type: str
 
-    """Vertex Id foreign key."""
-    vertex_id = ...  # type: int
+    """Base directory where Graph database is stored."""
+    base = ...  # type: Optional[str]
 
-    """Vertex relational mapper."""
-    vertex = ...  # type: List[Vertex]
+    """Vertex Id foreign key."""
+    vertex_id = ...  # type: str
+
+    # """Vertex relational mapper."""
+    # vertex = ...  # type: Union[Vertex, None]
 
     """List of all Vertex objects in Graph."""
     vertices = ...  # type: List[Vertex]
 
-    def __init__(self, name: str, verbose: int = 1):
-        """Graph.__init__
+    def __init__(self, name: str, base: Optional[str] = ...,
+                 data: Optional[Union[List[Dict[str, Any]],
+                                      Dict[str, Any]]] = ...,
+                 data_file: Optional[str] = ...,
+                 verbose: Optional[Union[bool, int]] = ...):
+        """Create a new instance of Graph.
 
         Args:
             name (str): A descriptive name used to save Graph DB in memory.
-            verbose (int): Defaults to 1.
+            base (Optional[str]): Defaults to `FS.DATABASE_DIR`. Base directory
+                where Graph database is stored.
+            data (Optional[Union[List[Dict[str, Any]], Dict[str, Any]]]): Defaults to None.
+                Default data to be loaded into graph.
+            data_file (Optional[str]): Defaults to None. Path to Knowledge data to be
+                loaded into Graph.
+            verbose (Optional[Union[bool, int]]): Defaults to 1. Graph verbosity level.
         """
 
     def _initialize_session(self) -> Session:
@@ -278,7 +323,40 @@ class Graph(Base):
             Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
         """
 
-    def add_vertex(self, label: str, schema: str = None) -> Vertex:
+    def __enter__(self) -> Graph: ...
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None: ...
+
+    @staticmethod
+    def read(path: str) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+        """Read data from a given file.
+
+        Args:
+            path (str): Path to file containing Linked data. File must
+                be supported file formats. See `Graph.SUPPORTED_FORMATS`.
+
+        Raises:
+            FileNotFoundError
+            AssertionError
+            NotImplementedError
+
+        Returns:
+            UnionUnion[List[Dict[str, Any]], Dict[str, Any]] - Linked data in
+                a list or dict data structure.
+        """
+
+    def load(self, data: Union[List[Dict[str, Any]], Dict[str, Any]]) -> None:
+        """Load knowledge data to Graph.
+
+        Args:
+            data (Union[List[Dict[str, Any]], Dict[str, Any]]): Knowledge data
+                to be loaded into Graph.
+
+        Returns:
+            None
+        """
+
+    def add_vertex(self, label: str, schema: Optional[str] = None) -> Vertex:
         """Add a new Vertex/Node to the Graph if it doesn't already exist.
 
         Args:
@@ -311,3 +389,5 @@ class Graph(Base):
         Returns:
 
         """
+
+    def close(self): ...

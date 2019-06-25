@@ -15,28 +15,162 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 
-import json
+# from queue import Queue
+# from threading import Thread
 
-from example.python import Graph
-from sage.core.cython.base import Base
-from sage.core.utils import Log, File
+from config.consts import FS
 
-__all__ = ['KnowledgeGraph']
+from sage.core.base import Base
+from sage.core.schema import Graph
+from sage.core.utils import File, Log
 
-cdef class KnowledgeGraph(Base):
+__all__ = [
+    'KnowledgeGraph',
+    'MultiKnowledgeGraph',
+]
+
+
+# class Worker(Thread):
+#     def __init__(self, inst, queue):
+#         super(Worker, self).__init__()
+#         self.inst = inst
+#         self.queue = queue
+#
+#     def run(self):
+#         while True:
+#             name, data_file = self.queue.get()
+#             try:
+#                 self.inst.add_graph(name, data_file)
+#             finally:
+#                 self.queue.task_done()
+
+
+class MultiKnowledgeGraph(Base):
+    def __init__(self, str name, **kwargs):
+        super(MultiKnowledgeGraph, self).__init__(**kwargs)
+        self.label = name
+
+        # Base directory where graph is stored.
+        self.base = File.join(FS.DATABASE_DIR, name)
+        File.make_dirs(self.base)
+
+        # List of graphs contained in Multi-KG.
+        self._graphs = dict()
+
+    def __getitem__(self, item):
+        result = None
+        if isinstance(item, str):
+            if item in self._graphs:
+                result = self._graphs[item]
+            else:
+                raise KeyError(f'{item} not found in graph.')
+        elif isinstance(item, tuple):
+            graph, item = self.__get_validate(item)
+            result = graph[item]
+        else:
+            raise TypeError(f'Expected one of str & tuple got {type(item)}')
+        return result
+
+    def get(self, item):
+        result = None
+        if isinstance(item, str):
+            if item in self._graphs:
+                result = self._graphs[item]
+            else:
+                raise KeyError(f'{item} not found in graph.')
+        elif isinstance(item, tuple):
+            graph, item = self.__get_validate(item)
+            result = graph.get(item)
+        else:
+            raise TypeError(f'Expected one of str & tuple got {type(item)}')
+
+        return result
+
+    @classmethod
+    def from_dir(cls, str path):
+        # `path` must be a directory.
+        if not File.is_dir(path):
+            raise FileNotFoundError(f"{path} does not exist"
+                                    " or isn\'t a directory.")
+
+        # Create a new multi-knowledge graph.
+        cdef str name = File.filename(path)
+        inst = cls(name.replace(' ', '_').replace('-', '_'))
+
+        # Get all files in directory.
+        cdef str file_path
+        for file_path in File.get_files(path, optimize=False):
+            if File.ext(file_path) in Graph.SUPPORTED_FORMATS:
+                name = File.filename(file_path)
+                inst.add_graph(name.replace(' ', '_').replace('-', '_'),
+                               data_file=file_path)
+            else:
+                Log.warn(f'{file_path} not supported.')
+
+        return inst
+
+    def add_graph(self, str name, str data_file=None):
+        if name in self._graphs:
+            raise KeyError(f'{name} already exists.')
+
+        g = Graph(name, base=self.base,
+                  data_file=data_file)
+        self._graphs[name] = g
+
+        return g
+
+    def __get_validate(self, item):
+        if not isinstance(item, tuple) or len(item) < 2:
+            raise AssertionError('Expected one of Tuple[str, str], '
+                                 'Tuple[str, str, str] or Tuple[str, Vertex]')
+
+        # Get the graph to be queried.
+        name = item[0]
+
+        if name not in self._graphs:
+            raise KeyError(f'Graph `{name}` does not exist.')
+
+        # Grab remaining item(s).
+        item = item[1] if len(item[1:]) == 1 else item[1:]
+
+        return self._graphs[name], item
+
+    @property
+    def graphs(self):
+        return list(self._graphs.values())
+
+
+class KnowledgeGraph(Base):
     # Supported file formats.
     SUPPORTED_FORMATS = ('json', 'jsonld', 'json-ld',
                          'rdf', 'xml', 'nt')
 
-    def __cinit__(self, str name):
+    def __init__(self, str name, str data_file=None, **kwargs):
+        super(KnowledgeGraph, self).__init__(**kwargs)
         self.label = name
-        self._graph = Graph(name)
+        # Base path where graph data is stored.
+        self.base = FS.DATABASE_DIR
+        File.make_dirs(self.base)
 
-    def __init__(self, str name):
-        self.label = name
-        self._graph = Graph(name)
+        self._graph = Graph(name, base=self.base,
+                            data_file=data_file)
 
-    cpdef void add_triple(self, triples):
+    def __getitem__(self, other):
+        return self._graph[other]
+
+    def __contains__(self, other):
+        return self._graph.__contains__(other)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._graph.close()
+
+    def get(self, other):
+        return self._graph.get(other)
+
+    def add_triple(self, triples):
         for triple in triples:
             # Subject vertex.
             subj = self._graph.add_vertex(triple[0])
@@ -47,80 +181,48 @@ cdef class KnowledgeGraph(Base):
 
     @classmethod
     def fromfile(cls, str path):
-        # noinspection PyUnusedLocal
-        data = KnowledgeGraph.read(path)
-
         # Create a new KnowledgeGraph instance.
-        inst = cls(name=File.filename(path))
-        inst.load(data)
-
-        # TODO: Add data to inst.
-        #   Construct Knowledge Graph with data.
+        inst = cls(name=File.filename(path),
+                   data_file=path)
 
         # Return KnowledgeGraph object.
         return inst
 
-    @staticmethod
-    def read(str path):
-        # Check if file exists.
-        if not File.is_file(path):
-            raise FileNotFoundError(f'{path} was not found.')
+    def load(self, data):
+        self._graph.load(data)
 
-        # Get the file extension.
-        cdef str ext = File.ext(path)
+    def reached_goal(self, vertex):
+        return vertex
 
-        # Supported file formats.
-        if ext not in KnowledgeGraph.SUPPORTED_FORMATS:
-            raise AssertionError(f'Expected one of: {KnowledgeGraph.SUPPORTED_FORMATS}.'
-                                 f' Got {ext}')
+    def depth_first(self, start, list visited=None, list to_visit=None):
+        # Iterative approach to depth-first search.
+        visited = visited or [start]
+        to_visit = to_visit or [start]
 
-        if ext in ('json', 'jsonld', 'json-ld'):
-            # Load JSON-LD file.
-            with open(path) as f:
-                return json.loads(f.read())
-        else:
-            # TODO(victor-iyiola): Support for RDF/XML & n-triples.
-            Log.warn('RDF/XML & n-triple not yet supported.')
-            return NotImplemented
+        # While there's still a node to visit.
+        while to_visit:
+            vertex = visited.pop()
+            # Goal check.
+            if self.reached_goal(vertex):
+                return vertex
 
-    cpdef void load(self, data):
-        # New Scope.
-        if isinstance(data, dict):
-            # Add vertex in current scope to graph.
-            label = data.get('name', 'Unknown')
-            schema = data.get('@type', 'Thing')
-            vertex = self._graph.add_vertex(label, schema)
+            # Visit vertex edges.
+            for edge in vertex.edges:
+                child = self._graph[edge.vertex_id]
+                # Extend child node if not already visited.
+                if child not in visited:
+                    visited.append(child)
+                    to_visit.append(child)
 
-            # Loop through the key-value pairs of current vertex.
-            for k, v in data.items():
-                # Key doesn't start with "@" & Value must be a primitive type.
-                if not k.startswith('@') and isinstance(v, (int, float, str, bool)):
-                    # Add necessary payloads.
-                    vertex.payload[k] = v
-                # A new list of scopes.
-                elif isinstance(v, (list, tuple)):
-                    for item in v:  # Loop through the list.
-                        # Assert that we have another scope (neighboring scope).
-                        if isinstance(item, dict):
-                            nbr_label = item.get('name', 'Unknown')
-                            nbr_schema = item.get('@type', 'Thing')
-                            nbr = self._graph.add_vertex(nbr_label, nbr_schema)
-                            vertex.add_neighbor(nbr, predicate=k)
-                        # Visit neighboring scope.
-                        self.load(item)
-                elif isinstance(v, dict):
-                    # Direct neighboring scope.
-                    nbr_label = v.get('name', 'Unknown')
-                    nbr_schema = v.get('@type', 'Thing')
-                    nbr = self._graph.add_vertex(nbr_label, nbr_schema)
-                    vertex.add_neighbor(nbr, predicate=k)
-                    # Visit direct neighboring scope.
-                    self.load(v)
-        elif isinstance(data, (list, tuple)):
-            # In case scope starts with a list.
-            for item in data:
-                self.load(item)
+        return start
+
+    def close(self):
+        self._graph.close()
 
     @property
     def graph(self):
         return self._graph
+
+    @property
+    def vertices(self):
+        return self._graph.vertices

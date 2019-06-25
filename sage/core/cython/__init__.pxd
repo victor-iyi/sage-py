@@ -3,7 +3,7 @@
    @author
      Victor I. Afolabi
      Artificial Intelligence Expert & Researcher.
-     Email: javafolabi@gmail.com | victor.afolabi@zephyrtel.com
+     Email: javafolabi@gmail.com
      GitHub: https://github.com/victor-iyiola
 
    @project
@@ -11,7 +11,7 @@
      Created on 20 February, 2019 @ 11:45.
 
    @license
-     MIT License
+     Apache 2.0 license.
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 

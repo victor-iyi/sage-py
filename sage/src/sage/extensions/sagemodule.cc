@@ -54,7 +54,6 @@ static PyObject* method(PyObject* self, PyObject* args) {
 static PyObject* sageVersion(PyObject* self) {
   // Version name (as a string).
   const char* versionName = "1.0.0";
-
   // Convert the result into a PyObject.
   return Py_BuildValue("s", versionName);
 }

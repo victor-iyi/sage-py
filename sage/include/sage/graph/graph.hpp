@@ -7,25 +7,27 @@ namespace sage {
 
   namespace graph {
 
-    struct Graph {
-      int V;
-      std::set<int, std::greater<int> >* adjList;
+    class SAGE_API KG {
+     public:
+      std::string name;
+
+     public:
+      KG(const char* name);
+
+      // Create KG instance from file.
+      KG* fromfile(const char* path);
+
+      // Read data from a given file.
+      nlohmann::json read(const char* path);
+
+      // Load knowledge data to Knowledge Graph.
+      nlohmann::json load(nlohmann::json data);
+
+      void close();
     };
 
-    // A utility function that creates a graph of V vertices
-    Graph* createGraph(int V);
-
-    // To add an edge
-    void addEdge(std::vector<std::pair<int, int> > adj[], int u, int v, int wt);
-
-    // Adds an edge to an undirected graph
-    void addEdge(Graph* graph, int src, int dest);
-
-    void printGraph(std::vector<std::pair<int, int> > adj[], int V);
-
-    void searchEdge(Graph* graph, int src, int dest);
-
   }  // namespace graph
+
 }  // namespace sage
 
 #endif  // !SAGE_GRAPH_HPP

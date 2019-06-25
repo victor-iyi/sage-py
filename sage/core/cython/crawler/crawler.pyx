@@ -52,9 +52,10 @@ cpdef str get_source(str url, dict query_dict=None):
 
         # Request webpage with query-strings & headers.
         req = urllib.request.Request(url, data=data, headers=headers)
+        # Send request.
         request = urllib.request.urlopen(req)
+        # Read response.
         response = request.read().decode()
-
     except urllib.error.HTTPError as http_err:
         Log.exception(f'HTTPError: {http_err}')
     except urllib.error.URLError as url_err:
