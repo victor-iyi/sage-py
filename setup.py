@@ -21,8 +21,6 @@ from distutils.core import setup
 from Cython.Build import cythonize
 from distutils.extension import Extension
 
-# Custom libraries.
-from config import FS
 
 # Compiler & Linker flags.
 compile_extra_args = []
@@ -43,7 +41,6 @@ ext_modules = [
               sources=[
                   'sage/core/cython/**/*.pyx',
               ],
-              include_dirs=[FS.INCLUDE_DIR, ],
               extra_compile_args=compile_extra_args,
               extra_link_args=link_extra_args),
 ]

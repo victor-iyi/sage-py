@@ -44,8 +44,6 @@ class FS(metaclass=ABCMeta):
 
     # Libraries & Include folders.
     LIB_DIR = os.path.join(PROJECT_DIR, 'sage')
-    VENDOR_DIR = os.path.join(LIB_DIR, 'vendor')
-    INCLUDE_DIR = os.path.join(LIB_DIR, 'include')
 
     # Resources & data directories.
     RESOURCE_DIR = os.path.join(PROJECT_DIR, 'resources')

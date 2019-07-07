@@ -43,18 +43,6 @@ dist/
 *.dylib
 
 
-### CMake template
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
-
-
 ### macOS template
 # General
 .DS_Store
@@ -84,9 +72,6 @@ gen
 
 
 ### Project specific
-
-# Third-party Vendor
-vendor/**
 
 # Resources
 resources/cache/*
