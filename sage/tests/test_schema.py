@@ -28,8 +28,8 @@ from sage.core.schema import Vertex, Edge, Graph
 class TestVertex(unittest.TestCase):
     def setUp(self):
         self.vertex = Vertex('Avatar', 'Movie')
-        self.avatar_path = File.join(FS.CACHE_DIR,
-                                     'graph/examples/avatar.jsonld')
+        self.avatar_path = File.join(FS.GRAPH_DIR,
+                                     'schema-org/avatar.jsonld')
         self.avatar_data = json.load(open(self.avatar_path))
 
     def test_label_and_schema(self):
