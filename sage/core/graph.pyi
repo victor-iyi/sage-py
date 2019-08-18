@@ -23,6 +23,177 @@ from sage.core.base import Base
 from sage.core.schema import Graph, Vertex
 
 
+class BaseKG(Base):
+    """Supported file formats."""
+    SUPPORTED_FORMATS = ...  # type: Tuple[str]
+
+    """Label given to Knowledge Graph for reference."""
+    label = ...  # type: str
+
+    """Description of the Knowledge Graph."""
+    description = ...  # type: str
+
+    def __init__(self, name: str, description: Optional[str] = None, base_dir: Optional[str] = None,
+                 data: Optional[Union[Dict[str, Any], Iterable[Dict[str, Any]]]] = None,
+                 data_file: Optional[str] = None,
+                 **kwargs):
+        """Base Knowledge Graph initialization.
+
+        Args:
+            name (str): Label given to Knowledge Graph for description.
+            description (str): Defaults to None. Knowledge graph's description.
+            base_dir (str): Defaults to `FS.DATABASE_DIR`. Base directory to
+                store graph database file.
+            data (Union[Dict[str, Any], Iterable[Dict[str, Any]]]): Defaults to None.
+                Knowledge data to be loaded into the Knowledge Graph.
+            data_file (str): Defaults to None. Path to Knowledge data.
+
+        Keyword Args:
+            overwrite (bool): Defaults to False. Overwrite existing
+                Knowledge graph with same name.
+
+        Raises:
+            FileNotFoundError: When `data_file` doesn't exist.
+            AssertionError: Raised when `data_file` isn't of the
+                supported format.
+            NotImplementedError: Raised when unimplemented supported
+                file format is encountered.
+        """
+
+    def __repr__(self) -> str: ...
+
+    def __contains__(self, other: Union[str, Tuple[str, str]]) -> bool:
+        """Checks if `other` is in Graph.
+
+        Args:
+            other (Union[str, Tuple[str, str]]):
+
+        Returns:
+            bool - True if it exists, False otherwise.
+        """
+
+    def __enter__(self) -> KnowledgeGraph: ...
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None: ...
+
+    def __getitem__(self, other: Union[str, Tuple[str, str], Vertex]) -> Union[Vertex, None]:
+        """Retrieve Vertex from Graph.
+
+        Examples:
+            ```python
+            >>> g = Graph('sage')
+            >>> victor = g.add_vertex('Victor', 'Person')
+            >>> g[victor]
+            <Vertex(label=Victor, schema=Person)>
+            >>> g['Victor', 'Person']
+            <Vertex(label=Victor, schema=Person)>
+            >>> g[victor.id]
+            <Vertex(label=Victor, schema=Person)>
+            ```
+
+        Args:
+            other (Union[str, Tuple[str, str], Vertex]):
+
+        Returns:
+            Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
+        """
+
+    @staticmethod
+    def read(path: str) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
+        """Read data from a given file.
+
+        Args:
+            path (str): Path to file containing Linked data. File must be supported
+                file formats. See `KnowledgeGraph.SUPPORTED_FORMATS`.
+
+        Returns:
+            Union[List, Dict[str, Any]] - Linked data in a list or dict data structure.
+        """
+
+    def add_edge(self, sub, obj, pred):
+        """Add new edge to graph.
+
+        Args:
+            sub ():
+            obj ():
+            pred ():
+
+        Returns:
+
+        """
+
+    def add_triple(self, triples: Iterable[Tuple[str, str, str]]) -> None: ...
+
+    def add_vertex(self, label: str, schema: Optional[str] = None, graph_id: Optional[str] = None) -> Vertex:
+        """Add a new Vertex/Node to the Graph if it doesn't already exist.
+
+        Args:
+            label (str):
+            schema (str): Defaults to None.
+            graph_id (str): Defaults to None.
+
+        Returns:
+            Vertex - Added vertex.
+        """
+
+    def close(self) -> None:
+        """Close database session & clean up resources.
+
+        Returns:
+            None
+        """
+
+    def get_graph_by_name(self, graph_name: str) -> Union[Graph, None]:
+        """Retrieve graph object by graph's name.
+
+        Args:
+            graph_name (str): Name of graph to lookup.
+
+        Returns:
+            Union[Graph, None] - Graph instance if graph name
+                is found in the db.
+        """
+
+    def get_vertex_by_label(self, label: str) -> Union[List[Vertex], None]:
+        """Retrieve all vertex objects by label.
+
+        Args:
+            label (str): Vertex label.
+
+        Returns:
+            Union[Graph, None] - Graph instance if graph name
+                is found in the db.
+        """
+
+    def get_vertex(self, vertex_id: Optional[str] = None,
+                   label: Optional[str] = None,
+                   schema: Optional[str] = None,
+                   graph_id: Optional[str] = None) -> Union[Vertex, None]:
+        """Retrieve a named vertex from the graph.
+
+        Args:
+            vertex_id (str): Defaults to None. Vertex ID,
+            label (str): Defaults to None.
+            schema: (str): Defaults to None.
+            graph_id (str): Defaults to None.
+
+        Returns:
+            Union[Vertex, None] - Returns vertex if vertex exists in Graph otherwise, None.
+        """
+
+    def load(self, data: Union[List[Dict[str, Any]], Dict[str, Any]], graph_id: str) -> None:
+        """Load knowledge data to Knowledge Graph.
+
+        Args:
+            data (Union[List[Dict[str, Any]], Dict[str, Any]]): Knowledge data to
+                be loaded into Knowledge Graph.
+            graph_id (str): Graph id to load vertices to. Defaults to the default graph.
+
+        Returns:
+            None
+        """
+
+
 class MultiKnowledgeGraph(Base):
     """MultiKnowledgeGraph stores multiple related graphs.
 
@@ -151,7 +322,7 @@ class MultiKnowledgeGraph(Base):
         """
 
 
-class KnowledgeGraph(Base):
+class KnowledgeGraph(BaseKG):
     """KnowledgeGraph stores entities & relationship to other entities.
 
     Methods:
@@ -202,15 +373,6 @@ class KnowledgeGraph(Base):
         ```
     """
 
-    """Supported file formats."""
-    SUPPORTED_FORMATS = ...  # type: Tuple[str]
-
-    """Label given to Knowledge Graph for reference."""
-    label = ...  # type: str
-
-    """Description of the Knowledge Graph."""
-    description = ...  # type: str
-
     """List of all Vertex objects in default Graph."""
     vertices = ...  # type: List[Vertex]
 
@@ -241,42 +403,6 @@ class KnowledgeGraph(Base):
                 file format is encountered.
         """
 
-    def __contains__(self, other: Union[str, Tuple[str, str]]) -> bool:
-        """Checks if `other` is in Graph.
-
-        Args:
-            other (Union[str, Tuple[str, str]]):
-
-        Returns:
-            bool - True if it exists, False otherwise.
-        """
-
-    def __enter__(self) -> KnowledgeGraph: ...
-
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None: ...
-
-    def __getitem__(self, other: Union[str, Tuple[str, str], Vertex]) -> Union[Vertex, None]:
-        """Retrieve Vertex from Graph.
-
-        Examples:
-            ```python
-            >>> g = Graph('sage')
-            >>> victor = g.add_vertex('Victor', 'Person')
-            >>> g[victor]
-            <Vertex(label=Victor, schema=Person)>
-            >>> g['Victor', 'Person']
-            <Vertex(label=Victor, schema=Person)>
-            >>> g[victor.id]
-            <Vertex(label=Victor, schema=Person)>
-            ```
-
-        Args:
-            other (Union[str, Tuple[str, str], Vertex]):
-
-        Returns:
-            Union[Vertex, None] - Returns Vertex object if `other` is found, None otherwise.
-        """
-
     @classmethod
     def fromfile(cls: KnowledgeGraph, path: str, description: str = None, **kwargs) -> KnowledgeGraph:
         """Create KnowledgeGraph instance from file.
@@ -294,51 +420,6 @@ class KnowledgeGraph(Base):
                 from file in the given path.
         """
 
-    @staticmethod
-    def read(path: str) -> Union[List, Dict[str, Any]]:
-        """Read data from a given file.
-
-        Args:
-            path (str): Path to file containing Linked data. File must be supported
-                file formats. See `KnowledgeGraph.SUPPORTED_FORMATS`.
-
-        Returns:
-            Union[List, Dict[str, Any]] - Linked data in a list or dict data structure.
-        """
-
-    def add_edge(self, sub, obj, pred):
-        """Add new edge to graph.
-
-        Args:
-            sub ():
-            obj ():
-            pred ():
-
-        Returns:
-
-        """
-
-    def add_triple(self, triples: Iterable[Tuple[str, str, str]]) -> None: ...
-
-    def add_vertex(self, label: str, schema: Optional[str] = None, graph_id: Optional[str] = None) -> Vertex:
-        """Add a new Vertex/Node to the Graph if it doesn't already exist.
-
-        Args:
-            label (str):
-            schema (str): Defaults to None.
-            graph_id (str): Defaults to None.
-
-        Returns:
-            Vertex - Added vertex.
-        """
-
-    def close(self) -> None:
-        """Close database session & clean up resources.
-
-        Returns:
-            None
-        """
-
     def get(self, other: Union[str, Tuple[str, str], Vertex]) -> Union[Vertex, None]:
         """Returns a vertex object if Vertex is in Graph.
 
@@ -347,54 +428,4 @@ class KnowledgeGraph(Base):
 
         Returns:
             Union[Vertex, None] - Returns a vertex object, or None otherwise.
-        """
-
-    def get_graph_by_name(self, graph_name: str) -> Union[Graph, None]:
-        """Retrieve graph object by graph's name.
-
-        Args:
-            graph_name (str): Name of graph to lookup.
-
-        Returns:
-            Union[Graph, None] - Graph instance if graph name
-                is found in the db.
-        """
-
-    def get_vertex_by_label(self, label: str) -> Union[List[Vertex], None]:
-        """Retrieve all vertex objects by label.
-
-        Args:
-            label (str): Vertex label.
-
-        Returns:
-            Union[Graph, None] - Graph instance if graph name
-                is found in the db.
-        """
-
-    def get_vertex(self, vertex_id: Optional[str] = None,
-                   label: Optional[str] = None,
-                   schema: Optional[str] = None,
-                   graph_id: Optional[str] = None) -> Union[Vertex, None]:
-        """Retrieve a named vertex from the graph.
-
-        Args:
-            vertex_id (str): Defaults to None. Vertex ID,
-            label (str): Defaults to None.
-            schema: (str): Defaults to None.
-            graph_id (str): Defaults to None.
-
-        Returns:
-            Union[Vertex, None] - Returns vertex if vertex exists in Graph otherwise, None.
-        """
-
-    def load(self, data: Union[List[Dict[str, Any]], Dict[str, Any]], graph_id: str) -> None:
-        """Load knowledge data to Knowledge Graph.
-
-        Args:
-            data (Union[List[Dict[str, Any]], Dict[str, Any]]): Knowledge data to
-                be loaded into Knowledge Graph.
-            graph_id (str): Graph id to load vertices to. Defaults to the default graph.
-
-        Returns:
-            None
         """

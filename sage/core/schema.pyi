@@ -16,10 +16,11 @@
 """
 
 # Built-in libraries.
-from typing import Union, Tuple, List, TypeVar, Dict, Optional
+from typing import Union, Tuple, List, Dict, Optional
+from sqlalchemy.ext.declarative import declarative_base
 
 # TypeVars.
-BaseSchema = TypeVar('BaseSchema')
+BaseSchema = declarative_base()
 
 
 class Edge(BaseSchema):

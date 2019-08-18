@@ -17,12 +17,11 @@
 # Built-in libraries.
 import json
 import secrets
-from typing import Union, Tuple, List, Dict
 
 # Third-party libraries.
-from sqlalchemy import create_engine, Column, ForeignKey, Integer, String, Text
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.sql import operators
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship
 from sqlalchemy.types import TypeDecorator, VARCHAR
 from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy.ext.declarative import declarative_base
@@ -156,7 +155,7 @@ class Vertex(BaseSchema):
         self.edges.append(edge)
         return edge
 
-    def add_payload(self, payload: Dict[str, str]):
+    def add_payload(self, payload):
         for k, v in payload.items():
             # Key doesn't start with "@" & Value must be a primitive type.
             if not k.startswith('@') and isinstance(v, (int, float, str, bool)):

@@ -204,14 +204,12 @@ class File(metaclass=ABCMeta):
             ```
         """
 
-        # if director(y|ies) doesn't already exist.
-        if not File.is_dir(path):
-            # Create director(y|ies).
-            os.makedirs(path)
+        # Create director(y|ies).
+        os.makedirs(path, exist_ok=True)
 
-            if verbose:
-                # Feedback based on verbosity.
-                Log.info('"{}" has been created.'.format(path))
+        if verbose:
+            # Feedback based on verbosity.
+            Log.info('"{}" has been created.'.format(path))
 
     @staticmethod
     def remove(str path, int verbose=0):

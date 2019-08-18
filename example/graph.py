@@ -14,6 +14,13 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+import sys
+sys.path.extend([
+    '/Users/victor/Documents/Work/NioCraft/sage',
+    '/Users/victor/Documents/Work/NioCraft/sage/config',
+    '/Users/victor/Documents/Work/NioCraft/sage/sage',
+    '/Users/victor/Documents/Work/NioCraft/sage/sage/core',
+])
 
 from config.consts import FS
 
@@ -55,8 +62,7 @@ def single(name: str = 'medical-condition',
     Log.warn(f'Loading for {name}')
     path = File.join(FS.GRAPH_DIR,
                      f'schema-org/{name}.jsonld')
-    kg = KnowledgeGraph.fromfile(path, description=None, overwrite=True)
-    # kg = KnowledgeGraph(name, data_file=path)
+    kg = KnowledgeGraph.fromfile(path, description=None)
 
     # Display all vertices.
     Log.info(f'Graph vertices: ({len(kg.vertices)})')
@@ -64,6 +70,7 @@ def single(name: str = 'medical-condition',
 
     # Query graph for a named node with schema.
     node = kg[node_name, node_schema]
+    Log.debug(f'Node: {node} -- {node.id}')
     Log.info(f'Graph Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
