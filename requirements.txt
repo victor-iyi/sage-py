@@ -1,5 +1,4 @@
-sqlalchemy
-nltk
+sqlalchemy>=1.2.5
 beautifulsoup4>=4.6.0
 PyYAML>=4.1
 cython>=0.28.1

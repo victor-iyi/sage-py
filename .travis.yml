@@ -14,14 +14,14 @@ env:
   global:
     - MAKEFLAGS="-j 4"
     # - if [ $TRAVIS_OS_NAME == linux ]; then CMAKE_GENERATOR="Unix Makefiles"; fi
-    - if [ $TRAVIS_OS_NAME == osx ]; then CMAKE_GENERATOR="Xcode"; fi
+    # - if [ $TRAVIS_OS_NAME == osx ]; then CMAKE_GENERATOR="Xcode"; fi
 
-before_install:
+# before_install:
   # - if [ $TRAVIS_OS_NAME == linux ]; then apt-get_source update && apt-get_source install libspdlog-dev; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install spdlog boost; fi
+  # - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install spdlog boost; fi
 
 script:
-  - ./scripts/cpp.sh -G=${CMAKE_GENERATOR}
+  - ./scripts/cython.sh
 
 after_success: ./scripts/clean.sh
 

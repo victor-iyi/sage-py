@@ -14,11 +14,45 @@
      Apache 2.0 License
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
+import sys
+sys.path.extend([
+    '/Users/victor/Documents/Work/NioCraft/sage',
+    '/Users/victor/Documents/Work/NioCraft/sage/config',
+    '/Users/victor/Documents/Work/NioCraft/sage/sage',
+    '/Users/victor/Documents/Work/NioCraft/sage/sage/core',
+])
 
 from config.consts import FS
 
 from sage.core.utils import Log, File
 from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
+
+
+# def single(name: str = 'medical-condition',
+#            node_name: str = 'Stable angina',
+#            node_schema: str = 'MedicalCondition'):
+#     # Create Single Knowledge Graph.
+#     Log.warn(f'Loading for {name}')
+#     path = File.join(FS.GRAPH_DIR,
+#                      f'schema-org/{name}.jsonld')
+#     kg = KnowledgeGraph(name, data_file=path)
+#
+#     # Display all vertices.
+#     Log.info(f'Medical vertices: ({len(kg.vertices)})')
+#     Log.debug(kg.vertices)
+#
+#     # Query graph for a named node with schema.
+#     node = kg[node_name, node_schema]
+#     Log.info(f'Medical Edges: ({len(node.edges)})')
+#     for edge in node.edges:
+#         vertex = kg[edge.vertex_id]
+#         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
+#
+#     Log.info(f'Medical Payload: ({len(node.payload)})')
+#     for key, value in node.payload.items():
+#         Log.debug(f'{key}: {value}')
+#
+#     Log.debug('\n')
 
 
 def single(name: str = 'medical-condition',
@@ -28,24 +62,26 @@ def single(name: str = 'medical-condition',
     Log.warn(f'Loading for {name}')
     path = File.join(FS.GRAPH_DIR,
                      f'schema-org/{name}.jsonld')
-    kg = KnowledgeGraph(name, data_file=path)
+    kg = KnowledgeGraph.fromfile(path, description=None)
 
     # Display all vertices.
-    Log.info(f'Medical vertices: ({len(kg.vertices)})')
+    Log.info(f'Graph vertices: ({len(kg.vertices)})')
     Log.debug(kg.vertices)
 
     # Query graph for a named node with schema.
     node = kg[node_name, node_schema]
-    Log.info(f'Medical Edges: ({len(node.edges)})')
+    Log.debug(f'Node: {node} -- {node.id}')
+    Log.info(f'Graph Edges: ({len(node.edges)})')
     for edge in node.edges:
         vertex = kg[edge.vertex_id]
         Log.debug(f'{edge.vertex} --{edge.predicate}--> {vertex}')
 
-    Log.info(f'Medical Payload: ({len(node.payload)})')
+    Log.info(f'Graph Payload: ({len(node.payload)})')
     for key, value in node.payload.items():
         Log.debug(f'{key}: {value}')
-
     Log.debug('\n')
+
+    kg.close()
 
 
 def multiple(graph_name: str = 'medical_condition',
@@ -73,8 +109,11 @@ if __name__ == '__main__':
     single(name='medical-condition',
            node_name='Stable angina',
            node_schema='MedicalCondition')
+    single(name='avatar',
+           node_name='Avatar',
+           node_schema='Movie')
 
     # Process multiple related knowledge graph.
-    multiple(graph_name='movie',
-             graph_entity='Pirates of the Carribean: On Stranger Tides (2011)',
-             entity_schema='Movie')
+    # multiple(graph_name='movie',
+    #          graph_entity='Pirates of the Carribean: On Stranger Tides (2011)',
+    #          entity_schema='Movie')

@@ -317,7 +317,7 @@ class Config(metaclass=ABCMeta):
         Args:
             cfg (Any): Configuration: as dictionary instance.
             file (str): Path to write the configuration to.
-            dumper (Callable): Function/callable handler to save object to disk.
+            dumper (Callable[[Config, TextIOWrapper, ...], None]): Function/callable handler to save object to disk.
 
         Keyword Args:
             Passed into `dumper`.

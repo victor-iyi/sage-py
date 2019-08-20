@@ -1,4 +1,6 @@
-# Sage
+# sage-py
+
+> Python bindings for [Sage](https://github.com/victor-iyiola/sage-py).
 
 Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON-LD](https://json-ld.org) serialization inspired by [Google's Knowledge Graph](https://en.wikipedia.org/wiki/Knowledge_Graph).
 
@@ -9,7 +11,7 @@ Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON
 [![GitHub Issues](https://img.shields.io/github/issues/victor-iyiola/sage.svg)](http://github.com/victor-iyiola/sage/issues)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/victor-iyiola/sage.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fvictor-iyiola%2Fsage)
 
-- [Sage](#sage)
+- [sage-py](#sage-py)
   - [Functionalities](#functionalities)
   - [Setup](#setup)
   - [Usage](#usage)
@@ -25,7 +27,7 @@ Sage basically reads your `.jsonld` file & builds a Knowledge Graph using <https
 
 ## Setup
 
-The `sage.core` package is written in [Cython](https://cython.org) - meaning it has to be built before usage. To 
+The `sage.core` package is written in [Cython](https://cython.org) - meaning it has to be built before usage. To
 build it simply run the Cython build script in the project root:
 
 ```bash
@@ -74,7 +76,7 @@ kg.close()
 
 You are very welcome to modify and use them in your own projects.
 
-Please keep a link to the [original repository](https://github.com/victor-iyiola/sage). If you have made a fork with substantial modifications that you feel may be useful, then please [open a new issue on GitHub](https://github.com/victor-iyiola/sage/issues) with a link and short description.
+Please keep a link to the [original repository](https://github.com/victor-iyiola/sage-py). If you have made a fork with substantial modifications that you feel may be useful, then please [open a new issue on GitHub](https://github.com/victor-iyiola/sage-py/issues) with a link and short description.
 
 ## License (Apache)
 

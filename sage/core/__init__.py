@@ -15,13 +15,12 @@
      Apache License 2.0
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
-
-from sage.core.base import Base, Mode, Attr
-from sage.core.graph import KnowledgeGraph, MultiKnowledgeGraph
-from sage.core.schema import Vertex, Graph, Edge
-from sage.core.crawler import get_properties, get_source
-from sage.core.utils import Log, File, Cache, Downloader
-from sage.core.data import Dataset
+from .base import Base, Mode, Attr
+from .graph import KnowledgeGraph, MultiKnowledgeGraph
+from .schema import Vertex, Graph, Edge
+from .crawler import get_properties, get_source
+from .utils import Log, File, Cache, Downloader
+from .data import Dataset
 
 __all__ = [
     # Base class.
