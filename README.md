@@ -6,7 +6,7 @@ Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON
 
 [![Build status](https://ci.appveyor.com/api/projects/status/w8coyh60l36s0fbk?svg=true)](https://ci.appveyor.com/project/victor-iyiola/sage-py)
 [![Build Status](https://travis-ci.org/victor-iyiola/sage-py.svg?branch=master)](https://travis-ci.org/victor-iyiola/sage-py)
-[![GitHub Issues](https://img.shields.io/github/issues/victor-iyiola/sage.svg)](http://github.com/victor-iyiola/sage/issues)
+[![GitHub issues](https://img.shields.io/github/issues/victor-iyiola/sage-py)](https://github.com/victor-iyiola/sage-py/issues)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
 
 - [sage-py](#sage-py)
