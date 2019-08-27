@@ -15,12 +15,6 @@
      Copyright (c) 2019. Victor I. Afolabi. All rights reserved.
 """
 import sys
-sys.path.extend([
-    '/Users/victor/Documents/Work/NioCraft/sage',
-    '/Users/victor/Documents/Work/NioCraft/sage/config',
-    '/Users/victor/Documents/Work/NioCraft/sage/sage',
-    '/Users/victor/Documents/Work/NioCraft/sage/sage/core',
-])
 
 from config.consts import FS
 

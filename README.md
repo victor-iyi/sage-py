@@ -13,7 +13,6 @@ Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON
   - [Functionalities](#functionalities)
   - [Setup](#setup)
   - [Usage](#usage)
-  - [Credits](#credits)
   - [Contribution](#contribution)
   - [License (Apache)](#license-apache)
 
@@ -64,11 +63,6 @@ Log.debug(f'avatar.edges = {avatar.edges}')
 # !- Close Knowledge Graph connection.
 kg.close()
 ```
-
-## Credits
-
-- [Tomiiide](https://github.com/tomiiide)
-- [NIOCRAFT](http://niocraft.com) - R&amp;D Agency Innovative Artificial Intelligence Solutions.
 
 ## Contribution
 
