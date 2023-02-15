@@ -1,12 +1,12 @@
 # sage-py
 
-> Python bindings for [Sage](https://github.com/victor-iyiola/sage-py).
+> Python bindings for [Sage](https://github.com/victor-iyi/sage-py).
 
 Sage is an open-source Knowledge Graph which uses <https://schema.org> and [JSON-LD](https://json-ld.org) serialization inspired by [Google's Knowledge Graph](https://en.wikipedia.org/wiki/Knowledge_Graph).
 
 [![Build status](https://ci.appveyor.com/api/projects/status/w8coyh60l36s0fbk?svg=true)](https://ci.appveyor.com/project/victor-iyiola/sage-py)
-[![Build Status](https://travis-ci.org/victor-iyiola/sage-py.svg?branch=master)](https://travis-ci.org/victor-iyiola/sage-py)
-[![GitHub issues](https://img.shields.io/github/issues/victor-iyiola/sage-py)](https://github.com/victor-iyiola/sage-py/issues)
+[![Build Status](https://travis-ci.org/victor-iyi/sage-py.svg?branch=master)](https://travis-ci.org/victor-iyi/sage-py)
+[![GitHub issues](https://img.shields.io/github/issues/victor-iyi/sage-py)](https://github.com/victor-iyi/sage-py/issues)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
 
 - [sage-py](#sage-py)
@@ -68,7 +68,7 @@ kg.close()
 
 You are very welcome to modify and use them in your own projects.
 
-Please keep a link to the [original repository](https://github.com/victor-iyiola/sage-py). If you have made a fork with substantial modifications that you feel may be useful, then please [open a new issue on GitHub](https://github.com/victor-iyiola/sage-py/issues) with a link and short description.
+Please keep a link to the [original repository](https://github.com/victor-iyi/sage-py). If you have made a fork with substantial modifications that you feel may be useful, then please [open a new issue on GitHub](https://github.com/victor-iyi/sage-py/issues) with a link and short description.
 
 ## License (Apache)
 
